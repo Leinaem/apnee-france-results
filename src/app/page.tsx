@@ -1,3 +1,4 @@
+import { Navbar } from "./components/navbar";
 
 export default function Home() {
   return (
@@ -5,11 +6,9 @@ export default function Home() {
       <header>
 
       </header>
-      <nav>
-        
-      </nav>
+      <Navbar />
       <main>
-       
+       <p>Main content</p>
 
       </main>
       <footer>

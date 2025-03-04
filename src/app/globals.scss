@@ -1,14 +1,16 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f4f4;
+  --foreground: #c1c1c1;
+  --color-text: #0a0a0a;
+  --color-text-light: #f4f4f4;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 html,
 body {
@@ -17,7 +19,7 @@ body {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--color-text);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
