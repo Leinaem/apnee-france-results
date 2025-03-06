@@ -21,6 +21,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "@eslint/eslintrc": "^3",
-    "sass": "^1.85.1"
+    "sass": "^1.85.1",
+    "sass-loader": "^16.0.2"
   }
 }

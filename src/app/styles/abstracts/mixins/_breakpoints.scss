@@ -1,0 +1,84 @@
+@use 'sass:map';
+@use 'sass:string';
+
+$breakpoints: (
+  small: (
+    start: null, end: 739
+  ),
+  medium: (
+    start: 740, end: 1019
+  ),
+  large: (
+    start: 1020, end: 1135
+  ),
+  xlarge: (
+    start: 1136, end: null
+  )
+);
+
+@mixin breakpoints($name) {
+
+  // Init string.
+  $obj: get-breakpoint($name);
+  $str: 'screen and ';
+  $start: map.get($obj, 'start');
+  $end: map.get($obj, 'end');
+
+  // Check if it's a max-width, min-width or an interval.
+  @if (ends-with($name, '-') and $end) {
+    $str: $str + '(max-width: ' + ($end * 1px) + ')';
+  } @else if (ends-with($name, '+') and $start) {
+    $str: $str + '(min-width: ' + ($start * 1px) + ')';
+  } @else {
+    @if ($start) {
+      $str: $str + '(min-width: ' + ($start * 1px) + ')';
+    }
+    @if ($start and $end) {
+      $str: $str + ' and ';
+    }
+    @if ($end) {
+      $str: $str + '(max-width: ' + ($end * 1px) + ')';
+    }
+  }
+
+  // Return media directive
+  @media #{$str} {
+    @content;
+  }
+}
+
+@mixin ie-only {
+  @media all and (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: string.index($string, $search);
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@function get-breakpoint($name) {
+  $newName: $name;
+
+  // Remove extra character if needed.
+  @if (ends-with($name, '-')) {
+    $newName: str-replace($newName, '-', '');
+  } @else if (ends-with($name, '+')) {
+    $newName: str-replace($newName, '+', '');
+  }
+
+  // Return correct breakpoint.
+  @return map.get($breakpoints, $newName);
+}
+
+@function ends-with($string, $find) {
+  @if (string.index($string, $find) == (string.length($string) - string.length($find) + 1)) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}

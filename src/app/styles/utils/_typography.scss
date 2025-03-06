@@ -1,0 +1,13 @@
+@use '../abstracts' as *;
+
+.f-title-01 {
+  @include f-title-01;
+}
+
+.f-title-02 {
+  @include f-title-02;
+}
+
+.f-title-03 {
+  @include f-title-03;
+}

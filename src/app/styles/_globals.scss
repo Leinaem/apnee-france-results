@@ -3,6 +3,8 @@
   --foreground: #c1c1c1;
   --color-text: #0a0a0a;
   --color-text-light: #f4f4f4;
+  --color-main-blue: #0070b4;
+  --color-secondary-blue: #00a8e4;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -31,6 +33,47 @@ body {
   padding: 0;
   margin: 0;
 }
+
+ul {
+  list-style: none;
+}
+
+// Position
+.pos {
+  &-absolute {
+    position: absolute
+  }
+  &-relative {
+    position: relative
+  }
+}
+
+// Display
+.d {
+  &-block {
+    display: block;
+  }
+  &-inline {
+    display: inline;
+  }
+  &-inline-block {
+    display: inline-block;
+  }
+  &-flex {
+    display: flex;
+  }
+  &-none {
+    display: none;
+  }
+}
+
+// Flex 
+.flex-ai {
+  &-center {
+    align-items: center;
+  }
+}
+
 
 a {
   color: inherit;

@@ -2,6 +2,7 @@
 
 ### Added
 
+- Added Sass with base scss files (mixins, typo, funtion ...)
 - Clean initial Next project, added sass, create NavBarComponent.
 - Create CHANGELOG.md
 
