@@ -1,0 +1,40 @@
+@use 'breakpoints' as *;
+@use '../functions' as *;
+
+/* Title */
+
+@mixin f-title-01 {
+  font-size: pxToRem(32);
+  line-height: pxToRem(36);
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @include breakpoints('medium+') {
+    font-size: pxToRem(40);
+    line-height: pxToRem(44);
+  }
+}
+
+@mixin f-title-02 {
+  font-size: pxToRem(28);
+  line-height: pxToRem(32);
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @include breakpoints('medium+') {
+    font-size: pxToRem(36);
+    line-height: pxToRem(40);
+  }
+}
+
+@mixin f-title-03 {
+  font-size: pxToRem(24);
+  line-height: pxToRem(28);
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @include breakpoints('medium+') {
+    font-size: pxToRem(32);
+    line-height: pxToRem(36);
+  }
+}

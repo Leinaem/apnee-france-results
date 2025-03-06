@@ -1,0 +1,33 @@
+$nav-height: 50px;
+
+.nav-bar {
+  position: absolute;
+  top: $nav-height;
+  width: 100%;
+
+  .nav-bar--list {
+    color: var(--color-main-blue);
+    background-color: #fff;
+    font-weight: 600;
+    
+    &-item {
+      $item-list-height: 30px;
+      height: $item-list-height;
+      line-height: $item-list-height;
+      padding-left: 8px;
+      border-bottom: .5px solid var(--color-main-blue);
+      
+      .nav-bar--link {
+        transition: all 2s;
+        margin-left: 0;
+      }
+      .nav-bar--link:hover {
+        cursor: pointer;
+        color: var(--color-secondary-blue);
+        margin-left: 10px;
+        transition: all 1s;
+      }
+    }
+  }
+}
+

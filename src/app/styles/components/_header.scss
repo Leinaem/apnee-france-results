@@ -1,0 +1,21 @@
+@use './../abstracts' as *;
+
+$nav-height: 50px;
+
+.header {
+  background-color: var(--color-main-blue);
+  color: var(--color-text-light);
+  height: $nav-height;
+  justify-content: center;
+
+  &--main-title {
+    font-size: 36px;
+    font-size: 2.125rem;
+  }
+
+  .toggle-icon {
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    }
+}
