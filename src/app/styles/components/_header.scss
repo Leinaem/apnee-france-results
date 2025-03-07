@@ -1,21 +1,34 @@
 @use './../abstracts' as *;
 
-$nav-height: 50px;
-
 .header {
   background-color: var(--color-main-blue);
   color: var(--color-text-light);
-  height: $nav-height;
+  height: pxToRem(50);
   justify-content: center;
-
-  &--main-title {
-    font-size: 36px;
-    font-size: 2.125rem;
-  }
 
   .toggle-icon {
     position: absolute;
-    top: 13px;
-    right: 8px;
+    top: pxToRem(13);
+    left: pxToRem(16);
+    height: pxToRem(24);
+    width: pxToRem(24);
+    cursor: pointer;
+    transition: all .5s;
+  }
+
+  @include breakpoints('medium+') {
+    height: 60px;
+
+    .toggle-icon {
+      top: pxToRem(18);
     }
+    &.is-open {
+      .toggle-icon {
+        color: var(--color-main-blue);
+        left: calc(pxToRem(300) - pxToRem(24) - pxToRem(16));
+        transition: all .5s;
+      }
+    }
+
+  }
 }

@@ -1,20 +1,23 @@
-$nav-height: 50px;
+@use './../abstracts' as *;
 
 .nav-bar {
   position: absolute;
-  top: $nav-height;
+  top: pxToRem(50);
   width: 100%;
+  transform: translateX(-100%);
+  transition: all .5s;
 
-  .nav-bar--list {
+  &--list {
     color: var(--color-main-blue);
+    border-right: pxToRem(.5) solid var(--color-main-blue);
     background-color: #fff;
     font-weight: 600;
     
     &-item {
-      $item-list-height: 30px;
+      $item-list-height: pxToRem(30);
       height: $item-list-height;
       line-height: $item-list-height;
-      padding-left: 8px;
+      padding-left: pxToRem(8);
       border-bottom: .5px solid var(--color-main-blue);
       
       .nav-bar--link {
@@ -27,6 +30,33 @@ $nav-height: 50px;
         margin-left: 10px;
         transition: all 1s;
       }
+    }
+  }
+
+  &--gap {
+    display: none;
+  }
+
+  &.is-open {
+    transform: translateX(0);
+    transition: all .5s;
+  }
+
+  @include breakpoints('medium+') {
+    width: 300px;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-right: pxToRem(.5) solid var(--color-main-blue);
+    background-color: #fff;
+
+    &--list {
+      border-right: none;
+    }
+
+    &--gap {
+      display: block;
+      height: pxToRem(60);
     }
   }
 }
