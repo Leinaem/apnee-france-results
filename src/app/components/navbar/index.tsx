@@ -1,40 +1,33 @@
-"use client"
-import { useState } from "react";
 import Link from "next/link";
-import './style.scss';
-import BurgerMenuIcon from "./../icons/BurgerMenuIcon";
-import CloseMenuIcon from "./../icons/CloseMenuIcon";
-import UserIcon from "./../icons/UserIcon";
 
-export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface navbarProps {
+  isOpen: Boolean;
+}
 
+export const Navbar = (props: navbarProps) => {
+  const { isOpen } = props;
   return (
-    <nav className={`nav-bar menu-${isOpen ? 'is-open' : 'is-close'}`}>
-      {/* #046db8 */}
-      <div className="nav-bar--burger-icon">
-        <BurgerMenuIcon />
-      </div>
-
-      <div className="nav-bar--burger-icon">
-        <CloseMenuIcon />
-      </div>
-
-      <a href="/">
-        <h1 className="nav-bar--main-title">Apnée france</h1>
-      </a>
-
-      <div className="nav-bar--links">
-        <Link href="/">
-          Accueil
-        </Link>
-        <Link href="/results">
-          Résultats
-        </Link>
-        <Link href="/competitions">
-          Liste des compétitions
-        </Link>
-      </div>
-    </nav>      
+    <nav className={`nav-bar ${isOpen ? 'is-open' : 'is-close'}`}>
+      <ul className={`nav-bar--list`}>
+        <li>
+          <div className="nav-bar--list-item nav-bar--gap"></div>
+        </li>
+        <li className="nav-bar--list-item">
+          <Link href="/" className="nav-bar--link">
+            Accueil
+          </Link>
+        </li>
+        <li className="nav-bar--list-item">
+          <Link href="/results" className="nav-bar--link">
+            Résultats
+          </Link>
+        </li>
+        <li className="nav-bar--list-item">
+          <Link href="/competitions" className="nav-bar--link">
+            Liste des compétitions
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 };
