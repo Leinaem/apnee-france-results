@@ -1,9 +1,15 @@
 "use client"
 import { useState } from "react";
 import Link from "next/link";
-import { Navbar } from "../navbar";
+import Image from 'next/image';
+
+// Components
 import BurgerMenuIcon from "./../icons/BurgerMenuIcon";
 import CloseMenuIcon from "./../icons/CloseMenuIcon";
+import { Navbar } from "../navbar";
+
+// Utils
+import { getAssetsUrl } from '../../../utils/config';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +17,18 @@ const Header = () => {
   return (
     <header className={`header relative d-flex flex-ai-center ${isOpen ? 'is-open' : 'is-close'}`}>
       <Link href="/">
-        <h1 className="f-title-01">Apnée france</h1>
+        <h1>
+          <span>
+            apnée france
+          </span>
+          <Image
+            src={getAssetsUrl('ffessm-apnee-2.jpg')}
+            alt="S3-test-img"
+            width={268}
+            height={72}
+            priority
+          />
+        </h1>
       </Link>
       <Navbar isOpen={isOpen} />
       {

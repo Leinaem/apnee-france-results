@@ -1,3 +1,9 @@
+## v0.3.0 - 2025-03-08
+
+### Added
+
+- Added, AWS dependencies, Axios, Uuix, config S3 and Dynamo
+
 ## v0.2.0 - 2025-03-07
 
 ### Added

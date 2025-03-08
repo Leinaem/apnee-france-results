@@ -55,8 +55,11 @@
     }
 
     &--gap {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: pxToRem(60);
+      padding-right: calc(pxToRem(16) + pxToRem(24));
     }
   }
 }

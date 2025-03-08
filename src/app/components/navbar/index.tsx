@@ -1,4 +1,8 @@
+import Image from 'next/image';
 import Link from "next/link";
+
+// Utils
+import { getAssetsUrl } from '../../../utils/config';
 
 interface navbarProps {
   isOpen: Boolean;
@@ -10,7 +14,15 @@ export const Navbar = (props: navbarProps) => {
     <nav className={`nav-bar ${isOpen ? 'is-open' : 'is-close'}`}>
       <ul className={`nav-bar--list`}>
         <li>
-          <div className="nav-bar--list-item nav-bar--gap"></div>
+          <div className="nav-bar--list-item nav-bar--gap">
+          <Image
+            src={getAssetsUrl('ffessm-apnee-2.jpg')}
+            alt="S3-test-img"
+            width={149}
+            height={40}
+            priority
+        />
+          </div>
         </li>
         <li className="nav-bar--list-item">
           <Link href="/" className="nav-bar--link">

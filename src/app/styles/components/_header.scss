@@ -6,6 +6,19 @@
   height: pxToRem(50);
   justify-content: center;
 
+  h1 {
+    height: pxToRem(40);
+
+    span {
+      display: none;
+    }
+
+    img {
+      height: pxToRem(40);
+      width: pxToRem(149);
+    }
+  }
+
   .toggle-icon {
     position: absolute;
     top: pxToRem(13);
@@ -19,6 +32,15 @@
   @include breakpoints('medium+') {
     height: 60px;
 
+    h1 {
+      height: pxToRem(50);
+
+      img {
+        height: pxToRem(50);
+        width: pxToRem(186);
+      }
+    }
+
     .toggle-icon {
       top: pxToRem(18);
     }
@@ -27,6 +49,10 @@
         color: var(--color-main-blue);
         left: calc(pxToRem(300) - pxToRem(24) - pxToRem(16));
         transition: all .5s;
+      }
+
+      h1 img {
+        display: none;
       }
     }
 
