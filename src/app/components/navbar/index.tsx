@@ -16,7 +16,7 @@ export const Navbar = (props: navbarProps) => {
         <li>
           <div className="nav-bar--list-item nav-bar--gap">
           <Image
-            src={getAssetsUrl('ffessm-apnee-2.jpg')}
+            src={getAssetsUrl('images/ffessm-apnee-2.jpg')}
             alt="S3-test-img"
             width={149}
             height={40}

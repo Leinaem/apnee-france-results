@@ -1,0 +1,38 @@
+{
+  "competitions": [
+    {
+      "label": "N° compétition",
+      "name": "id"
+    },
+    {
+      "label": "Nom",
+      "name": "name"
+    },
+    {
+      "label": "Date de début",
+      "name": "startedAt"
+    },
+    {
+      "label": "Date de fin",
+      "name": "endedAt"
+    },
+    {
+      "label": "Ville",
+      "name": "city",
+      "editable": true
+    },
+    {
+      "label": "Comité",
+      "name": "committee"
+    },
+    {
+      "label": "Type",
+      "name": "type"
+    },
+    {
+      "label": "Bassin",
+      "name": "poolSize"
+    }
+  ],
+  "results": []
+}

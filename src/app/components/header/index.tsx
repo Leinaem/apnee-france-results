@@ -22,7 +22,7 @@ const Header = () => {
             apnée france
           </span>
           <Image
-            src={getAssetsUrl('ffessm-apnee-2.jpg')}
+            src={getAssetsUrl('images/ffessm-apnee-2.jpg')}
             alt="S3-test-img"
             width={268}
             height={72}
