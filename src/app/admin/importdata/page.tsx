@@ -1,129 +1,130 @@
 "use client"
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { v4 as uuidv4 } from 'uuid';
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
-import { ddbDocClient } from "../../../../lib/database/ddbDocClient";
-import { fetchTableList, getDatabasAttributes } from "../../../../lib/database/dbutils";
-import databaseAttributes from './databaseAttributes.json'
+
+// Utils
+import { fetchTableList, addMultiData, scanTable } from "../../../../lib/database/dbutils";
+
+// Components
+import InputSelect from "@/app/components/partials/inputSelect";
+
+// Types
+import { AttributesType, DatabaseAttributesType } from "@/app/type/database";
+import { GenericStringIndex } from "@/app/type/generic";
+
+// Others
+import databaseAttributes from './databaseAttributes.json';
 
 const ImportData = () => {
-  // State to store parsed data
-  const [parsedData, setParsedData] = useState([]);
-  const [tableList, setTableList] = useState<string[]>([]);
-  const [tableAttributes, setTableAttributes] = useState({});
-  const [tableRows, setTableRows] = useState([]);
-  const [values, setValues] = useState([]);
+  const [parsedData, setParsedData] = useState<GenericStringIndex[]>([]);
+  const [tableList, setTableList] = useState<GenericStringIndex[]>([]);
+  const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
   const [selectedTable, setSelectedTable] = useState<string>('');
+  const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
+  const [selectedCompetition, setSelectedCompetition] = useState<string>('');
 
-  console.log('parsedData', parsedData);
-
-  const changeHandler = (event) => {
-    // Passing file data (event.target.files[0]) to parse using Papa.parse
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement >) => {
+    if (!event.target.files) {
+      return;
+    }
     Papa?.parse(event.target.files[0], {
       header: true,
       skipEmptyLines: true,
-      complete: function (results) {
-        const rowsArray = [];
-        const valuesArray = [];
-
-        // Iterating data to get column name and their values
-        results.data.map((d) => {
-          rowsArray.push(Object.keys(d));
-          valuesArray.push(Object.values(d));
-        });
+      complete: function (results: {data: GenericStringIndex[]}) {
         setParsedData(results.data);
-        setTableRows(rowsArray[0]);
-        setValues(valuesArray);
       },
     });
   };
 
   const getTableList = async () => {
     const fetchedTableList = (await fetchTableList()) || [];
-    const filteredTableList = fetchedTableList.filter((tableName) => databaseAttributes.hasOwnProperty(tableName));
+    console.log('fetchedTableList', fetchedTableList);
+    const filteredTableList = fetchedTableList
+      .filter((tableName) => databaseAttributes.hasOwnProperty(tableName))
+      .map((tableName) => ({label: tableName}))
     setTableList(filteredTableList);
   };
 
-  // Get tables and attributes. LOCAL
   const getTableAttributes = () => {
-    setTableAttributes(databaseAttributes[selectedTable]);
+    const databaseAttributesObj:DatabaseAttributesType = databaseAttributes;
+    const dataAttributesProperty = selectedTable;
+    const tableAttributes = databaseAttributesObj[dataAttributesProperty as keyof DatabaseAttributesType];
+    setTableAttributes(tableAttributes);
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    try {
-      parsedData.forEach(async (item) => {
-        const { compId } = item;
-        const params = {
-          TableName: selectedTable,
-          Item: {
-            ...item,
-          },
-          ConditionExpression:'attribute_not_exists(id)'
-        };
-        console.log('params : ', params);
-        const data = await ddbDocClient.send(new PutCommand(params));
-        console.log("Success - item added", data);
-
-      });
-      
-      alert("Les données ont été importées avec succes.");
-      setParsedData([]);
-      setSelectedTable('');
-
-    } catch (err) {
-      console.log("Error", err.stack);
-    }
+    addMultiData(selectedTable, parsedData);
+    setParsedData([]);
+    setSelectedTable('');
   };
   
+  const getCompetitionList = async () => {
+    const data = await scanTable('competitions');
+    if (data) {
+      setCompetitionList(data);
+    }
+  }
+
   useEffect(() => {
     if (Object.keys(databaseAttributes).length) {
       getTableList();
     }
   }, []);
-  
+
   useEffect(() => {
-    getTableAttributes();
+    if (databaseAttributes && selectedTable) {
+      getTableAttributes();
+    }
+
+    if (selectedTable === 'results') {
+       getCompetitionList();
+    }
   }, [selectedTable]);
 
   return (
     <div>
       <h2>Importer des données.</h2>
       <form onSubmit={handleSubmit} id="addData-form">
-        <select
+        <InputSelect
           id="tableList"
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             setSelectedTable(e.target.value);
           }}
           value={selectedTable}
-        >
-          <option value="">Choisissez une table</option>
-          {tableList.map((tableName, i) => {
-            return (
-              <option key={i} value={tableName}>
-                {tableName}
-              </option>
-            );
-          })}
-        </select>
-
+          defaultText="Choisissez un type d'import"
+          options={tableList}
+          schema='import-type'
+        />
         {
           selectedTable && (
             <>
-              <input
-                type="file"
-                name="file"
-                onChange={changeHandler}
-                accept=".csv"
-              />
+            {selectedTable === 'results' && Boolean(competitionList.length) && (
+              <>
+                <InputSelect
+                  id="competitionList"
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    console.log('value', e.target.value);
+                    setSelectedCompetition(e.target.value);
+                  }}
+                  value={selectedCompetition}
+                  defaultText='Choisissez une comptétition'
+                  options={competitionList}
+                  schema='competition-name'
+                />
+              </>
+            )}
+            <input
+              type="file"
+              name="file"
+              onChange={changeHandler}
+              accept=".csv"
+            />
             {Boolean(parsedData.length) && (
               <button type="submit">
                 Submit
               </button>
             )}
-
               <table>
                 <thead>
                   <tr>
@@ -131,7 +132,7 @@ const ImportData = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {parsedData.map((val, i) => {
+                  {parsedData.map((val: GenericStringIndex , i) => {
                     return (
                       <tr key={i}>
                         {tableAttributes.map((attr) => {
@@ -147,10 +148,8 @@ const ImportData = () => {
             </>
           )
         }
-
       </form>
       <br />
-      {/* Table */}
     </div>
   );
 }
