@@ -1,10 +1,14 @@
 // Config.
 import { ddbClient } from './dbconfig';
+import { ddbDocClient } from "./ddbDocClient";
 import { v4 as uuidv4 } from 'uuid';
 
 // Required AWS SDK clients and commands.
 import { ListTablesCommand } from '@aws-sdk/client-dynamodb';
 import { ScanCommand, DeleteCommand, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+
+// Type.
+import { GenericStringIndex } from '@/app/type/generic';
 
 export const fetchTableList = async (): Promise<string[] | undefined> => {
   try {
@@ -106,3 +110,35 @@ export const addData = async (tableName: string, item: object) => {
     console.log('Error', err);
   }
 };
+
+export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {
+  try {
+    items.forEach(async (item) => {
+
+      if (tableName === 'results') {
+        const id = `${item.compId}_${item.category}_${item.lastName}_${item.firstName}`;
+        item.id = id.replaceAll(' ', '-');
+      }
+
+      const params = {
+        TableName: tableName,
+        Item: {
+          ...item,
+        },
+        ConditionExpression:'attribute_not_exists(id)'
+      };
+      console.log('params : ', params);
+      const data = await ddbDocClient.send(new PutCommand(params));
+      console.log("Success - item added", data);
+
+    });
+    
+    alert(`Les données ont été importées avec succes.`);
+  } catch (error) {
+    let errorMessage = "Echec de l'import.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.log(errorMessage);
+  }
+}

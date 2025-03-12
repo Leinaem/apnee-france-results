@@ -18,8 +18,7 @@
     },
     {
       "label": "Ville",
-      "name": "city",
-      "editable": true
+      "name": "city"
     },
     {
       "label": "Comité",
@@ -34,5 +33,66 @@
       "name": "poolSize"
     }
   ],
-  "results": []
+  "results": [
+    {
+      "label": "Code",
+      "name": "compId"
+    },
+    {
+      "label": "Compétition",
+      "name": "competitionName"
+    },
+    {
+      "label": "Catégorie",
+      "name": "category"
+    },
+    {
+      "label": "Place",
+      "name": "place"
+    },
+    {
+      "label": "Nom",
+      "name": "lastName"
+    },
+    {
+      "label": "Prénom",
+      "name": "firstName"
+    },
+    {
+      "label": "Date de naissance",
+      "name": "dateOfBirth"
+    },
+    {
+      "label": "Club",
+      "name": "club"
+    },
+    {
+      "label": "Perf annoncée",
+      "name": "perfAnnounced"
+    },
+    {
+      "label": "Perf effectuée",
+      "name": "perfAchieved"
+    },
+    {
+      "label": "Faute",
+      "name": "faultDisq"
+    },
+    {
+      "label": "Commentaire",
+      "name": "comment"
+    },
+    {
+      "label": "Pénalité",
+      "name": "penality"
+    },
+    {
+      "label": "Perf retenue",
+      "name": "perfRetained"
+    },
+    {
+      "label": "N° License",
+      "name": "licenseNumber"
+    }
+  ]
 }

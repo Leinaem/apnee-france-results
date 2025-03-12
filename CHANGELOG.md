@@ -1,3 +1,9 @@
+## v0.5.0 - 2025-03-11
+
+### Fixed
+
+- Fix some typescript values.
+
 ## v0.4.0 - 2025-03-11
 
 ### Added
