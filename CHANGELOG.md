@@ -1,7 +1,8 @@
-## v0.5.0 - 2025-03-11
+## v0.5.0 - 2025-03-15
 
 ### Added
 
+- Added import logic for result, work on Layout, scss.
 - Added partial `InputSelect`.
 
 ### Fixed

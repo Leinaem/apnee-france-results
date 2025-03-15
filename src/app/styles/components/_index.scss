@@ -1,2 +1,4 @@
-@use 'header';
-@use 'navbar';
+@forward 'header';
+@forward 'navbar';
+@forward 'partials/';
+

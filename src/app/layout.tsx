@@ -1,4 +1,5 @@
 import "./../app/styles/index.scss";
+import Layout from './components/layout';
 
 export default function RootLayout({
   children,
@@ -12,8 +13,10 @@ export default function RootLayout({
         <title>Apnée France</title>
         {/* <link rel="icon" type="image/x-icon" href="/xxx.ico"></link> */}
       </head>
-      <body>
-        {children}
+      <body suppressHydrationWarning>
+        <Layout>
+          {children}
+        </Layout>
       </body>
     </html>
   );

@@ -1,0 +1,12 @@
+@use './../../abstracts' as *;
+
+select {
+  margin-right: pxToRem(8);
+  margin-bottom: pxToRem(8);
+  display: block;
+
+  @include breakpoints('medium+') {
+    display: inline-block;
+  }
+}
+
