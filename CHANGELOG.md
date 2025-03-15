@@ -1,5 +1,9 @@
 ## v0.5.0 - 2025-03-11
 
+### Added
+
+- Added partial `InputSelect`.
+
 ### Fixed
 
 - Fix some typescript values.
