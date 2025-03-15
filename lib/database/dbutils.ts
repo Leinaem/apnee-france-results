@@ -103,9 +103,7 @@ export const addData = async (tableName: string, item: object) => {
     };
 
     await ddbClient.send(new PutCommand(params));
-    alert('Data Added Successfully');
-    const elem = document.getElementById('updatedata-form') as HTMLFormElement;
-    elem?.reset();
+    alert(`Les données ont été importées avec succes.`);
   } catch (err) {
     console.log('Error', err);
   }
@@ -114,12 +112,6 @@ export const addData = async (tableName: string, item: object) => {
 export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {
   try {
     items.forEach(async (item) => {
-
-      if (tableName === 'results') {
-        const id = `${item.compId}_${item.category}_${item.lastName}_${item.firstName}`;
-        item.id = id.replaceAll(' ', '-');
-      }
-
       const params = {
         TableName: tableName,
         Item: {

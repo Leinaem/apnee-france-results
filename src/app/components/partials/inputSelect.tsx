@@ -14,7 +14,7 @@ const InputSelect = (props: InputSelectProps) => {
 
   const getTextOption = (data: GenericStringIndex): string => {
     if (schema === 'competition-name') {
-      return `${data.name} - ${data.city}`
+      return `${data.id} - ${data.name} - ${data.city}`
     } else if (schema === 'import-type') {
       return data.label;
     }
