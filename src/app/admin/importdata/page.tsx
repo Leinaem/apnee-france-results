@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import Papa from "papaparse";
 
 // Utils
-import { fetchTableList, addMultiData, scanTable } from "../../../../lib/database/dbutils";
-import { sortByAlpha } from "@/utils/sort";
+import { fetchTableList, addMultiData, scanTable } from "../../../../lib/database/dbCommands";
+import { sortBy } from "@/utils/sort";
 
 // Components
 import InputSelect from "@/app/components/partials/inputSelect";
@@ -14,7 +14,7 @@ import { AttributesType, DatabaseAttributesType } from "@/app/type/database";
 import { GenericStringIndex } from "@/app/type/generic";
 
 // Others
-import databaseAttributes from './databaseAttributes.json';
+import databaseAttributes from '../../json/databaseAttributes.json';
 
 const ImportData = () => {
   const [preparedData, setPreparedData] = useState<GenericStringIndex[]>([]);
@@ -42,15 +42,20 @@ const ImportData = () => {
   const prepareData = (data: GenericStringIndex[]) => {
     if (selectedTable === 'results' && categoryList.length) {
       data.forEach((item: GenericStringIndex) => {
-        const categoryId = categoryList.find((cat) => cat.name === item.categoryName)?.id || '';
+        const categoryId = categoryList.find((cat) => cat.name === item.categoryName)?.id as number || null;
         const competitionId = selectedCompetition;
         const id = `${competitionId}_${categoryId}_${item.lastName}_${item.firstName}`;
         item.id = id.replaceAll(' ', '-');
-        item.competitionId = selectedCompetition;
+        item.competitionId = Number(selectedCompetition);
         item.categoryId = categoryId;
       });
+    } else if (selectedTable === 'competitions') {
+      data.forEach((item: GenericStringIndex) => {
+        Number(item.id);
+        item.id = Number(item.id);
+      })
     }
-
+    
     return data;
   }
 
@@ -65,7 +70,7 @@ const ImportData = () => {
   const getCompetitionList = async () => {
     const data = await scanTable('competitions');
     if (data) {
-      sortByAlpha('id', data);
+      sortBy('id', data);
       setCompetitionList(data);
     }
   }
@@ -86,6 +91,9 @@ const ImportData = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log('selectedTable : ', selectedTable);
+    console.log('preparedData : ', preparedData);
 
     addMultiData(selectedTable, preparedData);
     setPreparedData([]);

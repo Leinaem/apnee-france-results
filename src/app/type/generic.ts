@@ -1,3 +1,3 @@
 export interface GenericStringIndex {
-  [k: string]: string;
+  [k: string]: string | null | number;
 }
