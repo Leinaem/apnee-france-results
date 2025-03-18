@@ -17,6 +17,8 @@ const InputSelect = (props: InputSelectProps) => {
       return `${data.id} - ${data.name} - ${data.city}`
     } else if (schema === 'import-type') {
       return data.label;
+    } else if (schema === 'category-name') {
+      return data.name;
     }
 
     return '';
@@ -25,7 +27,9 @@ const InputSelect = (props: InputSelectProps) => {
   return (
     <select
       id={id}
-      onChange={(e) => onChange(e)}
+      onChange={(e) => {
+        onChange(e)
+      }}
       value={value}
     >
       {defaultText && (

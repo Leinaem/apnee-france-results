@@ -1,8 +1,6 @@
 @use './../../abstracts/' as *;
 
 .import-data-page {
-  padding: pxToRem(8);
-
   table {
     width: 100%;
     margin-top: pxToRem(16);

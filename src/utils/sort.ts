@@ -7,7 +7,7 @@ import { GenericStringIndex } from "@/app/type/generic";
  * @param {Array} array Array to sort
  * @return {Array | void} sorted array
  */
-export const sortByAlpha = (type: string, array: GenericStringIndex[]) =>
+export const sortBy = (type: string, array: GenericStringIndex[]) =>
   array?.sort((a, b) => {
     if (a[type] > b[type]) {
       return 1;

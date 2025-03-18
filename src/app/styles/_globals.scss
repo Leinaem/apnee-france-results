@@ -1,3 +1,5 @@
+@use '../styles/abstracts/functions/' as *;
+
 :root {
   --background: #f4f4f4;
   --foreground: #c1c1c1;
@@ -34,13 +36,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  padding: pxToRem(8);
+}
+
 table {
   border-collapse: collapse;
 
 
   th, td {
     border: 1px solid #ccc;
-    padding: 3px 3px;
+    padding: pxToRem(3) pxToRem(3);
   }
 
   th {
