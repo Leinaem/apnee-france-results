@@ -3,7 +3,7 @@ import { GenericStringIndex } from "@/app/type/generic";
 interface InputSelectProps {
   id: string;
   onChange: Function;
-  value: string;
+  value: number | string;
   defaultText: string;
   options: GenericStringIndex[];
   schema: string;  
@@ -16,9 +16,9 @@ const InputSelect = (props: InputSelectProps) => {
     if (schema === 'competition-name') {
       return `${data.id} - ${data.name} - ${data.city}`
     } else if (schema === 'import-type') {
-      return data.label;
+      return data.label as string;
     } else if (schema === 'category-name') {
-      return data.name;
+      return data.name as string;
     }
 
     return '';
@@ -33,11 +33,11 @@ const InputSelect = (props: InputSelectProps) => {
       value={value}
     >
       {defaultText && (
-        <option value=''>{defaultText}</option>
+        <option value={0}>{defaultText}</option>
       )}
       {
         options.map((option, i) => {
-          return <option key={i} value={option.id}>{getTextOption(option)}</option>
+          return <option key={i} value={option.id as number}>{getTextOption(option)}</option>
         })
       }
     </select>

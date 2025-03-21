@@ -28,6 +28,13 @@ export const query = async (params: QueryCommandInput) => {
   return response;
 }
 
+export const queryRangeCommand = async (params) => {
+  const command = new QueryCommand(params);
+  const response = await ddbClient.send(command);
+  console.log(response);
+  return response;
+} 
+
 
 export const scanTable = async (tableName: string): Promise<Record<string, any>[] | undefined> => {
   if (tableName) {

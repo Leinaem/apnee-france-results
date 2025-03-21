@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from "next/link";
 
 // Utils
-import { getAssetsUrl } from '../../../utils/config';
+import { getAssetsUrl } from '../../../utils/utils';
 
 interface navbarProps {
   isOpen: Boolean;
