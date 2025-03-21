@@ -1,7 +1,7 @@
 @use './../abstracts' as *;
 
 .header {
-  background-color: var(--color-main-blue);
+  background: linear-gradient(0deg, var(--color-main-blue) 0%, var(--color-secondary-blue) 100%);
   color: var(--color-text-light);
   height: pxToRem(50);
   justify-content: center;

@@ -1,7 +1,8 @@
-## v0.5.0 - 2025-03-18
+## v0.6.0 - 2025-03-21
 
 ### Added
 
+- Results page, more refacto.
 - Starded Results page, some refacto.
 
 ## v0.5.0 - 2025-03-15

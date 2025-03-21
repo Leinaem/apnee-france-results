@@ -5,6 +5,8 @@ import Papa from "papaparse";
 // Utils
 import { fetchTableList, addMultiData, scanTable } from "../../../../lib/database/dbCommands";
 import { sortBy } from "@/utils/sort";
+import { stringToNumber } from "@/utils/utils";
+import { getCategoryPerfByDistance } from "@/utils/utils";
 
 // Components
 import InputSelect from "@/app/components/partials/inputSelect";
@@ -40,14 +42,27 @@ const ImportData = () => {
   };
 
   const prepareData = (data: GenericStringIndex[]) => {
+    const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
+
     if (selectedTable === 'results' && categoryList.length) {
       data.forEach((item: GenericStringIndex) => {
-        const categoryId = categoryList.find((cat) => cat.name === item.categoryName)?.id as number || null;
+        const categoryId = categoryList.find((cat) => cat.name === item.categoryName)?.id as number;
         const competitionId = selectedCompetition;
         const id = `${competitionId}_${categoryId}_${item.lastName}_${item.firstName}`;
         item.id = id.replaceAll(' ', '-');
         item.competitionId = Number(selectedCompetition);
         item.categoryId = categoryId;
+        if (categoryPerfByDistance.includes(categoryId)) {
+          item.perfRetained = stringToNumber(item.perfRetained as string);
+          item.perfAnnounced = stringToNumber(item.perfAnnounced as string);
+          item.perfAchieved = stringToNumber(item.perfAchieved as string);
+        }
+        if (typeof item.categoryName === 'string') {
+          item.categoryName = item.categoryName.charAt(0).toUpperCase() + item.categoryName.slice(1).toLowerCase();
+        }
+        if (typeof item.firstName === 'string') {
+          item.firstName = item.firstName.charAt(0).toUpperCase() + item.firstName.slice(1).toLowerCase();
+        }
       });
     } else if (selectedTable === 'competitions') {
       data.forEach((item: GenericStringIndex) => {

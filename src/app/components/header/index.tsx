@@ -9,7 +9,7 @@ import CloseMenuIcon from "./../icons/CloseMenuIcon";
 import { Navbar } from "../navbar";
 
 // Utils
-import { getAssetsUrl } from '../../../utils/config';
+import { getAssetsUrl } from '../../../utils/utils';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);

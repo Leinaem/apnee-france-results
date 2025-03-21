@@ -1,21 +1,20 @@
 import { GenericStringIndex } from "@/app/type/generic";
 
-/**
- * Sort an array of objects by a choosen property with alphabetic values
- *
- * @param {String} type property to sort
- * @param {Array} array Array to sort
- * @return {Array | void} sorted array
- */
-export const sortBy = (type: string, array: GenericStringIndex[]) =>
-  array?.sort((a, b) => {
-    if (a[type] > b[type]) {
+
+export const sortBy = (type: string, array: GenericStringIndex[], direction = 'asc') => {
+  return array?.sort((a, b) => {
+    const c = a[type] as number;
+    const d = b[type] as number;
+    if (typeof c === 'string' && c === 'DSQ') {
       return 1;
-    }
-    if (b[type] > a[type]) {
+    } else if (typeof d === 'string' && d  === 'DSQ') {
       return -1;
     }
 
-    return 0;
-  }
-);
+    if (c > d) {
+      return direction ==='asc' ? 1 : -1;
+    } else {
+      return direction ==='asc' ? -1 : 1;
+    }
+  });
+}
