@@ -5,9 +5,16 @@ export const sortBy = (type: string, array: GenericStringIndex[], direction:stri
   return array?.sort((a, b) => {
     const c = a[type] as number;
     const d = b[type] as number;
-    if (typeof c === 'string' && (c === 'DSQ' || c === '00:00:00')) {
+
+    if (typeof c === 'string' && c === 'DSQ') {
       return 1;
-    } else if (typeof d === 'string' && (d  === 'DSQ' || d === '00:00:00')) {
+    } else if (typeof d === 'string' && d  === 'DSQ') {
+      return -1;
+    }
+
+    if (typeof c === 'string' && c === '00:00:00') {
+      return 1;
+    } else if (typeof d === 'string' && d === '00:00:00') {
       return -1;
     }
 
