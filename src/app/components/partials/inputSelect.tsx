@@ -5,7 +5,7 @@ interface InputSelectProps {
   onChange: Function;
   value: number | string;
   defaultText: string;
-  options: GenericStringIndex[];
+  options: GenericStringIndex[] | string[];
   schema: string;  
 }
 
@@ -37,6 +37,10 @@ const InputSelect = (props: InputSelectProps) => {
       )}
       {
         options.map((option, i) => {
+         if (typeof option === 'string' ) {
+          return <option key={i} value={option}>{option}</option>
+         }
+
           return <option key={i} value={option.id as number}>{getTextOption(option)}</option>
         })
       }

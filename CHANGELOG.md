@@ -1,3 +1,9 @@
+## v0.6.1 - 2025-03-23
+
+### Added
+
+- Added filterExpression for result request, some refacto, add and fix for result pages.
+
 ## v0.6.0 - 2025-03-21
 
 ### Added
