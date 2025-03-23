@@ -1,7 +1,6 @@
 // Config.
 import { ddbClient } from './dbconfig';
 import { ddbDocClient } from "./ddbDocClient";
-import { v4 as uuidv4 } from 'uuid';
 
 // Required AWS SDK clients and commands.
 import { ListTablesCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
@@ -99,24 +98,6 @@ export const updateData = async (tableName: string, keys: object, data: object) 
     const result = await ddbClient.send(new UpdateCommand(params));
     console.log('Success - updated', result);
     alert('Data Updated Successfully');
-  } catch (err) {
-    console.log('Error', err);
-  }
-};
-
-export const addData = async (tableName: string, item: object) => {
-  try {
-    const params = {
-      TableName: tableName,
-      Item: {
-        ...item,
-        dateAdded: new Date().toLocaleString(),
-        id: uuidv4(),
-      },
-    };
-
-    await ddbClient.send(new PutCommand(params));
-    alert(`Les données ont été importées avec succes.`);
   } catch (err) {
     console.log('Error', err);
   }

@@ -46,7 +46,7 @@ const ImportData = () => {
 
     if (selectedTable === 'results' && categoryList.length) {
       data.forEach((item: GenericStringIndex) => {
-        const categoryId = categoryList.find((cat) => cat.name === item.categoryName)?.id as number;
+        const categoryId = categoryList.find((cat) => String(cat.name).toLowerCase() === String(item.categoryName).toLowerCase())?.id as number;
         const competitionId = selectedCompetition;
         const id = `${competitionId}_${categoryId}_${item.lastName}_${item.firstName}`;
         item.id = id.replaceAll(' ', '-');

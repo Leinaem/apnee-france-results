@@ -1,4 +1,16 @@
+@use '../../styles/abstracts/functions/' as *;
+
 .page-results {
+
+  h2, h3 {
+    text-align: center;
+    color: var(--color-secondary-blue);
+    margin: pxToRem(10);
+  }
+
+  h3 {
+    color: var(--color-main-blue);
+  }
 
   table {
     width: 100%;

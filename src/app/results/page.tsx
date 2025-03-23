@@ -21,14 +21,42 @@ type TableListResultsType = {
   [k: string]: GenericStringIndex[];
 }
 
+type categoryMappingIdType = {
+  [k: string]: number[];
+}
+
 const Results = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
   const [selectedCompetitionId, setSelectedCompetitionId] = useState<number>(0);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+  const [selectedDiscipline, setSelectedDiscipline] = useState<string>('');
+  const [selectedDisciplinesList, setSelectedDisciplinesList] = useState<number[]>([]);
   const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
   const [results, setResults] = useState<GenericStringIndex[]>([]);
   const [filteredResults, setFilteredResults] = useState({});
+
+  const categoryListShort = [
+    'statique',
+    'dynamique monopalme',
+    'dynamique bi',
+    'dynamique sans palmes',
+    '16x25',
+    '8x25',
+    '8x50',
+    '4x25',
+    '4x50',
+    '2x50',
+  ];
+
+  const categoryMappingId: categoryMappingIdType = {};
+  categoryListShort.map((shortName) => {
+    categoryMappingId[shortName as keyof typeof categoryMappingId] = [];
+    categoryList.map((cat) => {
+      if (String(cat.name)?.includes(shortName)) {
+        categoryMappingId[shortName].push(Number(cat.id));
+      }
+    })
+  });
 
   const getCompetitionList = async () => {
     const data = await scanTable('competitions');
@@ -54,7 +82,10 @@ const Results = () => {
   }
 
   const getData = async () => {
-    const params = buildQueryRangeResultsParams(Number(selectedCompetitionId), selectedCategoryId);
+    const params = buildQueryRangeResultsParams(
+      Number(selectedCompetitionId),
+      selectedDisciplinesList,
+    );
     const data = await queryRangeCommand(params);
     setResults(data.Items || []);
   }
@@ -76,7 +107,7 @@ const Results = () => {
     setFilteredResults(tableByCategory);
   }
 
-const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
+  const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
 
   useEffect(() => {
     getCompetitionList();
@@ -85,10 +116,10 @@ const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
   }, []);
 
   useEffect(() => {
-    if (selectedCompetitionId || selectedCategoryId) {
+    if (selectedCompetitionId) {
       getData();
     }
-  }, [selectedCompetitionId, selectedCategoryId]);
+  }, [selectedCompetitionId, selectedDisciplinesList]);
 
   useEffect(() => {
     setFilteredResults([]);
@@ -118,27 +149,31 @@ const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
       {
         Boolean(selectedCompetitionId) && (
           <>
-            <InputSelect
-              id="catagory-list"
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                setSelectedCategoryId(Number(e.target.value));
-                setResults([]);
-              }}
-              value={selectedCategoryId}
-              defaultText='Choisissez une catégorie'
-              options={categoryList}
-              schema='category-name'
-            />
-            <h2>{getTitle()}</h2>
+           <InputSelect
+            id="catagory-list"
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              const disciplinesList = categoryMappingId[e.target.value];
+              setSelectedDiscipline(e.target.value);
+              setSelectedDisciplinesList(disciplinesList);
+              setResults([]);
+            }}
+            value={selectedDiscipline}
+            defaultText='Choisissez une discipline'
+            options={categoryListShort}
+            schema=''
+          />
+          <h2>{getTitle()}</h2>
+          <h3>{selectedDiscipline}</h3>
           </>
         )
       }
       {Object.entries(filteredResults).map((section, i) => {
         const categoryId =  Number(section[0]);
-        const categoryName = categoryList.find((cat) => cat.id === categoryId)?.name;
+        const currentCategory = categoryList.find((cat) => cat.id === categoryId);
+        const categoryName = currentCategory?.name;
+        const sortDirection = currentCategory?.sortDirection as string;
+        const perfByDistance = currentCategory?.perfUnitType === 'distance';
         const sectionData = section[1] as GenericStringIndex[];
-        const perfByDistance = categoryPerfByDistance.includes(Number(section[0]));
-        const sortDirection = perfByDistance ? 'desc' : 'asc'
         sortBy('perfRetained', sectionData, sortDirection);
 
         return (
