@@ -1,3 +1,11 @@
+# CHANGELOG
+
+## v0.6.2 - 2025-03-23
+
+### Fixed
+
+- Fix sort function to display 00.00 and DSQ correctly.
+
 ## v0.6.1 - 2025-03-23
 
 ### Added
