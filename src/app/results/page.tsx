@@ -1,62 +1,40 @@
 'use client';
 import { useState, useEffect } from "react";
+import { useSearchParams } from 'next/navigation'
 
 // Utils
 import { scanTable, queryRangeCommand } from "../../../lib/database/dbCommands";
 import { buildQueryRangeResultsParams } from "../../../lib/database/dbUtils";
 import { sortBy } from "@/utils/sort";
-import { getCategoryPerfByDistance, numberToStringTwoDecimals } from "@/utils/utils";
+import { numberToStringTwoDecimals, getCategoryMappingId } from "@/utils/utils";
 
 // Components
 import InputSelect from "@/app/components/partials/inputSelect";
 
 // Types
-import { AttributesType, DatabaseAttributesType } from "@/app/type/database";
-import { GenericStringIndex } from "@/app/type/generic";
+import { AttributesType, DatabaseAttributesType, TableListResultsType } from "@/app/type/database";
+import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
 
 // Others
 import databaseAttributes from '../json/databaseAttributes.json';
 
-type TableListResultsType = {
-  [k: string]: GenericStringIndex[];
-}
+// Const
+import { CATEGORY_LIST_GROUP } from "@/utils/const";
 
-type categoryMappingIdType = {
-  [k: string]: number[];
-}
 
 const Results = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
   const [selectedCompetitionId, setSelectedCompetitionId] = useState<number>(0);
-  const [selectedDiscipline, setSelectedDiscipline] = useState<string>('');
-  const [selectedDisciplinesList, setSelectedDisciplinesList] = useState<number[]>([]);
+  const [selectedDisciplineGroup, setSelectedDisciplineGroup] = useState<string>('');
+  const [selectedDisciplinesList, setSelectedDisciplinesList] = useState<GenericStringIndex[]>([]);
   const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
   const [results, setResults] = useState<GenericStringIndex[]>([]);
   const [filteredResults, setFilteredResults] = useState({});
+  const [categoryMappingId, setCategoryMappingId] = useState<CategoryMappingIdType>({});
 
-  const categoryListShort = [
-    'statique',
-    'dynamique monopalme',
-    'dynamique bi',
-    'dynamique sans palmes',
-    '16x25',
-    '8x25',
-    '8x50',
-    '4x25',
-    '4x50',
-    '2x50',
-  ];
-
-  const categoryMappingId: categoryMappingIdType = {};
-  categoryListShort.map((shortName) => {
-    categoryMappingId[shortName as keyof typeof categoryMappingId] = [];
-    categoryList.map((cat) => {
-      if (String(cat.name)?.includes(shortName)) {
-        categoryMappingId[shortName].push(Number(cat.id));
-      }
-    })
-  });
+  const searchParams = useSearchParams()
+  const competitionidParam = searchParams.get('competitionid');
 
   const getCompetitionList = async () => {
     const data = await scanTable('competitions');
@@ -82,10 +60,13 @@ const Results = () => {
   }
 
   const getData = async () => {
+    const selectedDisciplinesId: number[] = selectedDisciplinesList.map((disc) => Number(disc.id));
     const params = buildQueryRangeResultsParams(
       Number(selectedCompetitionId),
-      selectedDisciplinesList,
+      selectedDisciplinesId,
     );
+
+    console.log('params : ', params);
     const data = await queryRangeCommand(params);
     setResults(data.Items || []);
   }
@@ -107,12 +88,14 @@ const Results = () => {
     setFilteredResults(tableByCategory);
   }
 
-  const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
-
   useEffect(() => {
     getCompetitionList();
     getCategoryList();
     getTableAttributes();
+
+    if (competitionidParam) {
+      setSelectedCompetitionId(Number(competitionidParam));
+    }
   }, []);
 
   useEffect(() => {
@@ -127,6 +110,10 @@ const Results = () => {
       sortResults();
     }
   }, [results])
+
+  useEffect(() => {
+    setCategoryMappingId(getCategoryMappingId(categoryList))
+  },[ categoryList]);
 
   const getTitle = () => {
     const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
@@ -150,23 +137,26 @@ const Results = () => {
         Boolean(selectedCompetitionId) && (
           <>
            <InputSelect
-            id="catagory-list"
+            id="discipline-list"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               const disciplinesList = categoryMappingId[e.target.value];
-              setSelectedDiscipline(e.target.value);
+              console.log('--disciplinesList : ', disciplinesList)
+              setSelectedDisciplineGroup(e.target.value);
               setSelectedDisciplinesList(disciplinesList);
               setResults([]);
             }}
-            value={selectedDiscipline}
+            value={selectedDisciplineGroup}
             defaultText='Choisissez une discipline'
-            options={categoryListShort}
+            options={CATEGORY_LIST_GROUP}
             schema=''
           />
           <h2>{getTitle()}</h2>
-          <h3>{selectedDiscipline}</h3>
+          <h3>{Boolean(Number(selectedDisciplineGroup)) && selectedDisciplineGroup}</h3>
           </>
         )
       }
+
+      {/* ////////////////////////////////////// */}
       {Object.entries(filteredResults).map((section, i) => {
         const categoryId =  Number(section[0]);
         const currentCategory = categoryList.find((cat) => cat.id === categoryId);

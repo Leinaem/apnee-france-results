@@ -12,7 +12,7 @@ import { Navbar } from "../navbar";
 import { getAssetsUrl } from '../../../utils/utils';
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<Boolean>(false);
 
   return (
     <header className={`header relative d-flex flex-ai-center ${isOpen ? 'is-open' : 'is-close'}`}>
@@ -30,7 +30,7 @@ const Header = () => {
           />
         </h1>
       </Link>
-      <Navbar isOpen={isOpen} />
+      <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
       {
         isOpen ? (
           <div className="toggle-icon" onClick={() => setIsOpen(!isOpen)}>

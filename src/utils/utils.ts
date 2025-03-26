@@ -1,4 +1,5 @@
-import { GenericStringIndex } from "@/app/type/generic";
+import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
+import { CATEGORY_LIST_GROUP } from "./const";
 
 export const getAssetsUrl = (url: string): string => `${process.env.NEXT_PUBLIC_ASSET_URL}${url}`;
 
@@ -25,4 +26,21 @@ export const getCategoryPerfByDistance = (categoryList: GenericStringIndex[]) =>
   });
 
   return categoryPerfByDistance;
+}
+
+export const getCategoryMappingId = (categoryList: GenericStringIndex[]) => {
+  const categoryMappingId: CategoryMappingIdType = {};
+  CATEGORY_LIST_GROUP.map((shortName) => {
+    categoryMappingId[shortName] = [];
+    categoryList.forEach((cat) => {
+      if (String(cat.name)?.includes(shortName)) {
+        categoryMappingId[shortName].push({
+          'id': Number(cat.id),
+          'name': cat.name,
+        });
+      }
+    })
+  });
+
+  return categoryMappingId;
 }
