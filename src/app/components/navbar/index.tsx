@@ -6,10 +6,11 @@ import { getAssetsUrl } from '../../../utils/utils';
 
 interface navbarProps {
   isOpen: Boolean;
+  setIsOpen: Function
 }
 
 export const Navbar = (props: navbarProps) => {
-  const { isOpen } = props;
+  const { isOpen, setIsOpen } = props;
   return (
     <nav className={`nav-bar ${isOpen ? 'is-open' : 'is-close'}`}>
       <ul className={`nav-bar--list`}>
@@ -25,18 +26,23 @@ export const Navbar = (props: navbarProps) => {
           </div>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/" className="nav-bar--link">
+          <Link href="/" className="nav-bar--link" onClick={() => setIsOpen(false)}>
             Accueil
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/results" className="nav-bar--link">
+          <Link href="/results" className="nav-bar--link" onClick={() => setIsOpen(false)}>
             Résultats
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/competitions" className="nav-bar--link">
+          <Link href="/competitions" className="nav-bar--link" onClick={() => setIsOpen(false)}>
             Liste des compétitions
+          </Link>
+        </li>
+        <li className="nav-bar--list-item">
+          <Link href="/rankings" className="nav-bar--link" onClick={() => setIsOpen(false)}>
+            Classements
           </Link>
         </li>
       </ul>

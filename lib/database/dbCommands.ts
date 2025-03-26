@@ -4,7 +4,13 @@ import { ddbDocClient } from "./ddbDocClient";
 
 // Required AWS SDK clients and commands.
 import { ListTablesCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
-import { ScanCommand, DeleteCommand, UpdateCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  ScanCommand,
+  // DeleteCommand,
+  // UpdateCommand,
+  PutCommand,
+  QueryCommand
+} from '@aws-sdk/lib-dynamodb';
 
 // Type.
 import { GenericStringIndex } from '@/app/type/generic';
@@ -46,22 +52,22 @@ export const scanTable = async (tableName: string): Promise<Record<string, any>[
   }
 };
 
-export const deleteItemFromDB = async (tableName: string, primaryKeyValue: string, sortKeyValue: string) => {
-  try {
-    await ddbClient.send(
-      new DeleteCommand({
-        TableName: tableName,
-        Key: {
-          id: primaryKeyValue, // primarykeyName : primaryKeyValue
-          dateAdded: sortKeyValue, // sortkeyName : sortkeyValue
-        },
-      })
-    );
-    console.log('Success - item deleted');
-  } catch (err) {
-    console.log('Error', err);
-  }
-};
+// export const deleteItemFromDB = async (tableName: string, primaryKeyValue: string, sortKeyValue: string) => {
+//   try {
+//     await ddbClient.send(
+//       new DeleteCommand({
+//         TableName: tableName,
+//         Key: {
+//           id: primaryKeyValue, // primarykeyName : primaryKeyValue
+//           dateAdded: sortKeyValue, // sortkeyName : sortkeyValue
+//         },
+//       })
+//     );
+//     console.log('Success - item deleted');
+//   } catch (err) {
+//     console.log('Error', err);
+//   }
+// };
 
 // export const getDatabasAttributes = async () => {
 //   try {
@@ -78,30 +84,30 @@ export const deleteItemFromDB = async (tableName: string, primaryKeyValue: strin
 //   }
 // };
 
-export const updateData = async (tableName: string, keys: object, data: object) => {
-  const updateExpression = Object.keys(data)
-    .map((key, index) => `${key} = :val${index}`) // Exemple de mise à jour avec 'SET'
-    .join(', ');
+// export const updateData = async (tableName: string, keys: object, data: object) => {
+//   const updateExpression = Object.keys(data)
+//     .map((key, index) => `${key} = :val${index}`) // Exemple de mise à jour avec 'SET'
+//     .join(', ');
 
-  const expressionAttributeValues = Object.fromEntries(
-    Object.entries(data).map((entry, index) => [`:val${index}`, entry[1]])
-  );
+//   const expressionAttributeValues = Object.fromEntries(
+//     Object.entries(data).map((entry, index) => [`:val${index}`, entry[1]])
+//   );
 
-  const params = {
-    TableName: tableName,
-    Key: keys,
-    UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
-    ExpressionAttributeValues: expressionAttributeValues,
-  };
+//   const params = {
+//     TableName: tableName,
+//     Key: keys,
+//     UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
+//     ExpressionAttributeValues: expressionAttributeValues,
+//   };
 
-  try {
-    const result = await ddbClient.send(new UpdateCommand(params));
-    console.log('Success - updated', result);
-    alert('Data Updated Successfully');
-  } catch (err) {
-    console.log('Error', err);
-  }
-};
+//   try {
+//     const result = await ddbClient.send(new UpdateCommand(params));
+//     console.log('Success - updated', result);
+//     alert('Data Updated Successfully');
+//   } catch (err) {
+//     console.log('Error', err);
+//   }
+// };
 
 export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {
   try {

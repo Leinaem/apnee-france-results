@@ -3,124 +3,140 @@
     {
       "label": "N° compétition",
       "name": "id",
-      "displayResult": true
+      "displayCompetitionsTable": false
     },
     {
       "label": "Nom",
       "name": "name",
-      "displayResult": true
+      "displayCompetitionsTable": true
     },
     {
       "label": "Date de début",
       "name": "startedAt",
-      "displayResult": true
+      "displayCompetitionsTable": true
     },
     {
       "label": "Date de fin",
       "name": "endedAt",
-      "displayResult": true
+      "displayCompetitionsTable": true
     },
     {
       "label": "Ville",
       "name": "city",
-      "displayResult": true
+      "displayCompetitionsTable": true
     },
     {
       "label": "Comité",
       "name": "committee",
-      "displayResult": true
+      "displayCompetitionsTable": false
     },
     {
       "label": "Type",
       "name": "type",
-      "displayResult": true
+      "displayCompetitionsTable": true
     },
     {
       "label": "Bassin",
       "name": "poolSize",
-      "displayResult": true
+      "displayCompetitionsTable": true
     }
   ],
   "results": [
     {
       "label": "Code compétition",
       "name": "competitionId",
-      "displayResult": false
+      "displayResult": false,
+      "displayRanking": false
     },
     {
       "label": "Compétition",
       "name": "competitionName",
-      "displayResult": false
+      "displayResult": false,
+      "displayRanking": true
     },
     {
       "label": "Catégorie",
       "name": "categoryName",
-      "displayResult": false
+      "displayResult": false,
+      "displayRanking": false
     },
     {
       "label": "Code catégorie",
       "name": "categoryId",
-      "displayResult": false
+      "displayResult": false,
+      "displayRanking": false
     },
     {
       "label": "Place",
       "name": "place",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Nom",
       "name": "lastName",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": true
     },
     {
       "label": "Prénom",
       "name": "firstName",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": true
     },
     {
       "label": "Date de naissance",
       "name": "dateOfBirth",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Club",
       "name": "club",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Perf annoncée",
       "name": "perfAnnounced",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Perf effectuée",
       "name": "perfAchieved",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Faute",
       "name": "faultDisq",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Commentaire",
       "name": "comment",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Pénalité",
       "name": "penality",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": false
     },
     {
       "label": "Perf retenue",
       "name": "perfRetained",
-      "displayResult": true
+      "displayResult": true,
+      "displayRanking": true
     },
     {
       "label": "N° License",
       "name": "licenseNumber",
-      "displayResult": false
+      "displayResult": false,
+      "displayRanking": false
     }
   ]
 }

@@ -33,7 +33,7 @@ const InputSelect = (props: InputSelectProps) => {
       value={value}
     >
       {defaultText && (
-        <option value={0}>{defaultText}</option>
+        <option value=''>{defaultText}</option>
       )}
       {
         options.map((option, i) => {

@@ -26,6 +26,8 @@ const ImportData = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
   const [selectedCompetition, setSelectedCompetition] = useState<string>('');
+  const [season, setSeason] = useState<string>('2024-25');
+
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement >) => {
     if (!event.target.files) {
@@ -63,11 +65,13 @@ const ImportData = () => {
         if (typeof item.firstName === 'string') {
           item.firstName = item.firstName.charAt(0).toUpperCase() + item.firstName.slice(1).toLowerCase();
         }
+        item.season = season;
       });
     } else if (selectedTable === 'competitions') {
       data.forEach((item: GenericStringIndex) => {
         Number(item.id);
         item.id = Number(item.id);
+        item.season = season;
       })
     }
     
@@ -149,6 +153,17 @@ const ImportData = () => {
       {
         selectedTable && (
           <>
+            <InputSelect
+              id="seasonList"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setSeason(e.target.value);
+                setPreparedData([]);
+              }}
+              value={season}
+              defaultText='Choisissez une saison'
+              options={['2024-25']}
+              schema=''
+            />
           {selectedTable === 'results' && Boolean(competitionList.length) && (
             <>
               <InputSelect

@@ -3,23 +3,22 @@ import { GenericStringIndex } from "@/app/type/generic";
 
 export const buildQueryRangeResultsParams = (
   selectedCompetition: number,
-  selectedDisciplines: number[],
+  selectedDisciplinesId: number[],
 ) => {
 
-
+  console.log('result params : ', selectedDisciplinesId);
   // Custom filter with values
   const filterExpressions: string[] = [];
   const ExpressionAttributeValues: Record<number, number> = {};
 
-  if (selectedDisciplines && selectedDisciplines.length) {
-    selectedDisciplines.forEach((data, index) => {
+  if (selectedDisciplinesId && selectedDisciplinesId.length) {
+    selectedDisciplinesId.forEach((data, index) => {
       filterExpressions.push(`:id${index}`);
       ExpressionAttributeValues[`:id${index}`] = data;
     });
   
     ExpressionAttributeValues[':competitionId'] = selectedCompetition;
   }
-
 
   const params = {
     TableName: "results",
@@ -32,12 +31,36 @@ export const buildQueryRangeResultsParams = (
         }
     },
 
-    ...(selectedDisciplines && selectedDisciplines.length && {
+    ...(selectedDisciplinesId && selectedDisciplinesId.length && {
       FilterExpression:`categoryId IN (${filterExpressions.join(',')})`,
       ExpressionAttributeValues: {
         ...ExpressionAttributeValues
       }
     }),
+  }
+
+  return params;
+}
+
+export const buildQueryRangeRankingParams = (selectedCategoryId: number[]) => {
+
+  const filterExpressions: string[] = [];
+  const ExpressionAttributeValues: Record<number, number> = {};
+  selectedCategoryId.forEach((data, index) => {
+    filterExpressions.push(`:id${index}`);
+    ExpressionAttributeValues[`:id${index}`] = data;
+  });
+
+  const params = {
+    TableName: "results",
+    ConditionExpression:'attribute_not_exists(id)',
+    IndexName: 'season-index',
+    KeyConditionExpression:'season = :season',
+    FilterExpression:`categoryId IN (${filterExpressions.join(',')})`,
+    ExpressionAttributeValues: {
+      ...ExpressionAttributeValues,
+      ":season": '2024-25',
+    }
   }
 
   return params;
