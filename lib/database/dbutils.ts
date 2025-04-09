@@ -6,7 +6,6 @@ export const buildQueryRangeResultsParams = (
   selectedDisciplinesId: number[],
 ) => {
 
-  console.log('result params : ', selectedDisciplinesId);
   // Custom filter with values
   const filterExpressions: string[] = [];
   const ExpressionAttributeValues: Record<number, number> = {};
@@ -42,8 +41,7 @@ export const buildQueryRangeResultsParams = (
   return params;
 }
 
-export const buildQueryRangeRankingParams = (selectedCategoryId: number[]) => {
-
+export const buildQueryRangeRankingParams = (selectedCategoryId: number[], lastEvaluatedKey) => {
   const filterExpressions: string[] = [];
   const ExpressionAttributeValues: Record<number, number> = {};
   selectedCategoryId.forEach((data, index) => {
@@ -53,14 +51,14 @@ export const buildQueryRangeRankingParams = (selectedCategoryId: number[]) => {
 
   const params = {
     TableName: "results",
-    ConditionExpression:'attribute_not_exists(id)',
     IndexName: 'season-index',
     KeyConditionExpression:'season = :season',
     FilterExpression:`categoryId IN (${filterExpressions.join(',')})`,
     ExpressionAttributeValues: {
       ...ExpressionAttributeValues,
       ":season": '2024-25',
-    }
+    },
+    ...(lastEvaluatedKey && {ExclusiveStartKey: lastEvaluatedKey})
   }
 
   return params;
@@ -73,4 +71,17 @@ export const getCompetitionList = async (): GenericStringIndex[] => {
   }
 
   return [];
+}
+
+export const getTypeCompetitionsIds = async (types: String[]): Number[] => {
+  const competitionList = await getCompetitionList();
+  const ids: Number[] = []
+
+  competitionList.forEach((comp, i) => {
+    if (types.includes(String(comp.type))) {
+      ids.push(Number(comp.id));
+    }
+  });
+
+  return ids;
 }

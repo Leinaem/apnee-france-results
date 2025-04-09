@@ -17,8 +17,6 @@ const InputSelect = (props: InputSelectProps) => {
       return `${data.id} - ${data.name} - ${data.city}`
     } else if (schema === 'import-type') {
       return data.label as string;
-    } else if (schema === 'category-name') {
-      return data.name as string;
     }
 
     return '';

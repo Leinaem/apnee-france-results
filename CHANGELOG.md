@@ -1,10 +1,16 @@
 # CHANGELOG
 
+## v0.7.1 - 2025-04-09
+
+### Added
+
+- Added ranking page, fonctional version with filter.
+
 ## v0.7.0 - 2025-03-26
 
 ### Added
 
-- Added ranking page, 1rst version
+- Added ranking page, 1rst version.
 
 ## v0.6.2 - 2025-03-23
 
