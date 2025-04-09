@@ -1,5 +1,5 @@
 import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
-import { CATEGORY_LIST_GROUP } from "./const";
+import { CATEGORY_GROUP_LIST } from "./const";
 
 export const getAssetsUrl = (url: string): string => `${process.env.NEXT_PUBLIC_ASSET_URL}${url}`;
 
@@ -9,7 +9,7 @@ export const stringToNumber = (str: string): number | string => {
 }
 
 export const numberToStringTwoDecimals = (num: number): string | number => {
-  if (isNaN(num)) {
+  if (isNaN(num) || !num) {
     return num;
   }
   return num.toFixed(2);
@@ -30,7 +30,7 @@ export const getCategoryPerfByDistance = (categoryList: GenericStringIndex[]) =>
 
 export const getCategoryMappingId = (categoryList: GenericStringIndex[]) => {
   const categoryMappingId: CategoryMappingIdType = {};
-  CATEGORY_LIST_GROUP.map((shortName) => {
+  CATEGORY_GROUP_LIST.map((shortName) => {
     categoryMappingId[shortName] = [];
     categoryList.forEach((cat) => {
       if (String(cat.name)?.includes(shortName)) {

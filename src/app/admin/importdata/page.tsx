@@ -66,6 +66,7 @@ const ImportData = () => {
           item.firstName = item.firstName.charAt(0).toUpperCase() + item.firstName.slice(1).toLowerCase();
         }
         item.season = season;
+        item.city = competitionList.find((comp) => comp.id === Number(competitionId))?.city as string;
       });
     } else if (selectedTable === 'competitions') {
       data.forEach((item: GenericStringIndex) => {

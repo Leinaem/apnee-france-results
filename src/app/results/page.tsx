@@ -19,7 +19,7 @@ import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
 import databaseAttributes from '../json/databaseAttributes.json';
 
 // Const
-import { CATEGORY_LIST_GROUP } from "@/utils/const";
+import { CATEGORY_GROUP_LIST } from "@/utils/const";
 
 
 const Results = () => {
@@ -66,7 +66,6 @@ const Results = () => {
       selectedDisciplinesId,
     );
 
-    console.log('params : ', params);
     const data = await queryRangeCommand(params);
     setResults(data.Items || []);
   }
@@ -113,7 +112,7 @@ const Results = () => {
 
   useEffect(() => {
     setCategoryMappingId(getCategoryMappingId(categoryList))
-  },[ categoryList]);
+  },[categoryList]);
 
   const getTitle = () => {
     const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
@@ -126,6 +125,10 @@ const Results = () => {
         id="competition-list"
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           setSelectedCompetitionId(Number(e.target.value));
+          if (!Number(e.target.value)) {
+            setSelectedDisciplinesList([]);
+            setSelectedDisciplineGroup('');
+          }
           setResults([]);
         }}
         value={selectedCompetitionId}
@@ -140,14 +143,13 @@ const Results = () => {
             id="discipline-list"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               const disciplinesList = categoryMappingId[e.target.value];
-              console.log('--disciplinesList : ', disciplinesList)
               setSelectedDisciplineGroup(e.target.value);
-              setSelectedDisciplinesList(disciplinesList);
+              setSelectedDisciplinesList(disciplinesList || []);
               setResults([]);
             }}
             value={selectedDisciplineGroup}
             defaultText='Choisissez une discipline'
-            options={CATEGORY_LIST_GROUP}
+            options={CATEGORY_GROUP_LIST}
             schema=''
           />
           <h2>{getTitle()}</h2>
@@ -156,7 +158,6 @@ const Results = () => {
         )
       }
 
-      {/* ////////////////////////////////////// */}
       {Object.entries(filteredResults).map((section, i) => {
         const categoryId =  Number(section[0]);
         const currentCategory = categoryList.find((cat) => cat.id === categoryId);

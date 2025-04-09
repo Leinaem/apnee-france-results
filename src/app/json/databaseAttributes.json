@@ -43,6 +43,12 @@
   ],
   "results": [
     {
+      "label": "",
+      "name": "position",
+      "displayResult": false,
+      "displayRanking": true
+    },
+    {
       "label": "Code compétition",
       "name": "competitionId",
       "displayResult": false,
@@ -51,6 +57,12 @@
     {
       "label": "Compétition",
       "name": "competitionName",
+      "displayResult": false,
+      "displayRanking": true
+    },
+    {
+      "label": "Ville",
+      "name": "city",
       "displayResult": false,
       "displayRanking": true
     },

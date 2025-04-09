@@ -33,7 +33,7 @@ export const query = async (params: QueryCommandInput) => {
   return response;
 }
 
-export const queryRangeCommand = async (params) => {
+export const queryRangeCommand = async (params: QueryCommandInput) => {
   const command = new QueryCommand(params);
   const response = await ddbClient.send(command);
   console.log(response);
@@ -119,9 +119,8 @@ export const addMultiData = async (tableName: string, items: GenericStringIndex[
         },
         ConditionExpression:'attribute_not_exists(id)'
       };
-      console.log('params : ', params);
       const data = await ddbDocClient.send(new PutCommand(params));
-      console.log("Success - item added", data);
+      console.log("Success - item added", params, data);
 
     });
     

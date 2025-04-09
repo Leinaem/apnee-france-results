@@ -1,5 +1,5 @@
 
-export const CATEGORY_LIST_GROUP = [
+export const CATEGORY_GROUP_LIST = [
   'statique',
   'dynamique monopalme',
   'dynamique bi',
