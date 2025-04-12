@@ -6,16 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write 'src/**/*.{tsx,ts,jsx,js}'",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.716.0",
     "@aws-sdk/lib-dynamodb": "^3.716.0",
     "@aws-sdk/util-dynamodb": "^3.716.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "next": "15.2.0",
-    "uuid": "^11.0.5",
     "papaparse": "^5.4.1"
   },
   "devDependencies": {
@@ -28,6 +33,13 @@
     "@eslint/eslintrc": "^3",
     "sass": "^1.85.1",
     "sass-loader": "^16.0.2",
-    "@types/papaparse": "^5.3.15"
+    "@types/papaparse": "^5.3.15",
+    "husky": "^8.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
   }
 }
