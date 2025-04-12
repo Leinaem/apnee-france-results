@@ -41,7 +41,7 @@ export const queryRangeCommand = async (params: QueryCommandInput) => {
 } 
 
 
-export const scanTable = async (tableName: string): Promise<Record<string, any>[] | undefined> => {
+export const scanTable = async (tableName: string): Promise<Record<string, number>[] | undefined> => {
   if (tableName) {
     try {
       const data = await ddbClient.send(new ScanCommand({ TableName: tableName }));
@@ -51,38 +51,6 @@ export const scanTable = async (tableName: string): Promise<Record<string, any>[
     }
   }
 };
-
-// export const deleteItemFromDB = async (tableName: string, primaryKeyValue: string, sortKeyValue: string) => {
-//   try {
-//     await ddbClient.send(
-//       new DeleteCommand({
-//         TableName: tableName,
-//         Key: {
-//           id: primaryKeyValue, // primarykeyName : primaryKeyValue
-//           dateAdded: sortKeyValue, // sortkeyName : sortkeyValue
-//         },
-//       })
-//     );
-//     console.log('Success - item deleted');
-//   } catch (err) {
-//     console.log('Error', err);
-//   }
-// };
-
-// export const getDatabasAttributes = async () => {
-//   try {
-//     const databasAttributes = await axios({
-//       method: 'get',
-//       url: `${process.env.NEXT_PUBLIC_ASSET_URL}database-attributes.json`,
-//       headers: { 'Content-Type': 'application/json' },
-//       responseType: 'json',
-//     });
-
-//     return databasAttributes.data;
-//   } catch (err) {
-//     console.log('err', err);
-//   }
-// };
 
 // export const updateData = async (tableName: string, keys: object, data: object) => {
 //   const updateExpression = Object.keys(data)
