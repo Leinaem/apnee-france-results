@@ -28,7 +28,6 @@ const ImportData = () => {
   const [selectedCompetition, setSelectedCompetition] = useState<string>('');
   const [season, setSeason] = useState<string>('2024-25');
 
-
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement >) => {
     if (!event.target.files) {
       return;
@@ -47,9 +46,11 @@ const ImportData = () => {
     const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
 
     if (selectedTable === 'results' && categoryList.length) {
+      const competitionId = selectedCompetition;
+      const city = competitionList.find((comp) => comp.id === Number(competitionId))?.city as string;
+
       data.forEach((item: GenericStringIndex) => {
         const categoryId = categoryList.find((cat) => String(cat.name).toLowerCase() === String(item.categoryName).toLowerCase())?.id as number;
-        const competitionId = selectedCompetition;
         const id = `${competitionId}_${categoryId}_${item.lastName}_${item.firstName}`;
         item.id = id.replaceAll(' ', '-');
         item.competitionId = Number(selectedCompetition);
@@ -66,7 +67,7 @@ const ImportData = () => {
           item.firstName = item.firstName.charAt(0).toUpperCase() + item.firstName.slice(1).toLowerCase();
         }
         item.season = season;
-        item.city = competitionList.find((comp) => comp.id === Number(competitionId))?.city as string;
+        item.city = city;
       });
     } else if (selectedTable === 'competitions') {
       data.forEach((item: GenericStringIndex) => {
