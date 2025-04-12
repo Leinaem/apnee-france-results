@@ -3,8 +3,8 @@ import { GenericStringIndex } from "./generic";
 export type AttributesType = {
   name: string;
   label: string;
-  displayResult: Boolean;
-  displayRanking: Boolean;
+  displayResult: boolean;
+  displayRanking: boolean;
 }
 
 export type DatabaseAttributesType = {

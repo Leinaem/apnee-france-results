@@ -59,34 +59,6 @@ const Results = () => {
     setTableAttributes(tableAttributes);
   }
 
-  const getData = async () => {
-    const selectedDisciplinesId: number[] = selectedDisciplinesList.map((disc) => Number(disc.id));
-    const params = buildQueryRangeResultsParams(
-      Number(selectedCompetitionId),
-      selectedDisciplinesId,
-    );
-
-    const data = await queryRangeCommand(params);
-    setResults(data.Items || []);
-  }
-
-  const sortResults = () => {
-    const tableByCategory = {} as TableListResultsType;
-    sortBy('categoryId', results);
-    results.forEach((result) => {
-      const categoryId = result.categoryId as keyof typeof tableByCategory;
-      if (categoryId) {
-        if (tableByCategory[categoryId] === undefined
-        ) {
-          tableByCategory[categoryId] = [];
-          Object.defineProperty(tableByCategory, categoryId, []);
-        }
-      }
-      tableByCategory[categoryId as keyof typeof tableByCategory]?.push(result);
-    })
-    setFilteredResults(tableByCategory);
-  }
-
   useEffect(() => {
     getCompetitionList();
     getCategoryList();
@@ -95,9 +67,20 @@ const Results = () => {
     if (competitionidParam) {
       setSelectedCompetitionId(Number(competitionidParam));
     }
-  }, []);
+  }, [competitionidParam]);
 
   useEffect(() => {
+    const getData = async () => {
+      const selectedDisciplinesId: number[] = selectedDisciplinesList.map((disc) => Number(disc.id));
+      const params = buildQueryRangeResultsParams(
+        Number(selectedCompetitionId),
+        selectedDisciplinesId,
+      );
+  
+      const data = await queryRangeCommand(params);
+      setResults(data.Items || []);
+    }
+
     if (selectedCompetitionId) {
       getData();
     }
@@ -105,10 +88,24 @@ const Results = () => {
 
   useEffect(() => {
     setFilteredResults([]);
+
     if (results.length) {
-      sortResults();
+      const tableByCategory = {} as TableListResultsType;
+      sortBy('categoryId', results);
+      results.forEach((result) => {
+        const categoryId = result.categoryId as keyof typeof tableByCategory;
+        if (categoryId) {
+          if (tableByCategory[categoryId] === undefined
+          ) {
+            tableByCategory[categoryId] = [];
+            Object.defineProperty(tableByCategory, categoryId, []);
+          }
+        }
+        tableByCategory[categoryId as keyof typeof tableByCategory]?.push(result);
+      })
+      setFilteredResults(tableByCategory);
     }
-  }, [results])
+  }, [results]);
 
   useEffect(() => {
     setCategoryMappingId(getCategoryMappingId(categoryList))

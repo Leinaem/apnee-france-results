@@ -82,7 +82,7 @@ const Rankings = () => {
   }
 
   const filterRankings = async () => {
-    const filter: String[] = [];
+    const filter: string[] = [];
 
     if (withOpen) {
       filter.push('Open');
@@ -93,11 +93,11 @@ const Rankings = () => {
     if (withCupRound) {
       filter.push('Manche de Coupe de France');
     }
-    const ids: Number[] = await getTypeCompetitionsIds(filter);
+    const ids: number[] = await getTypeCompetitionsIds(filter);
     const filteredData: GenericStringIndex[] = [];
 
     // Full rankings LOOP
-    fullRankings.forEach((item, i) => {
+    fullRankings.forEach((item) => {
       // Include competition types (selective, open , cup)
       if (ids.includes(Number(item.competitionId))) {
         if (rankingType === 'performance') {
