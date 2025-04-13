@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation'
 
 // Utils
 import { scanTable, queryRangeCommand } from "../../../lib/database/dbCommands";
-import { buildQueryRangeResultsParams } from "../../../lib/database/dbUtils";
+import { buildQueryRangeResultsParams } from "../../../lib/database/dbutils";
 import { sortBy } from "@/utils/sort";
 import { numberToStringTwoDecimals, getCategoryMappingId } from "@/utils/utils";
 

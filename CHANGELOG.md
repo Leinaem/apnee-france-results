@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.3 - 2025-04-13
+
+### Fix
+
+- Fixed import letter-casing.
+
 ## v0.7.2 - 2025-04-13
 
 ### Fix

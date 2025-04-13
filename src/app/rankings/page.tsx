@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 // Utils
 import { scanTable, queryRangeCommand } from "../../../lib/database/dbCommands";
-import { buildQueryRangeRankingParams, getTypeCompetitionsIds } from "../../../lib/database/dbUtils";
+import { buildQueryRangeRankingParams, getTypeCompetitionsIds } from "../../../lib/database/dbutils";
 import { sortBy } from "@/utils/sort";
 import { numberToStringTwoDecimals } from "@/utils/utils";
 
