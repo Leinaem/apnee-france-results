@@ -12,7 +12,7 @@ import { getCategoryPerfByDistance } from "@/utils/utils";
 import InputSelect from "@/app/components/partials/inputSelect";
 
 // Types
-import { AttributesType, DatabaseAttributesType } from "@/app/type/database";
+import { AttributesType } from "@/app/type/database";
 import { GenericStringIndex } from "@/app/type/generic";
 
 // Others
@@ -104,9 +104,7 @@ const ImportData = () => {
   }
 
   const getTableAttributes = () => {
-    const databaseAttributesObj:DatabaseAttributesType = databaseAttributes;
-    const dataAttributesProperty = selectedTable;
-    const tableAttributes = databaseAttributesObj[dataAttributesProperty as keyof DatabaseAttributesType];
+    const tableAttributes: AttributesType[] = databaseAttributes['results'];
     setTableAttributes(tableAttributes);
   }
 

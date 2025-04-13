@@ -5,6 +5,7 @@ export type AttributesType = {
   label: string;
   displayResult: boolean;
   displayRanking: boolean;
+  displayCompetitionsTable?: boolean;
 }
 
 export type DatabaseAttributesType = {

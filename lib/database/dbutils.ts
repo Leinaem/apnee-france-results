@@ -8,15 +8,15 @@ export const buildQueryRangeResultsParams = (
 
   // Custom filter with values
   const filterExpressions: string[] = [];
-  const ExpressionAttributeValues: Record<number, number> = {};
+  const ExpressionAttributeValues: Record<string, number> = {};
 
   if (selectedDisciplinesId && selectedDisciplinesId.length) {
     selectedDisciplinesId.forEach((data, index) => {
       filterExpressions.push(`:id${index}`);
-      ExpressionAttributeValues[`:id${index}` as any] = data;
+      ExpressionAttributeValues[`:id${index}`] = data;
     });
   
-    ExpressionAttributeValues[':competitionId' as any] = selectedCompetition;
+    ExpressionAttributeValues[':competitionId'] = selectedCompetition;
   }
 
   const params = {
@@ -41,12 +41,12 @@ export const buildQueryRangeResultsParams = (
   return params;
 }
 
-export const buildQueryRangeRankingParams = (selectedCategoryId: number[], lastEvaluatedKey: object) => {
+export const buildQueryRangeRankingParams = (selectedCategoryId: number[], lastEvaluatedKey: object | undefined) => {
   const filterExpressions: string[] = [];
-  const ExpressionAttributeValues: Record<number, number> = {};
+  const ExpressionAttributeValues: Record<string, number> = {};
   selectedCategoryId.forEach((data, index) => {
     filterExpressions.push(`:id${index}`);
-    ExpressionAttributeValues[`:id${index}` as any] = data;
+    ExpressionAttributeValues[`:id${index}`] = data;
   });
 
   const params = {
@@ -73,11 +73,11 @@ export const getCompetitionList = async (): Promise<GenericStringIndex[]> => {
   return [];
 }
 
-export const getTypeCompetitionsIds = async (types: String[]): Promise<number[]> => {
+export const getTypeCompetitionsIds = async (types: string[]): Promise<number[]> => {
   const competitionList = await getCompetitionList();
   const ids: number[] = []
 
-  competitionList.forEach((comp, i) => {
+  competitionList.forEach((comp) => {
     if (types.includes(String(comp.type))) {
       ids.push(Number(comp.id));
     }

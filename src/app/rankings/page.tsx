@@ -13,7 +13,7 @@ import InputSelect from "@/app/components/partials/inputSelect";
 import RankingFilter from "./RankingFilter";
 
 // Types
-import { AttributesType, DatabaseAttributesType } from "@/app/type/database";
+import { AttributesType } from "@/app/type/database";
 import { GenericStringIndex } from "@/app/type/generic";
 
 // Others
@@ -35,9 +35,6 @@ const Rankings = () => {
   const [withCupRound, setWithCupRound] = useState<boolean>(false);
   const [rankingType, setRankingType] = useState<string>('performance');  // performance
 
-  console.log('---fullRankings', fullRankings.length);
-  console.log('---filteredResults', filteredResults.length);
-
   const getCategoryList = async () => {
     const data = await scanTable('category');
     if (data) {
@@ -47,77 +44,8 @@ const Rankings = () => {
   }
 
   const getTableAttributes = () => {
-    const databaseAttributesObj:DatabaseAttributesType = databaseAttributes;
-    const dataAttributesProperty = 'results';
-    const tableAttributes = databaseAttributesObj[dataAttributesProperty as keyof DatabaseAttributesType];
+    const tableAttributes: AttributesType[] = databaseAttributes['results'];
     setTableAttributes(tableAttributes);
-  }
-
-  const getData = async () => {
-    if (!selectedDisciplineGroup || !selectedCategory) {
-      return;
-    }
-
-    const selectedCategoryFull = categoryList.find((cat) => 
-        String(cat.name)?.includes(selectedDisciplineGroup) && 
-        String(cat.name)?.includes(selectedCategory)) || {};
-    
-    let lastEvaluatedKey: Record<string, GenericStringIndex> | undefined = undefined;
-    let resultItems: any = [];
-
-    do {
-      const params = buildQueryRangeRankingParams([Number(selectedCategoryFull.id)], lastEvaluatedKey);
-      const result = await queryRangeCommand(params);
-      resultItems = resultItems.concat(result.Items);
-      lastEvaluatedKey = result.LastEvaluatedKey;
-    } while (lastEvaluatedKey !== undefined)
-
-    if (!resultItems.length) {
-      return;
-    }
-
-    const sortDirection = selectedCategoryFull?.sortDirection as string;
-    sortBy('perfRetained', resultItems, sortDirection);
-    setFullRankings(resultItems || []);
-  }
-
-  const filterRankings = async () => {
-    const filter: string[] = [];
-
-    if (withOpen) {
-      filter.push('Open');
-    }
-    if (withSelective) {
-      filter.push('Sélective');
-    }
-    if (withCupRound) {
-      filter.push('Manche de Coupe de France');
-    }
-    const ids: number[] = await getTypeCompetitionsIds(filter);
-    const filteredData: GenericStringIndex[] = [];
-
-    // Full rankings LOOP
-    fullRankings.forEach((item) => {
-      // Include competition types (selective, open , cup)
-      if (ids.includes(Number(item.competitionId))) {
-        if (rankingType === 'performance') {
-          // Push ALL perfs
-          filteredData.push(item);
-        } else {
-          // Don't push duplicates
-          const duplicate = filteredData.find((itemBis) => 
-            item.lastName === itemBis?.lastName && 
-            item.firstName === itemBis?.firstName &&
-            item.dateOfBirth === itemBis?.dateOfBirth);
-          
-          if (!duplicate){
-            filteredData.push(item);
-          }
-        }
-      }
-    })
-
-    setFilteredResults(filteredData);
   }
 
   useEffect(() => {
@@ -126,10 +54,77 @@ const Rankings = () => {
   }, []);
 
   useEffect(() => {
+    const getData = async () => {
+      if (!selectedDisciplineGroup || !selectedCategory) {
+        return;
+      }
+  
+      const selectedCategoryFull = categoryList.find((cat) => 
+          String(cat.name)?.includes(selectedDisciplineGroup) && 
+          String(cat.name)?.includes(selectedCategory)) || {};
+      
+      let lastEvaluatedKey: object | undefined = undefined;
+      let resultItems: GenericStringIndex[] = [];
+  
+      do {
+        const params = buildQueryRangeRankingParams([Number(selectedCategoryFull.id)], lastEvaluatedKey);
+        const result = await queryRangeCommand(params);
+        resultItems = resultItems.concat(result.Items as GenericStringIndex[]);
+        lastEvaluatedKey = result.LastEvaluatedKey;
+      } while (lastEvaluatedKey !== undefined)
+  
+      if (!resultItems.length) {
+        return;
+      }
+
+      const sortDirection = selectedCategoryFull?.sortDirection as string;
+      sortBy('perfRetained', resultItems, sortDirection);
+      setFullRankings(resultItems || []);
+    }
+
     getData();
-  }, [selectedDisciplineGroup, selectedCategory]);
+  }, [selectedDisciplineGroup, selectedCategory, categoryList]);
 
   useEffect(() => {
+    const filterRankings = async () => {
+      const filter: string[] = [];
+  
+      if (withOpen) {
+        filter.push('Open');
+      }
+      if (withSelective) {
+        filter.push('Sélective');
+      }
+      if (withCupRound) {
+        filter.push('Manche de Coupe de France');
+      }
+      const ids: number[] = await getTypeCompetitionsIds(filter);
+      const filteredData: GenericStringIndex[] = [];
+  
+      // Full rankings LOOP
+      fullRankings.forEach((item) => {
+        // Include competition types (selective, open , cup)
+        if (ids.includes(Number(item.competitionId))) {
+          if (rankingType === 'performance') {
+            // Push ALL perfs
+            filteredData.push(item);
+          } else {
+            // Don't push duplicates
+            const duplicate = filteredData.find((itemBis) => 
+              item.lastName === itemBis?.lastName && 
+              item.firstName === itemBis?.firstName &&
+              item.dateOfBirth === itemBis?.dateOfBirth);
+            
+            if (!duplicate){
+              filteredData.push(item);
+            }
+          }
+        }
+      })
+  
+      setFilteredResults(filteredData);
+    }
+
     filterRankings();
   },[fullRankings, withOpen, withSelective, withCupRound, rankingType]);
 
@@ -164,19 +159,19 @@ const Rankings = () => {
         <>
           <RankingFilter 
             withOpen={withOpen}
-            setWithOpen={setWithOpen}
+            updateWithOpen={(newState: boolean) => setWithOpen(newState)}
             withSelective={withSelective}
-            setWithSelective={setWithSelective}
+            updateWithSelective={(newState: boolean) => setWithSelective(newState)}
             withCupRound={withCupRound}
-            setWithCupRound={setWithCupRound}
+            updateWithCupRound={(newState: boolean) => setWithCupRound(newState)}
             rankingType={rankingType}
-            setRankingType={setRankingType}
+            updateRankingType={(newState: string) => setRankingType(newState)}
           />
 
           {
             Boolean(fullRankings.length) && (
               <>
-                <div className="table-title"><p>{selectedCategory.name}</p></div>
+                <div className="table-title"><p>{selectedCategory}</p></div>
                 <table>
                   <thead>
                     <tr>
@@ -219,13 +214,3 @@ const Rankings = () => {
 }
 
 export default Rankings;
-
-/*
-            // Object.entries(rankings).map((section, i) => {
-              // const categoryId =  Number(section[0]);
-              // const currentCategory = categoryList.find((cat) => cat.id === categoryId);
-              // const categoryName = currentCategory?.name;
-              // const perfByDistance = currentCategory?.perfUnitType === 'distance';
-              // const sectionData = section[1] as GenericStringIndex[];
-
-              */

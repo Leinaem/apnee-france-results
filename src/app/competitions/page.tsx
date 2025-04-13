@@ -1,6 +1,6 @@
 
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { scanTable } from "../../../lib/database/dbCommands";
 
 // Compoents
@@ -11,13 +11,14 @@ import { sortBy } from "@/utils/sort";
 
 // Types.
 import { GenericStringIndex } from "@/app/type/generic";
+import { AttributesType } from "@/app/type/database";
 
 // Others.
 import databaseAttributes from '../json/databaseAttributes.json';
 
 const Competitions = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
-  const [tableAttributes, setTableAttributes] = useState<GenericStringIndex[]>([]);
+  const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
   const pageType = 'competitions';
 
   const getCompetitionList = async () => {
@@ -30,14 +31,14 @@ const Competitions = () => {
 
   useEffect(() => {
         getCompetitionList();
-        setTableAttributes(databaseAttributes[pageType])
+        const tableAttributes: AttributesType[] = databaseAttributes['results'];
+        setTableAttributes(tableAttributes);
   }, []);
   
 
   return (
     <div className="page page-competitions">
       <h2 className="page page-title">Liste des compétitions</h2>
-      {/* <div className="table-title"><p>Liste des compétitions</p></div> */}
       <table>
         <thead>
           <tr>
@@ -61,11 +62,11 @@ const Competitions = () => {
                     <td key={attr.name}>
                       <ConditionalWrapper
                         condition={attr.name === 'name'}
-                        wrapper={(children: string) => {
+                        wrapper={(children: ReactNode) => {
                           return <a href={`/results?competitionid=${comp.id}`}  className='af-f-color-main'>{children}</a>;
                       }}
                       >
-                        {String(comp[attr.name])}
+                        {String(comp[attr.name as string])}
                         
                       </ConditionalWrapper>
                     </td>
