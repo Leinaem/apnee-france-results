@@ -202,9 +202,11 @@ const ResultsComponent = () => {
 }
 
 const Results = () => {
-  <Suspense fallback={<div>Loading...</div>}>
-      <ResultsComponent />
-    </Suspense>
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+        <ResultsComponent />
+      </Suspense>
+  );
 }
 
 export default Results;

@@ -1,5 +1,5 @@
-
 "use client"
+
 import { useState, useEffect, ReactNode } from "react";
 import { scanTable } from "../../../lib/database/dbCommands";
 
@@ -20,7 +20,7 @@ const Competitions = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
   const pageType = 'competitions';
-
+  
   const getCompetitionList = async () => {
     const data = await scanTable(pageType);
     if (data) {
@@ -28,13 +28,13 @@ const Competitions = () => {
       setCompetitionList(data);
     }
   }
-
-  useEffect(() => {
-        getCompetitionList();
-        const tableAttributes: AttributesType[] = databaseAttributes['results'];
-        setTableAttributes(tableAttributes);
-  }, []);
   
+  useEffect(() => {
+    getCompetitionList();
+    const tableAttributes: AttributesType[] = databaseAttributes[pageType];
+    setTableAttributes(tableAttributes);
+  }, []);
+      
 
   return (
     <div className="page page-competitions">
