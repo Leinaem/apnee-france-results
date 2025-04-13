@@ -2,7 +2,7 @@ import { GenericStringIndex } from "@/app/type/generic";
 
 interface InputSelectProps {
   id: string;
-  onChange: Function;
+  onChange(e: React.ChangeEvent<HTMLSelectElement>): void;
   value: number | string;
   defaultText: string;
   options: GenericStringIndex[] | string[];

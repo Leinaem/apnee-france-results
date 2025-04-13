@@ -1,25 +1,25 @@
 
 interface RankingFilterProps {
-  withOpen: Boolean;
-  setWithOpen: Function;
-  withSelective: Boolean;
-  setWithSelective: Function;
-  withCupRound: Boolean;
-  setWithCupRound: Function;
-  rankingType: String;
-  setRankingType: Function;
+  withOpen: boolean;
+  updateWithOpen(newState: boolean): void;
+  withSelective: boolean;
+  updateWithSelective(newState: boolean): void;
+  withCupRound: boolean;
+  updateWithCupRound(newState: boolean): void;
+  rankingType: string;
+  updateRankingType(newState: string): void;
 }
 
 const RankingFilter = (props: RankingFilterProps) => {
   const {
     withOpen,
-    setWithOpen,
+    updateWithOpen,
     withSelective,
-    setWithSelective,
+    updateWithSelective,
     withCupRound,
-    setWithCupRound,
+    updateWithCupRound,
     rankingType,
-    setRankingType
+    updateRankingType
   } = props;
 
   return (
@@ -32,7 +32,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             id="performance"
             name="type"
             value="performance"
-            onChange={(e) => setRankingType(e.target.value)}
+            onChange={(e) => updateRankingType(e.target.value)}
             checked={rankingType === 'performance'}
           />
           <label htmlFor="performance">Performances</label>
@@ -43,7 +43,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             id="competitor"
             name="type"
             value="competitor"
-            onChange={(e) => setRankingType(e.target.value)}
+            onChange={(e) => updateRankingType(e.target.value)}
             checked={rankingType === 'competitor'}
           />
         <label htmlFor="competitor">Competiteurs</label>
@@ -57,7 +57,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             id="wwith-selective"
             name="with-selective"
             checked={withSelective}
-            onChange={() => setWithSelective(!withSelective)}
+            onChange={() => updateWithSelective(!withSelective)}
           />
           <span>Sélective</span>
         </div>
@@ -67,7 +67,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             id="with-open"
             name="with-open"
             checked={withOpen}
-            onChange={() => setWithOpen(!withOpen)}
+            onChange={() => updateWithOpen(!withOpen)}
           />
           <span>Open</span>
         </div>
@@ -77,7 +77,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             id="with-cup-round"
             name="with-cup-round"
             checked={withCupRound}
-            onChange={() => setWithCupRound(!withCupRound)}
+            onChange={() => updateWithCupRound(!withCupRound)}
           />
           <span>Manches de coupe de France</span>
         </div>

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from 'next/navigation'
 
 // Utils
@@ -12,7 +12,7 @@ import { numberToStringTwoDecimals, getCategoryMappingId } from "@/utils/utils";
 import InputSelect from "@/app/components/partials/inputSelect";
 
 // Types
-import { AttributesType, DatabaseAttributesType, TableListResultsType } from "@/app/type/database";
+import { AttributesType, TableListResultsType } from "@/app/type/database";
 import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
 
 // Others
@@ -22,7 +22,7 @@ import databaseAttributes from '../json/databaseAttributes.json';
 import { CATEGORY_GROUP_LIST } from "@/utils/const";
 
 
-const Results = () => {
+const ResultsComponent = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
   const [selectedCompetitionId, setSelectedCompetitionId] = useState<number>(0);
@@ -52,10 +52,13 @@ const Results = () => {
     }
   }
 
+  const getTitle = () => {
+    const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
+    return `${selectionCompetition.name} - ${selectionCompetition.city}`
+  }
+
   const getTableAttributes = () => {
-    const databaseAttributesObj:DatabaseAttributesType = databaseAttributes;
-    const dataAttributesProperty = 'results';
-    const tableAttributes = databaseAttributesObj[dataAttributesProperty as keyof DatabaseAttributesType];
+    const tableAttributes: AttributesType[] = databaseAttributes['results'];
     setTableAttributes(tableAttributes);
   }
 
@@ -110,11 +113,6 @@ const Results = () => {
   useEffect(() => {
     setCategoryMappingId(getCategoryMappingId(categoryList))
   },[categoryList]);
-
-  const getTitle = () => {
-    const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
-    return `${selectionCompetition.name} - ${selectionCompetition.city}`
-  }
 
   return (
     <div className="page page-results">
@@ -200,7 +198,13 @@ const Results = () => {
         )
       })}
     </div>
-  )
-} 
+  );
+}
+
+const Results = () => {
+  <Suspense fallback={<div>Loading...</div>}>
+      <ResultsComponent />
+    </Suspense>
+}
 
 export default Results;

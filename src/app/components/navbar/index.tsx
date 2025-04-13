@@ -5,12 +5,12 @@ import Link from "next/link";
 import { getAssetsUrl } from '../../../utils/utils';
 
 interface navbarProps {
-  isOpen: Boolean;
-  setIsOpen: Function
+  isOpen: boolean;
+  updateIsOpen(newValue: boolean): void;
 }
 
 export const Navbar = (props: navbarProps) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, updateIsOpen } = props;
   return (
     <nav className={`nav-bar ${isOpen ? 'is-open' : 'is-close'}`}>
       <ul className={`nav-bar--list`}>
@@ -26,22 +26,22 @@ export const Navbar = (props: navbarProps) => {
           </div>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/" className="nav-bar--link" onClick={() => setIsOpen(false)}>
+          <Link href="/" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
             Accueil
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/results" className="nav-bar--link" onClick={() => setIsOpen(false)}>
+          <Link href="/results" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
             Résultats
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/competitions" className="nav-bar--link" onClick={() => setIsOpen(false)}>
+          <Link href="/competitions" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
             Liste des compétitions
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/rankings" className="nav-bar--link" onClick={() => setIsOpen(false)}>
+          <Link href="/rankings" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
             Classements
           </Link>
         </li>

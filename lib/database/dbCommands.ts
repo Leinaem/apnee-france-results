@@ -6,7 +6,6 @@ import { ddbDocClient } from "./ddbDocClient";
 import { ListTablesCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   ScanCommand,
-  // DeleteCommand,
   // UpdateCommand,
   PutCommand,
   QueryCommand
@@ -33,8 +32,8 @@ export const query = async (params: QueryCommandInput) => {
   return response;
 }
 
-export const queryRangeCommand = async (params: QueryCommandInput) => {
-  const command = new QueryCommand(params);
+export const queryRangeCommand = async (params: object) => {
+  const command = new QueryCommand(params as QueryCommandInput);
   const response = await ddbClient.send(command);
   console.log(response);
   return response;

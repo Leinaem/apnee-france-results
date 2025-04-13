@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.7.2 - 2025-04-13
+
+### Fix
+
+- Fixed some lint and typescript error.
+- Fixed all error from lint and typescript to build.
+
+### Added
+
+- Added Prettier, eslint, husky.
+
 ## v0.7.1 - 2025-04-09
 
 ### Added
