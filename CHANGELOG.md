@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.4 - 2025-04-13
+
+### Fix
+
+- Fixed competition and results pages.
+
 ## v0.7.3 - 2025-04-13
 
 ### Fix
