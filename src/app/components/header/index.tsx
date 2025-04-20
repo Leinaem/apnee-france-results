@@ -23,7 +23,7 @@ const Header = () => {
           </span>
           <Image
             src={getAssetsUrl('images/ffessm-apnee-2.jpg')}
-            alt="logo-accueil"
+            alt="logo-ffessm"
             width={268}
             height={72}
             priority

@@ -172,38 +172,40 @@ const Rankings = () => {
             Boolean(fullRankings.length) && (
               <>
                 <div className="table-title"><p>{selectedCategory}</p></div>
-                <table>
-                  <thead>
-                    <tr>
-                      {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
-                        if (!attr.displayRanking) {
-                          return null;
-                        }
-                        return <th key={attr.name}>{attr.label}</th>
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      filteredResults.map((val: GenericStringIndex, j: number) => {
-                        return (
-                          <tr key={j}>
-                          {tableAttributes.map((attr) => {
-                            const perfCell = attr.name.startsWith("perf");
-                            /////////////////////////////////////////////////
-                            const perfByDistance = true; ///////// A MODIFIER TRUE EN DUR (pour éviter la fonction numberToStringTwoDecimals) !!!!
-                            /////////////////////////////////////////////////
-                            const cellPerfByDistance = perfByDistance && perfCell;
-                            const value = cellPerfByDistance ? numberToStringTwoDecimals(val[attr.name] as number) : val[attr.name]
-                            const pos = attr.name === 'position' ? j+1 : null;
-                            return attr.displayRanking ? <td key={attr.name}>{pos || value}</td> : null
-                          })}
-                        </tr>
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
+                          if (!attr.displayRanking) {
+                            return null;
+                          }
+                          return <th key={attr.name}>{attr.label}</th>
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        filteredResults.map((val: GenericStringIndex, j: number) => {
+                          return (
+                            <tr key={j}>
+                            {tableAttributes.map((attr) => {
+                              const perfCell = attr.name.startsWith("perf");
+                              /////////////////////////////////////////////////
+                              const perfByDistance = true; ///////// A MODIFIER TRUE EN DUR (pour éviter la fonction numberToStringTwoDecimals) !!!!
+                              /////////////////////////////////////////////////
+                              const cellPerfByDistance = perfByDistance && perfCell;
+                              const value = cellPerfByDistance ? numberToStringTwoDecimals(val[attr.name] as number) : val[attr.name]
+                              const pos = attr.name === 'position' ? j+1 : null;
+                              return attr.displayRanking ? <td key={attr.name}>{pos || value}</td> : null
+                            })}
+                          </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </>
             )
           }

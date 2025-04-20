@@ -104,15 +104,12 @@ const ImportData = () => {
   }
 
   const getTableAttributes = () => {
-    const tableAttributes: AttributesType[] = databaseAttributes['results'];
+    const tableAttributes: AttributesType[] = databaseAttributes['competitions'];
     setTableAttributes(tableAttributes);
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log('selectedTable : ', selectedTable);
-    console.log('preparedData : ', preparedData);
 
     addMultiData(selectedTable, preparedData);
     setPreparedData([]);

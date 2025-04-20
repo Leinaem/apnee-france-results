@@ -18,7 +18,7 @@ export const Navbar = (props: navbarProps) => {
           <div className="nav-bar--list-item nav-bar--gap">
           <Image
             src={getAssetsUrl('images/ffessm-apnee-2.jpg')}
-            alt="S3-test-img"
+            alt="logo-ffessm-navbar"
             width={149}
             height={40}
             priority

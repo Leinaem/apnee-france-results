@@ -163,37 +163,39 @@ const ResultsComponent = () => {
         sortBy('perfRetained', sectionData, sortDirection);
 
         return (
-          <div key={i}>
+          <div  key={i}>
             <div className="table-title"><p>{categoryName}</p></div>
-            <table>
-              <thead>
-                <tr>
-                  {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
-                    if (!attr.displayResult) {
-                      return null;
-                    }
-                    return <th key={attr.name}>{attr.label}</th>
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  sectionData.map((val: GenericStringIndex, j: number) => {
-                    return (
-                      <tr key={j}>
-                      {tableAttributes.map((attr) => {
-                        const perfCell = attr.name.startsWith("perf");
-                        const cellPerfByDistance = perfByDistance && perfCell;
-                        const value = cellPerfByDistance ? numberToStringTwoDecimals(val[attr.name] as number) : val[attr.name]
+              <div  className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
+                      if (!attr.displayResult) {
+                        return null;
+                      }
+                      return <th key={attr.name}>{attr.label}</th>
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    sectionData.map((val: GenericStringIndex, j: number) => {
+                      return (
+                        <tr key={j}>
+                        {tableAttributes.map((attr) => {
+                          const perfCell = attr.name.startsWith("perf");
+                          const cellPerfByDistance = perfByDistance && perfCell;
+                          const value = cellPerfByDistance ? numberToStringTwoDecimals(val[attr.name] as number) : val[attr.name]
 
-                        return attr.displayResult ? <td key={attr.name}>{value}</td> : null
-                      })}
-                    </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
+                          return attr.displayResult ? <td key={attr.name}>{value}</td> : null
+                        })}
+                      </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
           </div>
         )
       })}
