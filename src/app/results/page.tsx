@@ -52,7 +52,7 @@ const ResultsComponent = () => {
     }
   }
 
-  const getCompetitionName = (): String => {
+  const getCompetitionName = (): string => {
     const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
     return `${selectionCompetition.name} - ${selectionCompetition.city}`
   }
