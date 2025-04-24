@@ -1,0 +1,26 @@
+@use './../abstracts' as *;
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  column-gap: pxToRem(8);
+  background: #fff;
+  padding: pxToRem(5);
+  
+  @include breakpoints('medium+') {
+    justify-content: space-around;
+    flex-direction: row;
+  }
+
+  legend {
+    margin-top: pxToRem(12);
+  }
+
+  .radio-container, .checkbox-container {
+    background: #fff;
+    border: pxToRem(1) solid var(--color-secondary-blue);
+    border-radius: pxToRem(8);
+    padding: pxToRem(5);
+    margin-top: pxToRem(4);
+  }
+}

@@ -1,0 +1,32 @@
+@use './../../abstracts' as *;
+
+input[type="checkbox"] {
+  display: none;
+
+  & + label {
+    border: pxToRem(1) solid transparent;
+    border-radius: pxToRem(4);
+    display: inline-block;
+    height: pxToRem(24);
+    line-height: pxToRem(24);
+    padding: 0px pxToRem(10);
+    width: auto;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  & + label {
+    border: 1px solid var(--color-secondary-blue);
+
+    &:not(:last-child) {
+      margin-right: pxToRem(8);
+    }
+  }
+
+  &:checked + label {
+    background: var(--color-secondary-blue);
+    color: #fff;
+  }
+}

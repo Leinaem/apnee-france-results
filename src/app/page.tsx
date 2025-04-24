@@ -2,8 +2,8 @@ export default function Home() {
   return (
     <div className="page homepage">
       <h2>Bienvenue sur Apnée France Result</h2>
-      <p>Nous sommes ravis de vous accueillir sur notre plateforme dédiée à la mise en lumière des performances de l&apos;année lors des compétitions nationales pour la saison 2024-2025.</p>
-      <p>Que vous soyez passionnés, compétiteurs ou simplement curieux, vous êtes au bon endroit !</p>
+      <p>Nous sommes ravis de vous accueillir sur notre plateforme dédiée à la mise en lumière des performances effectuées lors des compétitions nationales pour la saison 2024-2025.</p>
+      <p>Que vous soyez compétiteurs, passionnés ou simplement curieux, vous êtes au bon endroit !</p>
 
       <p>Sur Apnée France Result vous pourrez consulter :</p> 
       <ul>
