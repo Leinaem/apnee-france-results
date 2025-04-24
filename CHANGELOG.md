@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.9.0 - 2025-04-25
+
+### Change
+
+- Rework filter on Rankings page.
+
 ## v0.8.1 - 2025-04-24
 
 ### Fix

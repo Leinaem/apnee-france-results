@@ -1,3 +1,5 @@
+import InputRadio from "../components/partials/InputRadio";
+import InputCheckBox from "../components/partials/InputCheckbox";
 
 interface RankingFilterProps {
   withOpen: boolean;
@@ -23,65 +25,59 @@ const RankingFilter = (props: RankingFilterProps) => {
   } = props;
 
   return (
-    <div>
-      <fieldset>
-        <legend></legend>
-        <div>
-          <input
-            type="radio"
+    <div className="filter-container">
+      <div>
+        <legend>Classements par :</legend>
+        <div className="radio-container">
+          <InputRadio
             id="performance"
             name="type"
             value="performance"
             onChange={(e) => updateRankingType(e.target.value)}
             checked={rankingType === 'performance'}
+            labelText="Performances"
+            labelHtmlFor="performance"
           />
-          <label htmlFor="performance">Performances</label>
-        </div>
-        <div>
-          <input
-            type="radio"
+          <InputRadio
             id="competitor"
             name="type"
             value="competitor"
             onChange={(e) => updateRankingType(e.target.value)}
             checked={rankingType === 'competitor'}
+            labelText="Competiteurs"
+            labelHtmlFor="competitor"
           />
-        <label htmlFor="competitor">Competiteurs</label>
         </div>
-      </fieldset>
-      <fieldset>
-      <legend></legend>
-        <div>
-          <input
-            type="checkbox"
-            id="wwith-selective"
+      </div>
+      <div>
+        <legend>Type de compétitions :</legend>
+        <div className="checkbox-container">
+          <InputCheckBox
+            id="with-selective"
             name="with-selective"
             checked={withSelective}
-            onChange={() => updateWithSelective(!withSelective)}
+            readOnly={true}
+            labelText="Sélective"
+            labelOnClick={() => updateWithSelective(!withSelective)}
           />
-          <span>Sélective</span>
-        </div>
-        <div>
-          <input
-            type="checkbox"
+          <InputCheckBox
             id="with-open"
             name="with-open"
             checked={withOpen}
-            onChange={() => updateWithOpen(!withOpen)}
+            readOnly={true}
+            labelText="Open"
+            labelOnClick={() => updateWithOpen(!withOpen)}
           />
-          <span>Open</span>
-        </div>
-        <div>
-          <input
-            type="checkbox"
+          <InputCheckBox
             id="with-cup-round"
             name="with-cup-round"
             checked={withCupRound}
-            onChange={() => updateWithCupRound(!withCupRound)}
+            readOnly={true}
+            labelText="Manches de coupe de France"
+            labelOnClick={() => updateWithCupRound(!withCupRound)}
           />
-          <span>Manches de coupe de France</span>
         </div>
-      </fieldset>
+      </div>
     </div>
   )
 }
