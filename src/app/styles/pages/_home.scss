@@ -1,0 +1,22 @@
+@use '../../styles/abstracts/functions/' as *;
+
+.homepage {
+  padding: 0 pxToRem(20);
+
+  p {
+    margin: pxToRem(20) 0 ;
+  }
+  .bloc p {
+    margin: 0;
+  }
+
+  ul {
+    list-style: inherit;
+    padding-left: pxToRem(40);
+    margin: 20px 0;
+
+    li::marker {
+      color: var(--color-main-blue);
+    }
+  }
+}

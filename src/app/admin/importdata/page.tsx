@@ -104,7 +104,7 @@ const ImportData = () => {
   }
 
   const getTableAttributes = () => {
-    const tableAttributes: AttributesType[] = databaseAttributes['competitions'];
+    const tableAttributes: AttributesType[] = databaseAttributes[selectedTable as keyof typeof databaseAttributes];
     setTableAttributes(tableAttributes);
   }
 

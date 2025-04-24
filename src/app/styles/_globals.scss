@@ -107,8 +107,12 @@ ul {
 
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: var(--color-secondary-blue);
+
+  &:visited {
+    color: var(--color-main-blue);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

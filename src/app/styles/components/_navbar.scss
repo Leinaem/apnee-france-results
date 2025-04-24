@@ -7,6 +7,10 @@
   transform: translateX(-100%);
   transition: all .5s;
 
+  .nav-bar--link {
+    color: var(--color-main-blue);
+  }
+
   &--list {
     color: var(--color-main-blue);
     border-right: pxToRem(.5) solid var(--color-main-blue);
