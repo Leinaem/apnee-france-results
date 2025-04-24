@@ -55,6 +55,18 @@
       "displayRanking": false
     },
     {
+      "label": "Nom",
+      "name": "lastName",
+      "displayResult": true,
+      "displayRanking": true
+    },
+    {
+      "label": "Prénom",
+      "name": "firstName",
+      "displayResult": true,
+      "displayRanking": true
+    },
+    {
       "label": "Compétition",
       "name": "competitionName",
       "displayResult": false,
@@ -83,18 +95,6 @@
       "name": "place",
       "displayResult": true,
       "displayRanking": false
-    },
-    {
-      "label": "Nom",
-      "name": "lastName",
-      "displayResult": true,
-      "displayRanking": true
-    },
-    {
-      "label": "Prénom",
-      "name": "firstName",
-      "displayResult": true,
-      "displayRanking": true
     },
     {
       "label": "Date de naissance",

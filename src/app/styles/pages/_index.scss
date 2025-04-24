@@ -1,7 +1,7 @@
 @use './../abstracts/' as *;
 
 @forward './admin/importdata';
-@forward './results';
+@forward './home';
 @forward './competition';
 
 .page {
@@ -10,10 +10,6 @@
     text-align: center;
     color: var(--color-secondary-blue);
     margin: pxToRem(10);
-  }
-
-  h3 {
-    color: var(--color-main-blue);
   }
 
   th {

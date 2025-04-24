@@ -52,7 +52,7 @@ const ResultsComponent = () => {
     }
   }
 
-  const getTitle = () => {
+  const getCompetitionName = (): String => {
     const selectionCompetition = competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
     return `${selectionCompetition.name} - ${selectionCompetition.city}`
   }
@@ -116,6 +116,7 @@ const ResultsComponent = () => {
 
   return (
     <div className="page page-results">
+      <h2 className="page page-title">Résultats</h2>
       <InputSelect
         id="competition-list"
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -147,8 +148,7 @@ const ResultsComponent = () => {
             options={CATEGORY_GROUP_LIST}
             schema=''
           />
-          <h2>{getTitle()}</h2>
-          <h3>{Boolean(Number(selectedDisciplineGroup)) && selectedDisciplineGroup}</h3>
+          <h3>{getCompetitionName()}</h3>
           </>
         )
       }

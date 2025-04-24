@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## v0.7.4 - 2025-04-13
+## v0.8.0- 2025-04-24
+
+### Added
+
+- Added content for Homepage.
+
+## v0.7.4 - 2025-04-20
 
 ### Fix
 
