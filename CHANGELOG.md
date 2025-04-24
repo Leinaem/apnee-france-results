@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## v0.8.0- 2025-04-24
+## v0.8.1 - 2025-04-24
+
+### Fix
+
+- Fix some apos for build check.
+
+## v0.8.0 - 2025-04-24
 
 ### Added
 
