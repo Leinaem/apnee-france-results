@@ -10,6 +10,7 @@ input[type="radio"] {
     height: pxToRem(24);
     line-height: pxToRem(24);
     padding: 0px pxToRem(10);
+    margin-bottom: pxToRem(4);
 
     &:hover {
       cursor: pointer;

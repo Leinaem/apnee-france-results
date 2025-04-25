@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.9.1 - 2025-04-25
+
+### Fix
+
+- Fix filter display on mobile.
+
 ## v0.9.0 - 2025-04-25
 
 ### Change
