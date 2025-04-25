@@ -28,7 +28,7 @@ const RankingFilter = (props: RankingFilterProps) => {
     <div className="filter-container">
       <div>
         <legend>Classements par :</legend>
-        <div className="radio-container">
+        <div className="filter-type-container">
           <InputRadio
             id="performance"
             name="type"
@@ -51,31 +51,37 @@ const RankingFilter = (props: RankingFilterProps) => {
       </div>
       <div>
         <legend>Type de compétitions :</legend>
-        <div className="checkbox-container">
-          <InputCheckBox
-            id="with-selective"
-            name="with-selective"
-            checked={withSelective}
-            readOnly={true}
-            labelText="Sélective"
-            labelOnClick={() => updateWithSelective(!withSelective)}
-          />
-          <InputCheckBox
-            id="with-open"
-            name="with-open"
-            checked={withOpen}
-            readOnly={true}
-            labelText="Open"
-            labelOnClick={() => updateWithOpen(!withOpen)}
-          />
-          <InputCheckBox
-            id="with-cup-round"
-            name="with-cup-round"
-            checked={withCupRound}
-            readOnly={true}
-            labelText="Manches de coupe de France"
-            labelOnClick={() => updateWithCupRound(!withCupRound)}
-          />
+        <div className="filter-competition-container">
+          <div className="checkbox-container">
+            <InputCheckBox
+              id="with-selective"
+              name="with-selective"
+              checked={withSelective}
+              readOnly={true}
+              labelText="Sélective"
+              labelOnClick={() => updateWithSelective(!withSelective)}
+            />
+          </div>
+          <div className="checkbox-container">
+            <InputCheckBox
+              id="with-open"
+              name="with-open"
+              checked={withOpen}
+              readOnly={true}
+              labelText="Open"
+              labelOnClick={() => updateWithOpen(!withOpen)}
+            />
+          </div>
+          <div className="checkbox-container">
+            <InputCheckBox
+              id="with-cup-round"
+              name="with-cup-round"
+              checked={withCupRound}
+              readOnly={true}
+              labelText="Manches de coupe de France"
+              labelOnClick={() => updateWithCupRound(!withCupRound)}
+            />
+          </div>
         </div>
       </div>
     </div>
