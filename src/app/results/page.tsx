@@ -160,7 +160,7 @@ const ResultsComponent = () => {
         const sortDirection = currentCategory?.sortDirection as string;
         const perfByDistance = currentCategory?.perfUnitType === 'distance';
         const sectionData = section[1] as GenericStringIndex[];
-        sortBy('perfRetained', sectionData, sortDirection);
+        sortBy('perfRetained', sectionData, sortDirection, 'club');
 
         return (
           <div  key={i}>
