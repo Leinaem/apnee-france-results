@@ -114,8 +114,10 @@ const Rankings = () => {
               item.lastName === itemBis?.lastName && 
               item.firstName === itemBis?.firstName &&
               item.dateOfBirth === itemBis?.dateOfBirth);
-            
-            if (!duplicate){
+
+            const isGuest = item.club === 'INVITE - NON CLASSE';
+
+            if (!duplicate && !isGuest) {
               filteredData.push(item);
             }
           }

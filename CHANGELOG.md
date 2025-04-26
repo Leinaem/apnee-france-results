@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## UNRELEASED
+
+### Fix
+
+- Filter 'guest' from rankings by competitors.
+
 ## v0.9.1 - 2025-04-25
 
 ### Fix
