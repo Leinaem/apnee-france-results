@@ -5,7 +5,7 @@ export default function Home() {
       <p>Nous sommes ravis de vous accueillir sur notre plateforme dédiée à la mise en lumière des performances effectuées lors des compétitions nationales pour la saison 2024-2025.</p>
       <p>Que vous soyez compétiteurs, passionnés ou simplement curieux, vous êtes au bon endroit !</p>
 
-      <p>Sur Apnée France Result vous pourrez consulter :</p> 
+      <p>Sur Apnée France Results vous pourrez consulter :</p> 
       <ul>
         <li>La <a href='/competitions'>liste des compétitions</a> sélectives, opens et manches de coupe de France.</li>
         <li>Les <a href='/results'>résultats</a> de toutes les compétitions pour chacune des disciplines.</li>
