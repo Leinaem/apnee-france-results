@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## UNRELEASED
+## v0.9.2 - 2025-04-26
 
 ### Fix
 
 - Filter 'guest' from rankings by competitors.
+- Fix sort for 'guest' on results page.
 
 ## v0.9.1 - 2025-04-25
 
