@@ -6,7 +6,7 @@ import { ddbDocClient } from "./ddbDocClient";
 import { ListTablesCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   ScanCommand,
-  // UpdateCommand,
+  UpdateCommand,
   PutCommand,
   QueryCommand
 } from '@aws-sdk/lib-dynamodb';
@@ -51,30 +51,41 @@ export const scanTable = async (tableName: string): Promise<Record<string, numbe
   }
 };
 
-// export const updateData = async (tableName: string, keys: object, data: object) => {
-//   const updateExpression = Object.keys(data)
-//     .map((key, index) => `${key} = :val${index}`) // Exemple de mise à jour avec 'SET'
-//     .join(', ');
+export const updateData = async (tableName: string, keys: object, data: object) => {
+  const keysList = Object.keys(keys).map((key) => key);
+  const expressionAttributeNames: GenericStringIndex = {};
+  const expressionAttributeValues: GenericStringIndex = {};
+  const updateExpression = Object.entries(data)
+    .map((entry, index) => {
 
-//   const expressionAttributeValues = Object.fromEntries(
-//     Object.entries(data).map((entry, index) => [`:val${index}`, entry[1]])
-//   );
+      if (keysList.includes(entry[0])) {
+        return '';
+      }
 
-//   const params = {
-//     TableName: tableName,
-//     Key: keys,
-//     UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
-//     ExpressionAttributeValues: expressionAttributeValues,
-//   };
+      expressionAttributeNames[`#${entry[0]}`] = entry[0];
+      expressionAttributeValues[`:val${index}`] = entry[1]
 
-//   try {
-//     const result = await ddbClient.send(new UpdateCommand(params));
-//     console.log('Success - updated', result);
-//     alert('Data Updated Successfully');
-//   } catch (err) {
-//     console.log('Error', err);
-//   }
-// };
+      return `#${entry[0]} = :val${index}`
+    })
+    .filter((item) => item.length)
+    .join(', ');
+    
+  const params = {
+    TableName: tableName,
+    Key: keys,
+    UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
+    ExpressionAttributeValues: expressionAttributeValues,
+    ExpressionAttributeNames: expressionAttributeNames,
+  };
+
+  try {
+    const result = await ddbClient.send(new UpdateCommand(params));
+    console.log('Success - updated', result);
+    return result;
+  } catch (err) {
+    console.log('Error', err);
+  }
+};
 
 export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {
   try {
