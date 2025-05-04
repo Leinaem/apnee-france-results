@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.9.3 - 2025-05-04
+
+### Added
+
+- Added updateCommand and create function to fix city name on database.
+
 ## v0.9.2 - 2025-04-26
 
 ### Fix
