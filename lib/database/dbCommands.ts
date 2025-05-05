@@ -13,6 +13,7 @@ import {
 
 // Type.
 import { GenericStringIndex } from '@/app/type/generic';
+import { MyExtendedUpdateCommandInput } from '@/app/type/database';
 
 export const fetchTableList = async (): Promise<string[] | undefined> => {
   try {
@@ -39,7 +40,6 @@ export const queryRangeCommand = async (params: object) => {
   return response;
 } 
 
-
 export const scanTable = async (tableName: string): Promise<Record<string, number>[] | undefined> => {
   if (tableName) {
     try {
@@ -53,7 +53,7 @@ export const scanTable = async (tableName: string): Promise<Record<string, numbe
 
 export const updateData = async (tableName: string, keys: object, data: object) => {
   const keysList = Object.keys(keys).map((key) => key);
-  const expressionAttributeNames: GenericStringIndex = {};
+  const expressionAttributeNames: Record<string, string> & GenericStringIndex = {};
   const expressionAttributeValues: GenericStringIndex = {};
   const updateExpression = Object.entries(data)
     .map((entry, index) => {
@@ -70,7 +70,7 @@ export const updateData = async (tableName: string, keys: object, data: object) 
     .filter((item) => item.length)
     .join(', ');
     
-  const params = {
+  const params: MyExtendedUpdateCommandInput = {
     TableName: tableName,
     Key: keys,
     UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
