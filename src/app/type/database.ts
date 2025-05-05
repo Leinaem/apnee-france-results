@@ -1,4 +1,5 @@
 import { GenericStringIndex } from "./generic";
+import { UpdateCommandInput } from '@aws-sdk/lib-dynamodb';
 
 export type AttributesType = {
   name: string;
@@ -16,3 +17,7 @@ export type DatabaseAttributesType = {
 export type TableListResultsType = {
   [k: string]: GenericStringIndex[];
 }
+
+export type MyExtendedUpdateCommandInput = UpdateCommandInput & {
+  ExpressionAttributeNames?: GenericStringIndex;
+};

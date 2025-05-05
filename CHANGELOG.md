@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.9.4 - 2025-05-05
+
+### Fixed
+
+- Fixed Type for InputCommand.
+
 ## v0.9.3 - 2025-05-04
 
 ### Added
