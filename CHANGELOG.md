@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.10.0 - UNRELEASED
+
+### Added
+
+- Added partial `InputText`.
+
 ## v0.9.4 - 2025-05-05
 
 ### Fixed
