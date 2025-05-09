@@ -6,6 +6,7 @@
   width: 100%;
   transform: translateX(-100%);
   transition: all .5s;
+  z-index: 1;
 
   .nav-bar--link {
     color: var(--color-main-blue);

@@ -3,9 +3,9 @@
 @forward './admin/importdata';
 @forward './home';
 @forward './competition';
+@forward './search';
 
 .page {
-
   h2, h3 {
     text-align: center;
     color: var(--color-secondary-blue);
@@ -20,8 +20,8 @@
     color: white;
     background: linear-gradient(0deg, var(--color-main-blue) 0%, var(--color-secondary-blue) 100%);
     text-align: center;
-    font-size: 20px;
-    padding: 10px 0;
+    font-size: pxToRem(20);
+    padding: pxToRem(10) 0;
     font-weight: 600;
   }
 }

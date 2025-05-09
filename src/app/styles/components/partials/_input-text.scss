@@ -36,7 +36,7 @@
   }
 
   @include breakpoints('medium+') {
-    width: pxToRem(500);
+    max-width: pxToRem(500);
     margin: auto;
 
     .input-text {
