@@ -71,7 +71,7 @@ const Rankings = () => {
         const result = await queryRangeCommand(params);
         resultItems = resultItems.concat(result.Items as GenericStringIndex[]);
         lastEvaluatedKey = result.LastEvaluatedKey;
-      } while (lastEvaluatedKey !== undefined)
+      } while (lastEvaluatedKey !== undefined);
   
       if (!resultItems.length) {
         return;

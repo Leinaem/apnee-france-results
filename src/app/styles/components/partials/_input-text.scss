@@ -1,0 +1,52 @@
+@use './../../abstracts' as *;
+
+.input-container {
+  position: relative;
+  width: 100%;
+
+  .input-text {
+    @include f-ui-05;
+    appearance: none;
+    outline: pxToRem(1) solid var(--color-main-blue);
+    padding: pxToRem(8) pxToRem(16);
+    border-radius: pxToRem(20);
+    height: pxToRem(32);
+    border: none;
+    display: block;
+    width: 100%;
+  
+    &:focus {
+      outline: pxToRem(1) solid var(--color-secondary-blue);
+
+      &+.icon {
+        color: var(--color-secondary-blue);
+      }
+    }
+  }
+
+  .icon {
+    position: absolute;
+    right: pxToRem(6);
+    top: 50%;
+    transform: translateY(-50%);
+    width: pxToRem(24);
+    height: pxToRem(24);
+    color: var(--color-main-blue);
+    pointer-events: none;
+  }
+
+  @include breakpoints('medium+') {
+    width: pxToRem(500);
+    margin: auto;
+
+    .input-text {
+      height: pxToRem(40);
+      padding: pxToRem(12) pxToRem(20);
+    }
+
+    .icon {
+      width: pxToRem(28);
+      height: pxToRem(28);
+    }
+  }
+}
