@@ -6,6 +6,7 @@ interface InputTextProps {
   labelText?: string;
   labelHtmlFor?: string;
   placeholder?: string;
+  icon?: string;
 }
   
 const InputText = (props: InputTextProps) => {
@@ -17,11 +18,13 @@ const InputText = (props: InputTextProps) => {
     labelText = '',
     labelHtmlFor = '',
     placeholder,
+    icon,
   } = props;
 
   return (
-    <>
+    <div className="input-container">
       <input
+        className="input-text"
         type="text"
         id={id}
         name={name}
@@ -29,8 +32,15 @@ const InputText = (props: InputTextProps) => {
         onChange={(e) => onChange(e)}
         placeholder={placeholder}
       />
+      {icon && 
+        (
+          <svg className={`icon icon-${icon}`}>
+            <use xlinkHref="/svg-sprite.svg#svg-search"></use>
+          </svg>
+        )
+      }
       {labelText && <label htmlFor={labelHtmlFor}>{labelText}</label>}
-    </>
+    </div>
   )
 }
 

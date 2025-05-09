@@ -12,6 +12,9 @@
   @include f-title-03;
 }
 
+.f-ui-04 {
+  @include f-ui-04;
+}
 
 .af-f-color-main {
   color: var(--color-main-blue);

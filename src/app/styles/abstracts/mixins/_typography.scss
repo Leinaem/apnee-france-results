@@ -38,3 +38,25 @@
     line-height: pxToRem(36);
   }
 }
+
+@mixin f-ui-04 {
+  font-size: pxToRem(16);
+  line-height: pxToRem(20);
+  letter-spacing: 0;
+
+  @include breakpoints('medium+') {
+    font-size: pxToRem(20);
+    line-height: pxToRem(24);
+  }
+}
+
+@mixin f-ui-05 {
+  font-size: pxToRem(12);
+  line-height: pxToRem(16);
+  letter-spacing: 0;
+
+  @include breakpoints('medium+') {
+    font-size: pxToRem(16);
+    line-height: pxToRem(20);
+  }
+}
