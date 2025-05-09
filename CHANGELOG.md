@@ -1,10 +1,12 @@
 # CHANGELOG
 
-## v0.10.0 - UNRELEASED
+## v0.10.0 - 2025-05-09
 
 ### Added
 
 - Added partial `InputText`.
+- Added svg-sprite, `SearchIcon` component and CSS for partial `InputText`.
+- Added search page, WIP.
 
 ## v0.9.4 - 2025-05-05
 

@@ -21,7 +21,6 @@ import databaseAttributes from '../json/databaseAttributes.json';
 // Const
 import { CATEGORY_GROUP_LIST } from "@/utils/const";
 
-
 const ResultsComponent = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>([]);
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);

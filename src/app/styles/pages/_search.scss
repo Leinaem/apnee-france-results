@@ -1,0 +1,41 @@
+@use './../abstracts' as *;
+
+.page-search {
+  .search-container {
+    position: relative;
+    min-height: pxToRem(300);
+
+    @include breakpoints('medium+') {
+      width: pxToRem(500);
+      margin: auto;
+    }
+  }
+
+  .search-suggestion {
+    @include f-ui-05;
+    position: absolute;
+    margin-top: pxToRem(2);
+    border-radius: pxToRem(4);
+    border: 1px solid var(--color-secondary-blue);
+    background-color: white;
+    width: 100%;
+    max-height: pxToRem(200);
+    overflow: auto;
+
+    &-item {
+      height: pxToRem(25);
+      line-height: pxToRem(25);
+      padding: 0 pxToRem(10);
+
+      &:hover {
+        cursor: pointer;
+        background-color:var(--color-secondary-blue-alpha);
+      }
+    }
+
+    &-highlight {
+      color: var(--color-secondary-blue);
+      font-weight: 600
+    }
+  }
+}

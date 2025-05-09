@@ -45,6 +45,11 @@ export const Navbar = (props: navbarProps) => {
             Classements
           </Link>
         </li>
+        <li className="nav-bar--list-item">
+          <Link href="/search" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
+            Recherche
+          </Link>
+        </li>
       </ul>
     </nav>
   );

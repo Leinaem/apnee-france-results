@@ -3,7 +3,7 @@ import { ddbClient } from './dbconfig';
 import { ddbDocClient } from "./ddbDocClient";
 
 // Required AWS SDK clients and commands.
-import { ListTablesCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
+import { ListTablesCommand, QueryCommandInput, ScanCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   ScanCommand,
   UpdateCommand,
@@ -27,7 +27,6 @@ export const fetchTableList = async (): Promise<string[] | undefined> => {
 
 export const query = async (params: QueryCommandInput) => {
   const command = new QueryCommand(params);
-
   const response = await ddbClient.send(command);
   console.log(response);
   return response;
@@ -35,6 +34,13 @@ export const query = async (params: QueryCommandInput) => {
 
 export const queryRangeCommand = async (params: object) => {
   const command = new QueryCommand(params as QueryCommandInput);
+  const response = await ddbClient.send(command);
+  console.log(response);
+  return response;
+} 
+
+export const scanRangeCommand = async (params: object) => {
+  const command = new ScanCommand(params as ScanCommandInput);
   const response = await ddbClient.send(command);
   console.log(response);
   return response;
