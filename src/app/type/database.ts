@@ -6,6 +6,7 @@ export type AttributesType = {
   label: string;
   displayResult?: boolean;
   displayRanking?: boolean;
+  displaySearch?: GenericStringIndex;
   displayCompetitionsTable?: boolean;
 }
 

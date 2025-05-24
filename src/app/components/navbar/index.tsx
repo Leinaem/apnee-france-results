@@ -31,13 +31,13 @@ export const Navbar = (props: navbarProps) => {
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/results" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
-            Résultats
+          <Link href="/competitions" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
+            Liste des compétitions
           </Link>
         </li>
         <li className="nav-bar--list-item">
-          <Link href="/competitions" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
-            Liste des compétitions
+          <Link href="/results" className="nav-bar--link" onClick={() => updateIsOpen(false)}>
+            Résultats
           </Link>
         </li>
         <li className="nav-bar--list-item">
