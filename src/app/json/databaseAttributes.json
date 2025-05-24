@@ -46,109 +46,181 @@
       "label": "",
       "name": "position",
       "displayResult": false,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Code compétition",
       "name": "competitionId",
       "displayResult": false,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Nom",
       "name": "lastName",
       "displayResult": true,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Prénom",
       "name": "firstName",
       "displayResult": true,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Compétition",
       "name": "competitionName",
       "displayResult": false,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": true,
+        "competition": false
+      }
     },
     {
       "label": "Ville",
       "name": "city",
       "displayResult": false,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": true,
+        "competition": false
+      }
     },
     {
       "label": "Catégorie",
       "name": "categoryName",
       "displayResult": false,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": true
+      }
     },
     {
       "label": "Code catégorie",
       "name": "categoryId",
       "displayResult": false,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Place",
       "name": "place",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Date de naissance",
       "name": "dateOfBirth",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Club",
       "name": "club",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     },
     {
       "label": "Perf annoncée",
       "name": "perfAnnounced",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Perf effectuée",
       "name": "perfAchieved",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Faute",
       "name": "faultDisq",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Commentaire",
       "name": "comment",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Pénalité",
       "name": "penality",
       "displayResult": true,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "Perf retenue",
       "name": "perfRetained",
       "displayResult": true,
-      "displayRanking": true
+      "displayRanking": true,
+      "displaySearch": {
+        "discipline": true,
+        "competition": true
+      }
     },
     {
       "label": "N° License",
       "name": "licenseNumber",
       "displayResult": false,
-      "displayRanking": false
+      "displayRanking": false,
+      "displaySearch": {
+        "discipline": false,
+        "competition": false
+      }
     }
   ]
 }

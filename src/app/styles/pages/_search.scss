@@ -1,9 +1,10 @@
 @use './../abstracts' as *;
 
 .page-search {
+  min-height: pxToRem(300);
+
   .search-container {
     position: relative;
-    min-height: pxToRem(300);
 
     @include breakpoints('medium+') {
       width: pxToRem(500);
@@ -36,6 +37,26 @@
     &-highlight {
       color: var(--color-secondary-blue);
       font-weight: 600
+    }
+  }
+
+  .group-by-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: pxToRem(8);
+
+    legend {
+      margin-right: pxToRem(8);
+    }
+
+    .group-by-radio {
+      background: #fff;
+      border: pxToRem(1) solid var(--color-secondary-blue);
+      border-radius: pxToRem(8);
+      padding: pxToRem(4);
+      padding-bottom: 0;
+      display: inline-block;
     }
   }
 }

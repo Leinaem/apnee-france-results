@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.10.1 - 2025-05-25
+
+### Fixed
+
+- end search page
+
 ## v0.10.0 - 2025-05-09
 
 ### Added
