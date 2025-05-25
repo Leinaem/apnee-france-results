@@ -155,20 +155,22 @@ const Search = () => {
   }, [groupBy, selectedCharData]);
 
   useEffect(() => {
-    const data = searchResult.filter((item) => {
-      const categoryName: string = item.categoryName as string;
-      return (
-        selectedChar.lastName === item.lastName
-        && selectedChar.firstName === item.firstName
-        && selectedChar.dateOfBirth === item.dateOfBirth
-        && !categoryName.includes('Classement general')
-      )
-    });
-
-    setSelectedCharData(data);    
-    setSearch('');
-    setSuggestions([]);
-  }, [selectedChar])
+    if (Object.keys(selectedChar).length) {
+      const data = searchResult.filter((item) => {
+        const categoryName: string = item.categoryName as string;
+        return (
+          selectedChar.lastName === item.lastName
+          && selectedChar.firstName === item.firstName
+          && selectedChar.dateOfBirth === item.dateOfBirth
+          && !categoryName.includes('Classement general')
+        )
+      });
+      setSelectedCharData(data);    
+      setSearch('');
+      setSuggestions([]);
+      setSelectedChar({})
+    }
+  }, [selectedChar, searchResult]);
 
   return (
     <div className="page page-search">

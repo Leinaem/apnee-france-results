@@ -103,10 +103,7 @@ const ImportData = () => {
     }
   }
 
-  const getTableAttributes = () => {
-    const tableAttributes: AttributesType[] = databaseAttributes[selectedTable as keyof typeof databaseAttributes];
-    setTableAttributes(tableAttributes);
-  }
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -123,6 +120,11 @@ const ImportData = () => {
   }, []);
 
   useEffect(() => {
+    const getTableAttributes = () => {
+      const tableAttributes: AttributesType[] = databaseAttributes[selectedTable as keyof typeof databaseAttributes];
+      setTableAttributes(tableAttributes);
+    }
+
     if (databaseAttributes && selectedTable) {
       getTableAttributes();
     }

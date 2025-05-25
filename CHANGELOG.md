@@ -1,10 +1,16 @@
 # CHANGELOG
 
+## v0.10.2 - 2025-05-25
+
+### Fixed
+
+- Fix useEffect dependencies warning.
+
 ## v0.10.1 - 2025-05-25
 
 ### Fixed
 
-- end search page
+- end search page.
 
 ## v0.10.0 - 2025-05-09
 

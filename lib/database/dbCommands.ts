@@ -35,14 +35,14 @@ export const query = async (params: QueryCommandInput) => {
 export const queryRangeCommand = async (params: object) => {
   const command = new QueryCommand(params as QueryCommandInput);
   const response = await ddbClient.send(command);
-  console.log(response);
+  // console.log(response);
   return response;
 } 
 
 export const scanRangeCommand = async (params: object) => {
   const command = new ScanCommand(params as ScanCommandInput);
   const response = await ddbClient.send(command);
-  console.log(response);
+  // console.log(response);
   return response;
 } 
 
