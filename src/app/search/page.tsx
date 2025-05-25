@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Utils
 import { buildQueryRangeSearchParams } from "../../../lib/database/dbutils";
@@ -33,6 +33,7 @@ const Search = () => {
   const [formattedData, setFormattedData] = useState<FormattedDataType[]>([]);
   const [selectedChar, setSelectedChar] = useState<GenericStringIndex>({});
   const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const highlightWord = (text: string) => {
     const regex = new RegExp(`(${search})`, 'ig');
@@ -46,6 +47,20 @@ const Search = () => {
     const tableAttributes: AttributesType[] = databaseAttributes['results'];
     setTableAttributes(tableAttributes);
   }
+
+  const timeoutRef = useRef<number | undefined>(undefined);
+  const handleFocus = () => {
+    if (timeoutRef.current !== undefined) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    timeoutRef.current = window.setTimeout(() => {
+      setIsFocused(false);
+    }, 150);
+  };
 
   useEffect(() => {
     getTableAttributes();
@@ -183,8 +198,10 @@ const Search = () => {
           placeholder="Rechercher par nom ou prénom"
           value={search}
           icon='search'
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
-        {Boolean(suggestions.length) &&
+        {Boolean(suggestions.length) && isFocused &&
           <div className="search-suggestion">
             {suggestions.map((sug, i) => 
               <p 
@@ -237,37 +254,39 @@ const Search = () => {
                       years?.data?.map((levelTwo: GenericStringIndex, j) => { // Return table
 
                         return (
-                          <div key={j} className="table-continer">
+                          <div key={j}>
                             <div className="table-title">{levelTwo.name}</div>
-                            <table key={j}>
-                              <thead>
-                                <tr>
-                                {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
-                                    if (!attr.displaySearch?.[groupBy]) {
-                                      return null;
-                                    }
-                                    return <th key={attr.name}>{attr.label}</th>
-                                  })}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {
-                                  Array.isArray(levelTwo.data) && levelTwo.data.map((item, k) => { // TR
-                                    return (
-                                      <tr key={k}>
-                                        {tableAttributes.map((attr) => {
-                                          const value =  item[attr.name]
-                
-                                          return attr.displaySearch?.[groupBy] ? <td key={attr.name}>
-                                          {value}
-                                          </td> : null
-                                        })}
-                                      </tr>
-                                    )
-                                  })
-                                }
-                              </tbody>
-                            </table>
+                            <div className="table-container">
+                              <table>
+                                <thead>
+                                  <tr>
+                                  {Boolean(tableAttributes?.length) && tableAttributes.map((attr) => {
+                                      if (!attr.displaySearch?.[groupBy]) {
+                                        return null;
+                                      }
+                                      return <th key={attr.name}>{attr.label}</th>
+                                    })}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {
+                                    Array.isArray(levelTwo.data) && levelTwo.data.map((item, k) => { // TR
+                                      return (
+                                        <tr key={k}>
+                                          {tableAttributes.map((attr) => {
+                                            const value =  item[attr.name]
+                  
+                                            return attr.displaySearch?.[groupBy] ? <td key={attr.name}>
+                                            {value}
+                                            </td> : null
+                                          })}
+                                        </tr>
+                                      )
+                                    })
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         )
                       })
