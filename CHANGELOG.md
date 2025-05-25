@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.10.3 - 2025-05-25
+
+### Added
+
+- Manage display toggle suggestion on search page.
+
 ## v0.10.2 - 2025-05-25
 
 ### Fixed
