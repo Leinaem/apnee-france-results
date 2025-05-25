@@ -164,7 +164,7 @@ const ResultsComponent = () => {
         return (
           <div  key={i}>
             <div className="table-title"><p>{categoryName}</p></div>
-              <div  className="table-container">
+              <div className="table-container">
               <table>
                 <thead>
                   <tr>

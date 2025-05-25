@@ -3,6 +3,8 @@ interface InputTextProps {
   name?: string;
   value: number | string;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  onFocus(e: React.ChangeEvent<HTMLInputElement>): void;
+  onBlur(e: React.ChangeEvent<HTMLInputElement>): void;
   labelText?: string;
   labelHtmlFor?: string;
   placeholder?: string;
@@ -19,6 +21,8 @@ const InputText = (props: InputTextProps) => {
     labelHtmlFor = '',
     placeholder,
     icon,
+    onFocus = () => {},
+    onBlur = () => {},
   } = props;
 
   return (
@@ -31,6 +35,8 @@ const InputText = (props: InputTextProps) => {
         value={value}
         onChange={(e) => onChange(e)}
         placeholder={placeholder}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
       {icon && 
         (
