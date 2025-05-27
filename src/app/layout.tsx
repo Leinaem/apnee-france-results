@@ -10,8 +10,7 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <title>Apnée France</title>
-        {/* <link rel="icon" type="image/x-icon" href="/xxx.ico"></link> */}
+        <title>Apnée France Results</title>
       </head>
       <body suppressHydrationWarning>
         <Layout>

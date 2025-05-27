@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.11.0 - 2025-05-28
+
+### Added
+
+- Add Layer on menu.
+
 ## v0.10.3 - 2025-05-25
 
 ### Added
