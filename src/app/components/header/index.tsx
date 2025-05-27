@@ -15,12 +15,10 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className={`header relative d-flex flex-ai-center ${isOpen ? 'is-open' : 'is-close'}`}>
+    <header className={`header d-flex flex-ai-center ${isOpen ? 'is-open' : 'is-close'}`}>
       <Link href="/">
         <h1>
-          <span>
-            apnée france
-          </span>
+          <span>apnée france results</span>
           <Image
             src={getAssetsUrl('images/ffessm-apnee-2.jpg')}
             alt="logo-ffessm"
@@ -30,7 +28,11 @@ const Header = () => {
           />
         </h1>
       </Link>
-      <Navbar isOpen={isOpen} updateIsOpen={(newValue: boolean) => setIsOpen(newValue)} />
+      {isOpen && <div className="overlay" onClick={() => setIsOpen(false)}></div>}
+      <Navbar
+        isOpen={isOpen}
+        updateIsOpen={(newValue: boolean) => setIsOpen(newValue)}
+      />
       {
         isOpen ? (
           <div className="toggle-icon" onClick={() => setIsOpen(!isOpen)}>

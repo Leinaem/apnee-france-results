@@ -2,7 +2,7 @@
 
 .nav-bar {
   position: absolute;
-  top: pxToRem(50);
+  top: 0;
   width: 100%;
   transform: translateX(-100%);
   transition: all .5s;
@@ -39,7 +39,11 @@
   }
 
   &--gap {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: pxToRem(50);
+    min-width: pxToRem(250);
   }
 
   &.is-open {
@@ -50,7 +54,6 @@
   @include breakpoints('medium+') {
     width: 300px;
     left: 0;
-    top: 0;
     height: 100%;
     border-right: pxToRem(.5) solid var(--color-main-blue);
     background-color: #fff;
@@ -60,12 +63,8 @@
     }
 
     &--gap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       height: pxToRem(60);
       padding-right: calc(pxToRem(16) + pxToRem(24));
     }
   }
 }
-
