@@ -33,7 +33,8 @@ const Rankings = () => {
   const [withOpen, setWithOpen] = useState<boolean>(false);
   const [withSelective, setWithSelective] = useState<boolean>(true);
   const [withCupRound, setWithCupRound] = useState<boolean>(false);
-  const [rankingType, setRankingType] = useState<string>('performance');  // performance
+  const [withFranceChampionship, updateWithFranceChampionship] = useState<boolean>(false);
+  const [rankingType, setRankingType] = useState<string>('performance');
 
   const getCategoryList = async () => {
     const data = await scanTable('category');
@@ -98,6 +99,9 @@ const Rankings = () => {
       if (withCupRound) {
         filter.push('Manche de Coupe de France');
       }
+      if (withFranceChampionship) {
+        filter.push('Championnat de France');
+      }
       const ids: number[] = await getTypeCompetitionsIds(filter);
       const filteredData: GenericStringIndex[] = [];
   
@@ -128,7 +132,7 @@ const Rankings = () => {
     }
 
     filterRankings();
-  },[fullRankings, withOpen, withSelective, withCupRound, rankingType]);
+  },[fullRankings, withOpen, withSelective, withCupRound, rankingType, withFranceChampionship]);
 
   return (
     <div className="page page-rankings">
@@ -166,6 +170,8 @@ const Rankings = () => {
             updateWithSelective={(newState: boolean) => setWithSelective(newState)}
             withCupRound={withCupRound}
             updateWithCupRound={(newState: boolean) => setWithCupRound(newState)}
+            withFranceChampionship={withFranceChampionship}
+            updateWithFranceChampionship={(newState: boolean) => updateWithFranceChampionship(newState)}
             rankingType={rankingType}
             updateRankingType={(newState: string) => setRankingType(newState)}
           />

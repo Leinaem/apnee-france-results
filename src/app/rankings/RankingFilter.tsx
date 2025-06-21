@@ -8,6 +8,8 @@ interface RankingFilterProps {
   updateWithSelective(newState: boolean): void;
   withCupRound: boolean;
   updateWithCupRound(newState: boolean): void;
+  withFranceChampionship: boolean;
+  updateWithFranceChampionship(newState: boolean): void;
   rankingType: string;
   updateRankingType(newState: string): void;
 }
@@ -20,8 +22,10 @@ const RankingFilter = (props: RankingFilterProps) => {
     updateWithSelective,
     withCupRound,
     updateWithCupRound,
+    withFranceChampionship,
+    updateWithFranceChampionship,
     rankingType,
-    updateRankingType
+    updateRankingType,
   } = props;
 
   return (
@@ -78,8 +82,18 @@ const RankingFilter = (props: RankingFilterProps) => {
               name="with-cup-round"
               checked={withCupRound}
               readOnly={true}
-              labelText="Manches de coupe de France"
+              labelText="Coupe de France"
               labelOnClick={() => updateWithCupRound(!withCupRound)}
+            />
+          </div>
+          <div className="checkbox-container">
+            <InputCheckBox
+              id="with-france-championship"
+              name="with-france-championship"
+              checked={withFranceChampionship}
+              readOnly={true}
+              labelText="Championnat de France"
+              labelOnClick={() => updateWithFranceChampionship(!withFranceChampionship)}
             />
           </div>
         </div>

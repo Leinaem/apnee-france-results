@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.12.0 - 2025-06-22
+
+### Added
+
+- Add France championship on ranking filter.
+
 ## v0.11.0 - 2025-05-28
 
 ### Added
