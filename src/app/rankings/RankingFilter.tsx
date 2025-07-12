@@ -38,7 +38,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             name="type"
             value="performance"
             onChange={(e) => updateRankingType(e.target.value)}
-            checked={rankingType === 'performance'}
+            checked={rankingType === "performance"}
             labelText="Performances"
             labelHtmlFor="performance"
           />
@@ -47,7 +47,7 @@ const RankingFilter = (props: RankingFilterProps) => {
             name="type"
             value="competitor"
             onChange={(e) => updateRankingType(e.target.value)}
-            checked={rankingType === 'competitor'}
+            checked={rankingType === "competitor"}
             labelText="Competiteurs"
             labelHtmlFor="competitor"
           />
@@ -93,13 +93,15 @@ const RankingFilter = (props: RankingFilterProps) => {
               checked={withFranceChampionship}
               readOnly={true}
               labelText="Championnat de France"
-              labelOnClick={() => updateWithFranceChampionship(!withFranceChampionship)}
+              labelOnClick={() =>
+                updateWithFranceChampionship(!withFranceChampionship)
+              }
             />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default RankingFilter;

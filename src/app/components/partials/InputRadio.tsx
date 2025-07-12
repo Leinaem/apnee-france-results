@@ -10,13 +10,13 @@ interface InputRadioProps {
 
 const InputRadio = (props: InputRadioProps) => {
   const {
-      id,
-      name,
-      value,
-      onChange = () => {},
-      checked,
-      labelText,
-      labelHtmlFor
+    id,
+    name,
+    value,
+    onChange = () => {},
+    checked,
+    labelText,
+    labelHtmlFor,
   } = props;
 
   return (
@@ -31,7 +31,7 @@ const InputRadio = (props: InputRadioProps) => {
       />
       <label htmlFor={labelHtmlFor}>{labelText}</label>
     </>
-  )
-}
+  );
+};
 
 export default InputRadio;

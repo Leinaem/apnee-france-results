@@ -117,6 +117,10 @@ a {
   }
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

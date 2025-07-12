@@ -6,7 +6,7 @@ interface InputCheckBoxProps {
   labelText: string;
   labelOnClick(e: React.MouseEvent<HTMLLabelElement, MouseEvent>): void;
 }
-  
+
 const InputCheckBox = (props: InputCheckBoxProps) => {
   const {
     id,
@@ -28,7 +28,7 @@ const InputCheckBox = (props: InputCheckBoxProps) => {
       />
       <label onClick={(value) => labelOnClick(value)}>{labelText}</label>
     </>
-  )
-}
+  );
+};
 
 export default InputCheckBox;
