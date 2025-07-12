@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model competitions {
+  id        Int       @id @db.SmallInt
+  city      String    @default("")
+  committee String    @default("")
+  name      String    @default("")
+  poolSize  String    @default("") @db.VarChar(255)
+  season    String    @default("") @db.VarChar(255)
+  type      String    @default("") @db.VarChar(255)
+  startedAt DateTime? @db.Date
+  endedAt   DateTime? @db.Date
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model disciplines {
+  id            Int    @id @default(autoincrement()) @db.SmallInt
+  name          String @unique @db.VarChar
+  perfUnitType  String @db.VarChar
+  sortDirection String @db.VarChar
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model results {
+  id            String  @id @db.VarChar
+  competitionId Int     @db.SmallInt
+  disciplineId  Int     @db.SmallInt
+  place         String? @db.VarChar
+  lastName      String  @db.VarChar
+  firstName     String  @db.VarChar
+  dateOfBirth   String? @db.VarChar
+  club          String? @db.VarChar
+  perfAnnounced String? @db.VarChar
+  perfAchieved  String? @db.VarChar
+  faultDisq     String? @db.VarChar
+  comment       String? @db.VarChar
+  penality      String? @db.VarChar
+  perfRetained  String? @db.VarChar
+  licenseNumber String? @db.VarChar
+}

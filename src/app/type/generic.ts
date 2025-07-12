@@ -4,4 +4,4 @@ export interface GenericStringIndex {
 
 export type CategoryMappingIdType = {
   [k: string]: GenericStringIndex[];
-}
+};

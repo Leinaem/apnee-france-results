@@ -1,5 +1,5 @@
 import "./../app/styles/index.scss";
-import Layout from './components/layout';
+import Layout from "./components/layout";
 
 export default function RootLayout({
   children,
@@ -13,9 +13,7 @@ export default function RootLayout({
         <title>Apnée France Results</title>
       </head>
       <body suppressHydrationWarning>
-        <Layout>
-          {children}
-        </Layout>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

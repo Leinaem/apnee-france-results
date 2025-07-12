@@ -10,15 +10,15 @@ interface InputTextProps {
   placeholder?: string;
   icon?: string;
 }
-  
+
 const InputText = (props: InputTextProps) => {
   const {
     id,
     name,
     value,
     onChange = () => {},
-    labelText = '',
-    labelHtmlFor = '',
+    labelText = "",
+    labelHtmlFor = "",
     placeholder,
     icon,
     onFocus = () => {},
@@ -38,16 +38,14 @@ const InputText = (props: InputTextProps) => {
         onFocus={onFocus}
         onBlur={onBlur}
       />
-      {icon && 
-        (
-          <svg className={`icon icon-${icon}`}>
-            <use xlinkHref="/svg-sprite.svg#svg-search"></use>
-          </svg>
-        )
-      }
+      {icon && (
+        <svg className={`icon icon-${icon}`}>
+          <use xlinkHref="/svg-sprite.svg#svg-search"></use>
+        </svg>
+      )}
       {labelText && <label htmlFor={labelHtmlFor}>{labelText}</label>}
     </div>
-  )
-}
+  );
+};
 
 export default InputText;

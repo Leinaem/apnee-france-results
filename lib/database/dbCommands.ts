@@ -1,30 +1,18 @@
 // Config.
 import { ddbClient } from './dbconfig';
-import { ddbDocClient } from "./ddbDocClient";
 
 // Required AWS SDK clients and commands.
-import { ListTablesCommand, QueryCommandInput, ScanCommandInput } from '@aws-sdk/client-dynamodb';
+import { QueryCommandInput, ScanCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   ScanCommand,
-  UpdateCommand,
-  PutCommand,
   QueryCommand
 } from '@aws-sdk/lib-dynamodb';
 
 // Type.
 import { GenericStringIndex } from '@/app/type/generic';
-import { MyExtendedUpdateCommandInput } from '@/app/type/database';
 
-export const fetchTableList = async (): Promise<string[] | undefined> => {
-  try {
-    const list = await ddbClient.send(new ListTablesCommand({}));
 
-    return list.TableNames;
-  } catch (err) {
-    console.log('Error', err);
-  }
-};
-
+// Old commands noSQL
 export const query = async (params: QueryCommandInput) => {
   const command = new QueryCommand(params);
   const response = await ddbClient.send(command);
@@ -57,63 +45,34 @@ export const scanTable = async (tableName: string): Promise<Record<string, numbe
   }
 };
 
-export const updateData = async (tableName: string, keys: object, data: object) => {
-  const keysList = Object.keys(keys).map((key) => key);
-  const expressionAttributeNames: Record<string, string> & GenericStringIndex = {};
-  const expressionAttributeValues: GenericStringIndex = {};
-  const updateExpression = Object.entries(data)
-    .map((entry, index) => {
 
-      if (keysList.includes(entry[0])) {
-        return '';
-      }
-
-      expressionAttributeNames[`#${entry[0]}`] = entry[0];
-      expressionAttributeValues[`:val${index}`] = entry[1]
-
-      return `#${entry[0]} = :val${index}`
-    })
-    .filter((item) => item.length)
-    .join(', ');
-    
-  const params: MyExtendedUpdateCommandInput = {
-    TableName: tableName,
-    Key: keys,
-    UpdateExpression: `SET ${updateExpression}`, // Utilisation de 'SET' pour une mise à jour classique
-    ExpressionAttributeValues: expressionAttributeValues,
-    ExpressionAttributeNames: expressionAttributeNames,
-  };
-
-  try {
-    const result = await ddbClient.send(new UpdateCommand(params));
-    console.log('Success - updated', result);
-    return result;
-  } catch (err) {
-    console.log('Error', err);
-  }
-};
-
+// New commands SQL
 export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {
   try {
-    items.forEach(async (item) => {
-      const params = {
-        TableName: tableName,
-        Item: {
-          ...item,
-        },
-        ConditionExpression:'attribute_not_exists(id)'
-      };
-      const data = await ddbDocClient.send(new PutCommand(params));
-      console.log("Success - item added", params, data);
-
+    const res = await fetch('/api/post-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        table: tableName,
+        data: items,
+      }),
     });
-    
-    alert(`Les données ont été importées avec succes.`);
-  } catch (error) {
-    let errorMessage = "Echec de l'import.";
-    if (error instanceof Error) {
-      errorMessage = error.message;
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      console.error('Erreur import:', json.error);
+      alert(`Erreur: ${json.error}`);
+      return;
     }
-    console.log(errorMessage);
+
+    alert(json.message);
+  } catch (err) {
+    console.error('Erreur lors de l’appel API', err);
+    alert('Erreur réseau ou serveur');
   }
 }
+
+
