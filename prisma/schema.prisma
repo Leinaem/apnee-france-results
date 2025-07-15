@@ -47,4 +47,5 @@ model results {
   penality      String? @db.VarChar
   perfRetained  String? @db.VarChar
   licenseNumber String? @db.VarChar
+  season        String? @db.VarChar
 }

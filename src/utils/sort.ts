@@ -1,8 +1,8 @@
-import { GenericStringIndex } from "@/app/type/generic";
+import { GenericStringIndex, GenericStringIndexWithDate } from "@/app/type/generic";
 
 export const sortBy = (
   type: string,
-  array: GenericStringIndex[],
+  array: GenericStringIndexWithDate[],
   direction: string = "asc",
   additionalType: string = "",
 ) => {

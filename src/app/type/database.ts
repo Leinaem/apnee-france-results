@@ -4,6 +4,7 @@ import { UpdateCommandInput } from "@aws-sdk/lib-dynamodb";
 export type AttributesType = {
   name: string;
   label: string;
+  displayImport?: boolean;
   displayResult?: boolean;
   displayRanking?: boolean;
   displaySearch?: GenericStringIndex;
