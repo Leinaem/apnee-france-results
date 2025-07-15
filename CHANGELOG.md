@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.0.0 - UNRELEASED
+
+### Changed
+
+- Add prisma, add POST and GET routes, refacto competition page with SQL.
+- Refacto import competition and result.
+
 ## v0.12.0 - 2025-06-22
 
 ### Added

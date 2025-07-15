@@ -3,41 +3,49 @@
     {
       "label": "N° compétition",
       "name": "id",
+      "displayImport": true,
       "displayCompetitionsTable": false
     },
     {
       "label": "Nom",
       "name": "name",
+      "displayImport": true,
       "displayCompetitionsTable": true
     },
     {
       "label": "Date de début",
       "name": "startedAt",
+      "displayImport": true,
       "displayCompetitionsTable": true
     },
     {
       "label": "Date de fin",
       "name": "endedAt",
+      "displayImport": true,
       "displayCompetitionsTable": true
     },
     {
       "label": "Ville",
       "name": "city",
+      "displayImport": true,
       "displayCompetitionsTable": true
     },
     {
       "label": "Comité",
       "name": "committee",
+      "displayImport": true,
       "displayCompetitionsTable": false
     },
     {
       "label": "Type",
       "name": "type",
+      "displayImport": true,
       "displayCompetitionsTable": true
     },
     {
       "label": "Bassin",
       "name": "poolSize",
+      "displayImport": true,
       "displayCompetitionsTable": true
     }
   ],
@@ -45,6 +53,7 @@
     {
       "label": "",
       "name": "position",
+      "displayImport": false,
       "displayResult": false,
       "displayRanking": true,
       "displaySearch": {
@@ -55,6 +64,7 @@
     {
       "label": "Code compétition",
       "name": "competitionId",
+      "displayImport": true,
       "displayResult": false,
       "displayRanking": false,
       "displaySearch": {
@@ -65,6 +75,7 @@
     {
       "label": "Nom",
       "name": "lastName",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": true,
       "displaySearch": {
@@ -75,6 +86,7 @@
     {
       "label": "Prénom",
       "name": "firstName",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": true,
       "displaySearch": {
@@ -85,6 +97,7 @@
     {
       "label": "Compétition",
       "name": "competitionName",
+      "displayImport": false,
       "displayResult": false,
       "displayRanking": true,
       "displaySearch": {
@@ -95,6 +108,7 @@
     {
       "label": "Ville",
       "name": "city",
+      "displayImport": false,
       "displayResult": false,
       "displayRanking": true,
       "displaySearch": {
@@ -103,8 +117,9 @@
       }
     },
     {
-      "label": "Catégorie",
-      "name": "categoryName",
+      "label": "Discipline",
+      "name": "disciplineName",
+      "displayImport": false,
       "displayResult": false,
       "displayRanking": false,
       "displaySearch": {
@@ -113,8 +128,9 @@
       }
     },
     {
-      "label": "Code catégorie",
-      "name": "categoryId",
+      "label": "Code discipline",
+      "name": "disciplineId",
+      "displayImport": true,
       "displayResult": false,
       "displayRanking": false,
       "displaySearch": {
@@ -125,6 +141,7 @@
     {
       "label": "Place",
       "name": "place",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -135,6 +152,7 @@
     {
       "label": "Date de naissance",
       "name": "dateOfBirth",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -145,6 +163,7 @@
     {
       "label": "Club",
       "name": "club",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -155,6 +174,7 @@
     {
       "label": "Perf annoncée",
       "name": "perfAnnounced",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -165,6 +185,7 @@
     {
       "label": "Perf effectuée",
       "name": "perfAchieved",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -175,6 +196,7 @@
     {
       "label": "Faute",
       "name": "faultDisq",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -185,6 +207,7 @@
     {
       "label": "Commentaire",
       "name": "comment",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -195,6 +218,7 @@
     {
       "label": "Pénalité",
       "name": "penality",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": false,
       "displaySearch": {
@@ -205,6 +229,7 @@
     {
       "label": "Perf retenue",
       "name": "perfRetained",
+      "displayImport": true,
       "displayResult": true,
       "displayRanking": true,
       "displaySearch": {
@@ -215,6 +240,7 @@
     {
       "label": "N° License",
       "name": "licenseNumber",
+      "displayImport": true,
       "displayResult": false,
       "displayRanking": false,
       "displaySearch": {

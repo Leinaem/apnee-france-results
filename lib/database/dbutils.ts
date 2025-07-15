@@ -1,5 +1,7 @@
+import { prisma } from "./prisma";
+import { sortBy } from "@/utils/sort";
 import { scanTable } from "./dbCommands";
-import { GenericStringIndex } from "@/app/type/generic";
+import { GenericStringIndexWithDate } from "@/app/type/generic";
 
 export const buildQueryRangeSearchParams = (
   search: string,
@@ -87,14 +89,7 @@ export const buildQueryRangeRankingParams = (selectedCategoryId: number[], lastE
   return params;
 }
 
-export const getCompetitionList = async (): Promise<GenericStringIndex[]> => {
-  const data = await scanTable('competitions');
-  if (data) {
-    return data;
-  }
 
-  return [];
-}
 
 export const getTypeCompetitionsIds = async (types: string[]): Promise<number[]> => {
   const competitionList = await getCompetitionList();
@@ -108,3 +103,13 @@ export const getTypeCompetitionsIds = async (types: string[]): Promise<number[]>
 
   return ids;
 }
+
+export const getCompetitionList = async (): Promise<GenericStringIndexWithDate[]> => {
+  const competitions = await prisma.competitions.findMany();
+  if (competitions?.length) {
+    sortBy("id", competitions);
+    return competitions; 
+  }
+
+  return [];
+};

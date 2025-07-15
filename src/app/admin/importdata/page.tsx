@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import Papa from "papaparse";
 
 // Utils
-import { addMultiData, scanTable } from "../../../../lib/database/dbCommands";
+import { addMultiData } from "../../../../lib/database/dbCommands";
 import { sortBy } from "@/utils/sort";
 import { stringToNumber } from "@/utils/utils";
 import {
-  getCategoryPerfByDistance,
+  getDisciplinePerfByDistance,
   formatDateISOToString,
 } from "@/utils/utils";
 
@@ -28,7 +28,7 @@ const ImportData = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>(
     [],
   );
-  const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
+  const [disciplinesList, setDisciplinesList] = useState<GenericStringIndex[]>([]);
   const [selectedCompetition, setSelectedCompetition] = useState<string>("");
   const [season, setSeason] = useState<string>("2024-25");
 
@@ -47,33 +47,28 @@ const ImportData = () => {
   };
 
   const prepareData = (data: GenericStringIndex[]) => {
-    const categoryPerfByDistance = getCategoryPerfByDistance(categoryList);
+    const disciplinePerfByDistance = getDisciplinePerfByDistance(disciplinesList);
 
-    if (selectedTable === "results" && categoryList.length) {
+    if (selectedTable === "results" && disciplinesList.length) {
       const competitionId = selectedCompetition;
-      const city = competitionList.find(
-        (comp) => comp.id === Number(competitionId),
-      )?.city as string;
+      // const city = competitionList.find(
+      //   (comp) => comp.id === Number(competitionId),
+      // )?.city as string;
 
-      data.forEach((item: GenericStringIndex) => {
-        const categoryId = categoryList.find(
-          (cat) =>
-            String(cat.name).toLowerCase() ===
-            String(item.categoryName).toLowerCase(),
+      const validData = data.map((item: GenericStringIndex) => {
+        const disciplineId = disciplinesList.find(
+          (disc) =>
+            String(disc.name).toLowerCase() ===
+            String(item.disciplineName).toLowerCase(),
         )?.id as number;
-        const id = `${competitionId}_${categoryId}_${item.lastName}_${item.firstName}`;
+        const id = `${competitionId}_${disciplineId}_${item.lastName}_${item.firstName}`;
         item.id = id.replaceAll(" ", "-");
         item.competitionId = Number(selectedCompetition);
-        item.categoryId = categoryId;
-        if (categoryPerfByDistance.includes(categoryId)) {
+        item.disciplineId = disciplineId;
+        if (disciplinePerfByDistance.includes(disciplineId)) {
           item.perfRetained = stringToNumber(item.perfRetained as string);
           item.perfAnnounced = stringToNumber(item.perfAnnounced as string);
           item.perfAchieved = stringToNumber(item.perfAchieved as string);
-        }
-        if (typeof item.categoryName === "string") {
-          item.categoryName =
-            item.categoryName.charAt(0).toUpperCase() +
-            item.categoryName.slice(1).toLowerCase();
         }
         if (typeof item.firstName === "string") {
           item.firstName =
@@ -81,15 +76,17 @@ const ImportData = () => {
             item.firstName.slice(1).toLowerCase();
         }
         item.season = season;
-        item.city = city;
+        // item.city = city;
+        delete item.disciplineName;
+
       });
     } else if (selectedTable === "competitions") {
       data.forEach((item: GenericStringIndex) => {
         Number(item.id);
         item.id = Number(item.id);
         item.season = season;
-        item.startedAt = new Date(String(item.startedAt));
-        item.endedAt = new Date(String(item.endedAt));
+        item.startedAt = new Date(item.startedAt as string);
+        item.endedAt = new Date(item.endedAt as string);
       });
     }
 
@@ -97,17 +94,21 @@ const ImportData = () => {
   };
 
   const getCompetitionList = async () => {
-    const data = await scanTable("competitions");
-    if (data) {
+      const table = "competitions";
+      const res = await fetch(`/api/get-data?table=${table}&fields=id,name,city`);
+      const data = await res.json();
+    if (Array.isArray(data) && data.length) {
       sortBy("id", data);
       setCompetitionList(data);
     }
   };
 
-  const getCategoryList = async () => {
-    const data = await scanTable("category");
+  const getDisciplinesList = async () => {
+    const table = "disciplines";
+    const res = await fetch(`/api/get-data?table=${table}&fields=id,name`);
+    const data = await res.json();
     if (data) {
-      setCategoryList(data);
+      setDisciplinesList(data);
     }
   };
 
@@ -132,7 +133,7 @@ const ImportData = () => {
 
     if (selectedTable === "results") {
       getCompetitionList();
-      getCategoryList();
+      getDisciplinesList();
     }
   }, [selectedTable]);
 
@@ -191,26 +192,32 @@ const ImportData = () => {
             <thead>
               <tr>
                 {Boolean(tableAttributes?.length) &&
-                  tableAttributes.map((attr) => (
-                    <th key={attr.name}>{attr.label}</th>
-                  ))}
+                  tableAttributes.map((attr) => {
+                      if (!attr.displayImport) {
+                        return null;
+                      }
+                    return <th key={attr.name}>{attr.label}</th>
+                  })}
               </tr>
             </thead>
             <tbody>
               {preparedData.map((val: GenericStringIndex, i) => {
                 return (
                   <tr key={i}>
-                    {tableAttributes.map((attr, key) => {
+                    {tableAttributes.map((attr) => {
+                      if (!attr.displayImport) {
+                        return null;
+                      }
                       if (
                         attr.name !== "startedAt" &&
                         attr.name !== "endedAt"
                       ) {
-                        return <td key={attr.name}>{val[attr.name]}</td>;
+                        return <td key={attr.name}>{val[attr.name] as string}</td>;
                       } else {
-                        const value = val[attr.name] as String;
+                        const value = val[attr.name] as string;
                         return (
                           <td key={attr.name}>
-                            {formatDateISOToString(value)}
+                            {formatDateISOToString(value as string)}
                           </td>
                         );
                       }

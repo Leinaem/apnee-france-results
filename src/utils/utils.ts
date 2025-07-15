@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
 import { CATEGORY_GROUP_LIST } from "./const";
 
@@ -17,13 +19,13 @@ export const numberToStringTwoDecimals = (num: number): string | number => {
 };
 
 // Used to get categories where perf are distance.
-export const getCategoryPerfByDistance = (
-  categoryList: GenericStringIndex[],
+export const getDisciplinePerfByDistance = (
+  disciplineList: GenericStringIndex[],
 ) => {
   const categoryPerfByDistance: Array<number> = [];
-  categoryList.forEach((category) => {
-    const id = category.id as number;
-    if (category.perfUnitType === "distance") {
+  disciplineList.forEach((disc) => {
+    const id = disc.id as number;
+    if (disc.perfUnitType === "distance") {
       categoryPerfByDistance.push(id);
     }
   });
@@ -48,19 +50,16 @@ export const getCategoryMappingId = (categoryList: GenericStringIndex[]) => {
   return categoryMappingId;
 };
 
-export const formatDateISOToString = (ISODate: String) => {
-  if (!ISODate) {
+export const formatDateISOToString = (isoDate: Date) => {
+  if (!isoDate) {
     return "";
   }
 
-  const date = new Date(String(ISODate));
-  return (
-    date
-      .toLocaleDateString("fr-FR", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-      .replace(/\b(\w+)\./, "$1") || ""
-  );
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })
+    .format(new Date(isoDate as Date))
+    .replace(/\b(\w+)\./, "$1"); // supprime le point si nécessaire (ex: "oct.")
 };

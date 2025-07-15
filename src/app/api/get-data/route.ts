@@ -3,9 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 type TableName = "competitions" | "disciplines" | "results";
 
+function buildSelect(columns: string[]) {
+  return columns.reduce((acc, col) => {
+    acc[col] = true;
+    return acc;
+  }, {} as Record<string, true>);
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const table = searchParams.get("table") as TableName | null;
+  const fields = searchParams.get('fields')?.split(',') ?? [];
 
   if (!table) {
     return NextResponse.json(
@@ -33,7 +41,12 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const data = await model.findMany();
+
+    const select = fields.length > 0
+    ? { select: buildSelect(fields) }
+    : undefined
+
+    const data = await model.findMany(select);
     return NextResponse.json(data);
   } catch (err: any) {
     console.error("Erreur API get:", err);
