@@ -1,7 +1,5 @@
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
-import { CATEGORY_GROUP_LIST } from "./const";
+import { DISCIPLINE_GROUP_LIST } from "./const";
 
 export const getAssetsUrl = (url: string): string =>
   `${process.env.NEXT_PUBLIC_ASSET_URL}${url}`;
@@ -35,7 +33,7 @@ export const getDisciplinePerfByDistance = (
 
 export const getCategoryMappingId = (categoryList: GenericStringIndex[]) => {
   const categoryMappingId: CategoryMappingIdType = {};
-  CATEGORY_GROUP_LIST.map((shortName) => {
+  DISCIPLINE_GROUP_LIST.map((shortName) => {
     categoryMappingId[shortName] = [];
     categoryList.forEach((cat) => {
       if (String(cat.name)?.includes(shortName)) {

@@ -6,6 +6,7 @@
 
 - Add prisma, add POST and GET routes, refacto competition page with SQL.
 - Refacto import competition and result.
+- Fix any typescript and eslint error, rename variables.
 
 ## v0.12.0 - 2025-06-22
 

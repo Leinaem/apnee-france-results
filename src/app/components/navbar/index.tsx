@@ -12,7 +12,10 @@ interface navbarProps {
 export const Navbar = (props: navbarProps) => {
   const { isOpen, updateIsOpen } = props;
   return (
-    <nav className={`nav-bar ${isOpen ? "is-open" : "is-close"}`}>
+    <nav
+      className={`nav-bar ${isOpen ? "is-open" : "is-close"}`}
+      suppressHydrationWarning
+    >
       <ul className={`nav-bar--list`}>
         <li>
           <div className="nav-bar--list-item nav-bar--gap">

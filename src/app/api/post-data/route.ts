@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 type TableName = "competitions" | "results";
 
+const modelMap = {
+  competitions: prisma.competitions,
+  results: prisma.results,
+} as const;
+
+
 export async function POST(req: NextRequest) {
   const { table, data } = await req.json();
 
@@ -20,8 +26,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Référence dynamique au client Prisma
-    const model = (prisma as any)[table];
+    const model = modelMap[table as TableName];
 
     if (!model || typeof model.create !== "function") {
       return NextResponse.json(
@@ -31,14 +36,20 @@ export async function POST(req: NextRequest) {
     }
 
     // Insertion des données
-    for (const row of data) {
-      await model.create({ data: row });
+    if (table === "competitions") {
+      for (const row of data) {
+        await prisma.competitions.create({ data: row });
+      }
+    } else if (table === "results") {
+      for (const row of data) {
+        await prisma.results.create({ data: row });
+      }
     }
 
     return NextResponse.json({
       message: `Import de ${data.length} lignes dans "${table}" réussi.`,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(err);
     console.error("Erreur API upload:", err); //
     return NextResponse.json(

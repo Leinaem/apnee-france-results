@@ -16,7 +16,7 @@ import InputSelect from "@/app/components/partials/inputSelect";
 
 // Types
 import { AttributesType } from "@/app/type/database";
-import { GenericStringIndex } from "@/app/type/generic";
+import { GenericStringIndex, GenericStringIndexWithDate } from "@/app/type/generic";
 
 // Others
 import databaseAttributes from "../../json/databaseAttributes.json";
@@ -51,11 +51,7 @@ const ImportData = () => {
 
     if (selectedTable === "results" && disciplinesList.length) {
       const competitionId = selectedCompetition;
-      // const city = competitionList.find(
-      //   (comp) => comp.id === Number(competitionId),
-      // )?.city as string;
-
-      const validData = data.map((item: GenericStringIndex) => {
+      data.forEach((item: GenericStringIndex) => {
         const disciplineId = disciplinesList.find(
           (disc) =>
             String(disc.name).toLowerCase() ===
@@ -81,7 +77,7 @@ const ImportData = () => {
 
       });
     } else if (selectedTable === "competitions") {
-      data.forEach((item: GenericStringIndex) => {
+      data.forEach((item: GenericStringIndexWithDate) => {
         Number(item.id);
         item.id = Number(item.id);
         item.season = season;
@@ -217,7 +213,7 @@ const ImportData = () => {
                         const value = val[attr.name] as string;
                         return (
                           <td key={attr.name}>
-                            {formatDateISOToString(value as string)}
+                            {formatDateISOToString(value as unknown as Date)}
                           </td>
                         );
                       }

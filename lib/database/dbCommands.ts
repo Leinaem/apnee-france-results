@@ -74,5 +74,3 @@ export const addMultiData = async (tableName: string, items: GenericStringIndex[
     alert('Erreur réseau ou serveur');
   }
 }
-
-

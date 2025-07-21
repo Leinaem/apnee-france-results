@@ -22,7 +22,7 @@ import { GenericStringIndex } from "@/app/type/generic";
 import databaseAttributes from "../json/databaseAttributes.json";
 
 // Const
-import { CATEGORY_GROUP_LIST, CATEGORY_LIST } from "@/utils/const";
+import { DISCIPLINE_GROUP_LIST, CATEGORY_LIST } from "@/utils/const";
 
 const Rankings = () => {
   const [categoryList, setCategoryList] = useState<GenericStringIndex[]>([]);
@@ -165,7 +165,7 @@ const Rankings = () => {
         }}
         value={selectedDisciplineGroup}
         defaultText="Choisissez une discipline"
-        options={CATEGORY_GROUP_LIST}
+        options={DISCIPLINE_GROUP_LIST}
         schema="category-group-list"
       />
       {selectedDisciplineGroup && (

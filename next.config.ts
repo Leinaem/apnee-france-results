@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: [`${process.env.NEXT_PUBLIC_ASSET_DOMAIN}`],
   },
+  eslint: {
+    dirs: ["src/app", "src/utils" , "lib"], // ajuste selon ta structure
+  },
 };
 
 export default nextConfig;

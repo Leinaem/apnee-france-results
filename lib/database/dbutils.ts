@@ -1,6 +1,5 @@
 import { prisma } from "./prisma";
 import { sortBy } from "@/utils/sort";
-import { scanTable } from "./dbCommands";
 import { GenericStringIndexWithDate } from "@/app/type/generic";
 
 export const buildQueryRangeSearchParams = (
