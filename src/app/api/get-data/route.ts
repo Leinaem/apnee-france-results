@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
 
   try {
     // Accès dynamique au modèle Prisma
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const model = (prisma as any)[table];
 
     if (!model || typeof model.findMany !== "function") {
@@ -48,7 +49,7 @@ export async function GET(req: NextRequest) {
 
     const data = await model.findMany(select);
     return NextResponse.json(data);
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Erreur API get:", err);
     return NextResponse.json(
       { error: "Erreur serveur lors de la récupération." },

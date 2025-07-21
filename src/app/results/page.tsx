@@ -19,7 +19,7 @@ import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
 import databaseAttributes from "../json/databaseAttributes.json";
 
 // Const
-import { CATEGORY_GROUP_LIST } from "@/utils/const";
+import { DISCIPLINE_GROUP_LIST } from "@/utils/const";
 
 const ResultsComponent = () => {
   const [competitionList, setCompetitionList] = useState<GenericStringIndex[]>(
@@ -153,7 +153,7 @@ const ResultsComponent = () => {
             }}
             value={selectedDisciplineGroup}
             defaultText="Choisissez une discipline"
-            options={CATEGORY_GROUP_LIST}
+            options={DISCIPLINE_GROUP_LIST}
             schema=""
           />
           <h3>{getCompetitionName()}</h3>

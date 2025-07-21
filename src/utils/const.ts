@@ -1,4 +1,4 @@
-export const CATEGORY_GROUP_LIST = [
+export const DISCIPLINE_GROUP_LIST = [
   "statique",
   "dynamique monopalme",
   "dynamique bi",

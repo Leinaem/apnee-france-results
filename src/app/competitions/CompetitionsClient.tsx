@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-// Utils
-import { formatDateISOToString } from "@/utils/utils";
-
 // Types
 import { GenericStringIndex } from "@/app/type/generic";
 import { AttributesType } from "@/app/type/database";
@@ -55,9 +52,7 @@ const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
                             key={attr.name}
                             className={isDate ? "nowrap" : ""}
                           >
-                            {isDate
-                              ? formatDateISOToString(comp[attr.name] as unknown as Date)
-                              : comp[attr.name]}
+                            {comp[attr.name]}
                           </td>
                         );
                       })}

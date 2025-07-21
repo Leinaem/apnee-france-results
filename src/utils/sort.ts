@@ -1,4 +1,4 @@
-import { GenericStringIndex, GenericStringIndexWithDate } from "@/app/type/generic";
+import { GenericStringIndexWithDate } from "@/app/type/generic";
 
 export const sortBy = (
   type: string,

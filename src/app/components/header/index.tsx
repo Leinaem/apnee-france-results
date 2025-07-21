@@ -17,6 +17,7 @@ const Header = () => {
   return (
     <header
       className={`header d-flex flex-ai-center ${isOpen ? "is-open" : "is-close"}`}
+      suppressHydrationWarning
     >
       <Link href="/">
         <h1>
