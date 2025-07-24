@@ -61,3 +61,26 @@ export const formatDateISOToString = (isoDate: Date) => {
     .format(new Date(isoDate as Date))
     .replace(/\b(\w+)\./, "$1"); // supprime le point si nécessaire (ex: "oct.")
 };
+
+export const convertPerfFieldsToNumbers = (data: GenericStringIndex) => {
+  const fieldsToConvert = ["perfAnnounced", "perfAchieved", "perfRetained"];
+
+  const convert = (obj: GenericStringIndex): GenericStringIndex => {
+    const converted: GenericStringIndex = { ...obj };
+
+    for (const field of fieldsToConvert) {
+      const value = converted[field];
+      if (typeof value === "string" && value.trim() !== "") {
+        // Nettoyer la valeur : remplacer la virgule par un point
+        const parsed = parseFloat(value.replace(",", "."));
+        if (!isNaN(parsed)) {
+          converted[field] = parsed;
+        }
+      }
+    }
+
+    return converted;
+  };
+
+  return convert(data);
+}

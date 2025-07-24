@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+// Utils
+import { sortBy } from "@/utils/sort";
+import { numberToStringTwoDecimals, getCategoryMappingId, convertPerfFieldsToNumbers } from "@/utils/utils";
+
+// Components
+import InputSelect from "@/app/components/partials/inputSelect";
+
+// Types
+import { AttributesType, TableListResultsType } from "@/app/type/database";
+import { GenericStringIndex, CategoryMappingIdType } from "@/app/type/generic";
+
+// Others
+import databaseAttributes from "../json/databaseAttributes.json";
+
+// Const
+import { DISCIPLINE_GROUP_LIST } from "@/utils/const";
+
+interface ResultsClientProps {
+  competitionList: GenericStringIndex[];
+  disciplineList: GenericStringIndex[];
+}
+
+const ResultsClient = ({competitionList, disciplineList}: ResultsClientProps) => {
+  const [selectedCompetitionId, setSelectedCompetitionId] = useState<number>(0);
+  const [selectedDisciplineGroup, setSelectedDisciplineGroup] = useState<string>("");
+  const [selectedDisciplinesListId, setSelectedDisciplinesListId] = useState<number[]>([]);
+  const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
+  const [results, setResults] = useState<TableListResultsType>({});
+  const [categoryMappingId, setCategoryMappingId] = useState<CategoryMappingIdType>({});
+  const searchParams = useSearchParams();
+  const competitionidParam = searchParams.get("competitionid");
+  
+  const getCompetitionName = (): string => {
+    const selectionCompetition =
+      competitionList.find((comp) => comp.id === selectedCompetitionId) || {};
+    return `${selectionCompetition.name} - ${selectionCompetition.city}`;
+  };
+
+  const getTableAttributes = () => {
+    const tableAttributes: AttributesType[] = databaseAttributes["results"];
+    setTableAttributes(tableAttributes);
+  };
+
+  useEffect(() => {
+    getTableAttributes();
+
+    if (competitionidParam) {
+      setSelectedCompetitionId(Number(competitionidParam));
+    }
+  }, [competitionidParam]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await fetch(
+          `/api/get-data?competitionId=${selectedCompetitionId}&fields=lastName,firstName,place,dateOfBirth,club,perfRetained,disciplineId,perfAnnounced,perfAchieved,faultDisq,comment,penality,licenseNumber`
+        );
+        if (!res.ok) throw new Error("Erreur serveur");
+        const data = await res.json();
+
+        if (data.length) {
+          const tableByDiscipline = {} as TableListResultsType;
+          sortBy("disciplineId", data);
+          data.forEach((item: GenericStringIndex) => {
+            const disciplineId = item.disciplineId as keyof typeof tableByDiscipline;
+            if (disciplineId) {
+              if (tableByDiscipline[disciplineId] === undefined) {
+                tableByDiscipline[disciplineId] = [];
+                Object.defineProperty(tableByDiscipline, disciplineId, []);
+              }
+            }
+            tableByDiscipline[disciplineId as keyof typeof tableByDiscipline]?.push(
+              item,
+            );
+          });
+
+          setResults(tableByDiscipline || {});
+        }
+      } catch (error) {
+        console.error("Erreur fetch results:", error);
+      }
+    }
+
+    if (selectedCompetitionId) {
+      getData();
+    } else {
+      setResults({});
+    }
+  }, [selectedCompetitionId]);
+
+  useEffect(() => {
+    setCategoryMappingId(getCategoryMappingId(disciplineList));
+  }, [disciplineList]);
+
+  return (
+    <div className="page page-results">
+      <h2 className="page page-title">Résultats</h2>
+      <InputSelect
+        id="competition-list"
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          setSelectedCompetitionId(Number(e.target.value));
+          if (!Number(e.target.value)) {
+            setSelectedDisciplinesListId([]);
+            setSelectedDisciplineGroup("");
+          }
+          setResults({});
+        }}
+        value={selectedCompetitionId}
+        defaultText="Choisissez une comptétition"
+        options={competitionList}
+        schema="competition-name"
+      />
+      {Boolean(selectedCompetitionId) && (
+        <>
+          <InputSelect
+            id="discipline-list"
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              const disciplinesList = categoryMappingId[e.target.value] || [];
+              const disciplinesListId: number[] = disciplinesList.map((disc) => disc.id as number);
+              setSelectedDisciplineGroup(e.target.value);
+              setSelectedDisciplinesListId(disciplinesListId || []);
+            }}
+            value={selectedDisciplineGroup}
+            defaultText="Choisissez une discipline"
+            options={DISCIPLINE_GROUP_LIST}
+            schema=""
+          />
+          <h3>{getCompetitionName()}</h3>
+        </>
+      )}
+
+      {Object.entries(results).map((section, i) => {
+        const categoryId = Number(section[0]);
+        const currentDiscipline = disciplineList.find(
+          (disc) => disc.id === categoryId,
+        );
+        const categoryName = currentDiscipline?.name;
+        const sortDirection = currentDiscipline?.sortDirection as string;
+        const perfByDistance = currentDiscipline?.perfUnitType === "distance";
+        const sectionData =  perfByDistance ? section[1].map((item) => convertPerfFieldsToNumbers(item)) : section[1] as GenericStringIndex[];
+        sortBy("perfRetained", sectionData as GenericStringIndex[], sortDirection, "club");
+        const display = selectedDisciplinesListId.includes(currentDiscipline?.id as number)
+
+        if (selectedDisciplinesListId.length && !display) {
+          return null;
+        }
+
+        return (
+          <div key={i}>
+            <div className="table-title">
+              <p>{categoryName}</p>
+            </div>
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    {Boolean(tableAttributes?.length) &&
+                      tableAttributes.map((attr) => {
+                        if (!attr.displayResult) {
+                          return null;
+                        }
+                        return <th key={attr.name}>{attr.label}</th>;
+                      })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {sectionData.map((val: GenericStringIndex, j: number) => {
+                    return (
+                      <tr key={j}>
+                        {tableAttributes.map((attr) => {
+                          const perfCell = attr.name.startsWith("perf");
+                          const cellPerfByDistance = perfByDistance && perfCell;
+                          const value = cellPerfByDistance
+                            ? numberToStringTwoDecimals(
+                                val[attr.name] as number,
+                              )
+                            : val[attr.name];
+
+                          return attr.displayResult ? (
+                            <td key={attr.name}>{value}</td>
+                          ) : null;
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const Results = ({ competitionList, disciplineList }: ResultsClientProps) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultsClient competitionList={competitionList} disciplineList={disciplineList} />
+    </Suspense>
+  );
+};
+
+export default Results;
