@@ -184,7 +184,6 @@ const Search = () => {
         years.type === "discipline" ? "asc" : "desc",
       );
 
-      // console.log('years', years);
       years.data?.forEach((lvlTwo) => {
         const { type, data } = lvlTwo;
         sortBy(

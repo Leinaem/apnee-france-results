@@ -1,4 +1,5 @@
-import { prisma } from "./prisma";
+import { prisma } from "@lib/database/prisma";
+import type { Prisma } from "@prisma/client";
 import { sortBy } from "@/utils/sort";
 import { GenericStringIndexWithDate } from "@/app/type/generic";
 
@@ -103,8 +104,17 @@ export const getTypeCompetitionsIds = async (types: string[]): Promise<number[]>
   return ids;
 }
 
-export const getCompetitionList = async (): Promise<GenericStringIndexWithDate[]> => {
-  const competitions = await prisma.competitions.findMany();
+type CompetitionField = keyof Prisma.competitionsSelect;
+export const getCompetitionList = async (fields?: CompetitionField[]): Promise<GenericStringIndexWithDate[]> => {
+
+  const select = fields?.length
+    ? fields.reduce((acc, field) => {
+        acc[field] = true;
+        return acc;
+      }, {} as Prisma.competitionsSelect)
+    : undefined;
+
+  const competitions = await prisma.competitions.findMany({ select });
   if (competitions?.length) {
     sortBy("id", competitions);
     return competitions; 
@@ -112,3 +122,23 @@ export const getCompetitionList = async (): Promise<GenericStringIndexWithDate[]
 
   return [];
 };
+
+type DisciplinesField = keyof Prisma.disciplinesSelect;
+export const getDisciplineList = async (fields?: DisciplinesField[]): Promise<GenericStringIndexWithDate[]> => {
+
+  const select = fields?.length
+    ? fields.reduce((acc, field) => {
+        acc[field] = true;
+        return acc;
+      }, {} as Prisma.disciplinesSelect)
+    : undefined;
+
+  const disciplines = await prisma.disciplines.findMany({ select });
+
+  if (disciplines?.length) {
+    sortBy("id", disciplines);
+    return disciplines; 
+  }
+
+  return [];
+}
