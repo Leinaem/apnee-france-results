@@ -7,44 +7,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model competitions {
-  id        Int       @id @db.SmallInt
+model Competition {
+  id        Int       @id
   city      String    @default("")
   committee String    @default("")
   name      String    @default("")
-  poolSize  String    @default("") @db.VarChar(255)
-  season    String    @default("") @db.VarChar(255)
-  type      String    @default("") @db.VarChar(255)
-  startedAt DateTime? @db.Date
-  endedAt   DateTime? @db.Date
+  poolSize  String    @default("")
+  season    String    @default("")
+  type      String    @default("")
+  startedAt DateTime?
+  endedAt   DateTime?
+
+  results Result[]
+
+  @@map("competitions")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model disciplines {
-  id            Int    @id @default(autoincrement()) @db.SmallInt
-  name          String @unique @db.VarChar
-  perfUnitType  String @db.VarChar
-  sortDirection String @db.VarChar
+model Discipline {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  perfUnitType  String
+  sortDirection String
+  Result        Result[]
+
+  @@map("disciplines")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model results {
-  id            String  @id @db.VarChar
-  competitionId Int     @db.SmallInt
-  disciplineId  Int     @db.SmallInt
-  place         String? @db.VarChar
-  lastName      String  @db.VarChar
-  firstName     String  @db.VarChar
-  dateOfBirth   String? @db.VarChar
-  club          String? @db.VarChar
-  perfAnnounced String? @db.VarChar
-  perfAchieved  String? @db.VarChar
-  faultDisq     String? @db.VarChar
-  comment       String? @db.VarChar
-  penality      String? @db.VarChar
-  perfRetained  String? @db.VarChar
-  licenseNumber String? @db.VarChar
-  season        String? @db.VarChar
+model Result {
+  id            String  @id
+  competitionId Int
+  disciplineId  Int
+  place         String?
+  lastName      String
+  firstName     String
+  dateOfBirth   String?
+  club          String?
+  perfAnnounced String?
+  perfAchieved  String?
+  faultDisq     String?
+  comment       String?
+  penality      String?
+  perfRetained  String?
+  licenseNumber String?
+  season        String?
+
+  competition Competition @relation(fields: [competitionId], references: [id])
+  discipline  Discipline  @relation(fields: [disciplineId], references: [id])
+
+  @@map("results")
 }

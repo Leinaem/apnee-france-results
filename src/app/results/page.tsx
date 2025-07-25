@@ -1,23 +1,22 @@
-
+import { getCompetitionList } from "@lib/database/dbutils";
 
 // Components
-import Result from './ResultsClient';
-
-// Utils
-import { getCompetitionList, getDisciplineList } from "@lib/database/dbutils";
+import CompetitionListSelect from "../components/results/CompetitionListSelect";
 
 // Types
-import { GenericStringIndex } from "@/app/type/generic";
+import { GenericStringIndexWithDate, GenericStringIndex } from "@/app/type/generic";
 
 const ResultsPage = async () => {
-  const competitionList = await getCompetitionList(["id", "name", "city"]);
-  const disciplineList = await getDisciplineList();
-  
+
+  const [competitionList]: [GenericStringIndexWithDate[]] = await Promise.all([
+    getCompetitionList(["id", "name", "city"])
+  ]);
+
   return (
-    <Result
-      competitionList={competitionList as GenericStringIndex[]}
-      disciplineList={disciplineList as GenericStringIndex[]}
-    />
+    <div>
+      <h3>Veuillez sélectionner une compétition pour voir les résultats.</h3>
+      <CompetitionListSelect options={competitionList as GenericStringIndex[]} />
+    </div>
   );
 };
 

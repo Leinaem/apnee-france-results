@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="page homepage">
@@ -15,15 +17,15 @@ export default function Home() {
       <p>Sur Apnée France Results vous pourrez consulter :</p>
       <ul>
         <li>
-          La <a href="/competitions">liste des compétitions</a> sélectives,
+          La <Link href="/competitions">liste des compétitions</Link> sélectives,
           opens et manches de coupe de France.
         </li>
         <li>
-          Les <a href="/results">résultats</a> de toutes les compétitions pour
+          Les <Link href="/results">résultats</Link> de toutes les compétitions pour
           chacune des disciplines.
         </li>
         <li>
-          Les <a href="/rankings">classements</a> par performances et/ou par
+          Les <Link href="/rankings">classements</Link> par performances et/ou par
           compétiteurs.
         </li>
       </ul>
@@ -35,13 +37,13 @@ export default function Home() {
         </p>
         <p>
           Ils proviennent directement des données publics fournies par la{" "}
-          <a
+          <Link
             target="_blank"
             href="https://apnee.ffessm.fr/la-commission-nationale-apnee"
             rel="noopener noreferrer"
           >
             comission national d&apos;apnée
-          </a>{" "}
+          </Link>{" "}
           et sont compilés à des fins d&apos;information et de suivi.
         </p>
         <p>
