@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
+import Link from 'next/link';
 
 // Types
 import { GenericStringIndex } from "@/app/type/generic";
@@ -8,6 +9,9 @@ import { AttributesType } from "@/app/type/database";
 
 // JSON
 import databaseAttributes from "../json/databaseAttributes.json";
+
+// Components
+import ConditionalWrapper from "../components/partials/ConditionalWrapper";
 
 interface CompetitionsClientProps {
   competitionList: GenericStringIndex[];
@@ -48,11 +52,15 @@ const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
                         const isDate =
                           attr.name === "endedAt" || attr.name === "startedAt";
                         return (
-                          <td
-                            key={attr.name}
-                            className={isDate ? "nowrap" : ""}
-                          >
-                            {comp[attr.name]}
+                          <td key={attr.name} className={isDate ? "nowrap" : ""} >
+                            <ConditionalWrapper
+                              condition={attr.name === 'name'}
+                              wrapper={(children: ReactNode) => {
+                                return <Link href={`/results/${comp.id}/`}>{children}</Link>;
+                              }}
+                            >
+                              {comp[attr.name]}
+                            </ConditionalWrapper>
                           </td>
                         );
                       })}

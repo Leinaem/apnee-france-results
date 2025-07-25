@@ -8,6 +8,7 @@
 - Refacto import competition and result.
 - Fix any typescript and eslint error, rename variables.
 - Refacto Results and Competitions, use SSR, finish results refacto with SQL data.
+- Use Layout for results page, split components for ssr, use router for results pages.
 
 ## v0.12.0 - 2025-06-22
 
