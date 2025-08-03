@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 // Utils
 import { sortBy } from "@/utils/sort";
-import { numberToStringTwoDecimals } from "@/utils/utils";
 
 // Components
 import InputSelect from "@/app/components/partials/inputSelect";
@@ -21,10 +20,10 @@ import { DISCIPLINE_GROUP_LIST, CATEGORY_LIST } from "@/utils/const";
 
 interface RankingsClientProps {
   competitionList: GenericStringIndexWithDate[];
-  disciplinesList: GenericStringIndexWithDate[];
+  disciplineList: GenericStringIndexWithDate[];
 }
 
-const RankingsClient = ({disciplinesList, competitionList}: RankingsClientProps) => {
+const RankingsClient = ({disciplineList, competitionList}: RankingsClientProps) => {
   const [selectedDisciplineGroup, setSelectedDisciplineGroup] =
     useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -57,14 +56,16 @@ const RankingsClient = ({disciplinesList, competitionList}: RankingsClientProps)
       }
 
       const selectedCategoryFull =
-        disciplinesList.find(
+        disciplineList.find(
           (disc) =>
             String(disc.name)?.includes(selectedDisciplineGroup) &&
             String(disc.name)?.includes(selectedCategory),
         ) || {};
 
+        const { id, sortDirection, perfUnitType } = selectedCategoryFull;
+
       const res = await fetch(
-        `/api/get-data?disciplineId=${selectedCategoryFull.id}&fields=lastName,firstName,perfRetained,dateOfBirth,club,competitionId&includeCompetition=true` 
+        `/api/get-data?disciplineId=${id}&fields=lastName,firstName,perfRetained,dateOfBirth,club,competitionId&includeCompetition=true` 
       );
       
       if (!res.ok) {
@@ -77,13 +78,31 @@ const RankingsClient = ({disciplinesList, competitionList}: RankingsClientProps)
         return;
       }
 
-      const sortDirection = selectedCategoryFull?.sortDirection as string;
-      sortBy("perfRetained", data, sortDirection);
+      if (perfUnitType === 'distance') {
+        data.forEach((item: GenericStringIndex) => {
+          if (item.perfRetained !== 'DSQ') {
+            const perfR = item.perfRetained as string
+            const perf = parseFloat(perfR.replace(',', '.'));
+            item.perfRetained = perf;
+          }
+        });
+        sortBy("perfRetained", data, sortDirection as string);
+        data.forEach((item: GenericStringIndex) => {
+          if (item.perfRetained !== 'DSQ' && item.perfRetained !== 0) {
+            const perfR = item.perfRetained as number;
+            const perf = perfR?.toFixed(2).replace('.', ',');
+            item.perfRetained = perf;
+          }
+        })
+      } else {
+        sortBy("perfRetained", data, sortDirection as string);
+      }
+
       setFullRankings(data || []);
     };
 
     getData();
-  }, [selectedDisciplineGroup, selectedCategory, disciplinesList]);
+  }, [selectedDisciplineGroup, selectedCategory, disciplineList]);
 
   useEffect(() => {
     const filterRankings = async () => {
@@ -141,6 +160,7 @@ const RankingsClient = ({disciplinesList, competitionList}: RankingsClientProps)
     withCupRound,
     rankingType,
     withFranceChampionship,
+    competitionList,
   ]);
 
   return (
@@ -212,21 +232,10 @@ const RankingsClient = ({disciplinesList, competitionList}: RankingsClientProps)
                         return (
                           <tr key={j}>
                             {tableAttributes.map((attr) => {
-                              const perfCell = attr.name.startsWith("perf");
-                              /////////////////////////////////////////////////
-                              const perfByDistance = true; ///////// A MODIFIER TRUE EN DUR (pour éviter la fonction numberToStringTwoDecimals) !!!!
-                              /////////////////////////////////////////////////
-                              const cellPerfByDistance =
-                                perfByDistance && perfCell;
-                              const value = cellPerfByDistance
-                                ? numberToStringTwoDecimals(
-                                    val[attr.name] as number,
-                                  )
-                                : val[attr.name];
                               const pos =
                                 attr.name === "position" ? j + 1 : null;
                               return attr.displayRanking ? (
-                                <td key={attr.name}>{pos || value}</td>
+                                <td key={attr.name}>{pos || val[attr.name]}</td>
                               ) : null;
                             })}
                           </tr>
