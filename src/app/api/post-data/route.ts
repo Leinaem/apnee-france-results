@@ -1,11 +1,11 @@
 import { prisma } from "@lib/database/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-type TableName = "competition" | "result";
+type TableName = "competitions" | "results";
 
 const modelMap = {
-  competition: prisma.competition,
-  result: prisma.result,
+  competitions: prisma.competition,
+  results: prisma.result,
 } as const;
 
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Sécurité : limiter aux tables connues
-  const allowedTables: TableName[] = ["competition", "result"];
+  const allowedTables: TableName[] = ["competitions", "results"];
   if (!allowedTables.includes(table)) {
     return NextResponse.json(
       { error: `Table "${table}" non autorisée.` },

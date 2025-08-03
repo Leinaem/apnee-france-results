@@ -23,7 +23,6 @@ export const query = async (params: QueryCommandInput) => {
 export const queryRangeCommand = async (params: object) => {
   const command = new QueryCommand(params as QueryCommandInput);
   const response = await ddbClient.send(command);
-  // console.log(response);
   return response;
 } 
 
@@ -43,7 +42,6 @@ export const scanTable = async (tableName: string): Promise<Record<string, numbe
     }
   }
 };
-
 
 // New commands SQL
 export const addMultiData = async (tableName: string, items: GenericStringIndex[]) => {

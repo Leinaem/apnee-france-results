@@ -1,5 +1,6 @@
 import { prisma } from "@lib/database/prisma";
 import { NextResponse } from "next/server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 type ResultWithCompetition = {
   competition?: {
