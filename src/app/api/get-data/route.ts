@@ -10,7 +10,7 @@ type ResultWithCompetition = {
   [key: string]: any;
 };
 
-function buildSelect(columns: string[], includeCompetition: boolean) {
+function buildSelect(columns: string[], includeCompetition: boolean, includeDiscipline: boolean) {
   const baseSelect = columns.reduce((acc, col) => {
     acc[col] = true;
     return acc;
@@ -25,6 +25,14 @@ function buildSelect(columns: string[], includeCompetition: boolean) {
     };
   }
 
+  if (includeDiscipline) {
+  baseSelect.discipline = {
+    select: {
+      name: true,
+    },
+  };
+}
+
   return baseSelect;
 }
 
@@ -36,9 +44,11 @@ export async function GET(req: Request) {
     // Récupération des params
     const competitionIdParam = searchParams.get("competitionId");
     const disciplineIdParam = searchParams.get("disciplineId");
-    const firstNameParam = searchParams.get("firstName");
+    // const firstNameParam = searchParams.get("firstName");
+    const searchParam = searchParams.get("search");
     const fieldsParam = searchParams.get("fields");
     const includeCompetition = searchParams.get("includeCompetition") === "true";
+    const includeDiscipline = searchParams.get("includeDiscipline") === "true";
 
     // Construction du filtre where
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,8 +65,16 @@ export async function GET(req: Request) {
         where.disciplineId = discId;
       }
     }
-    if (firstNameParam) {
-      where.firstName = firstNameParam;
+    // if (firstNameParam) {
+    //   where.firstName = firstNameParam;
+    // }
+
+        // Recherche par nom ou prénom
+    if (searchParam && searchParam.trim() !== "") {
+      where.OR = [
+        { firstName: { contains: searchParam, mode: "insensitive" } },
+        { lastName: { contains: searchParam, mode: "insensitive" } },
+      ];
     }
 
 // Construction de select
@@ -64,11 +82,11 @@ export async function GET(req: Request) {
     if (fieldsParam) {
       const fields = fieldsParam.split(",").map(f => f.trim()).filter(Boolean);
       if (fields.length > 0) {
-        select = buildSelect(fields, includeCompetition);
+        select = buildSelect(fields, includeCompetition, includeDiscipline);
       }
     } else if (includeCompetition) {
       // Si aucun champ demandé mais includeCompetition = true, on sélectionne tout + la relation
-      select = buildSelect([], true);
+      select = buildSelect([], true, includeDiscipline);
     }
 
     // Requête principale
@@ -78,7 +96,7 @@ export async function GET(req: Request) {
     });
 
     const flattened = results.map((res: ResultWithCompetition) => {
-    const { competition, ...rest } = res;
+    const { competition, discipline, ...rest } = res;
 
     return {
       ...rest,
@@ -86,6 +104,9 @@ export async function GET(req: Request) {
         competitionName: competition.name,
         city: competition.city,
       }),
+      ...(discipline && {
+        disciplineName: discipline.name
+      })
     };
   });
 

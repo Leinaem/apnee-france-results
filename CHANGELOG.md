@@ -11,6 +11,7 @@
 - Use Layout for results page, split components for ssr, use router for results pages.
 - Fix ranking sort, fix syntax and typescript errors.
 - Add "prisma generate" to build.
+- Refacto search page to SQL data.
 ## v0.12.0 - 2025-06-22
 
 ### Added
