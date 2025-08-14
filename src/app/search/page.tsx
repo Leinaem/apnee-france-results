@@ -1,10 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-// Utils
-import { buildQueryRangeSearchParams } from "../../../lib/database/dbutils";
-import { scanRangeCommand } from "../../../lib/database/dbCommands";
-
 // Components
 import InputText from "../components/partials/InputText";
 import InputRadio from "../components/partials/InputRadio";
@@ -28,9 +24,7 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState<GenericStringIndex[]>([]);
   const [suggestions, setSuggestions] = useState<GenericStringIndex[]>([]);
-  const [selectedCharData, setSelectedCharData] = useState<
-    GenericStringIndex[]
-  >([]);
+  const [selectedCharData, setSelectedCharData] = useState<GenericStringIndex[]>([]);
   const [groupBy, setGroupBy] = useState<string>("discipline");
   const [formattedData, setFormattedData] = useState<FormattedDataType[]>([]);
   const [selectedChar, setSelectedChar] = useState<GenericStringIndex>({});
@@ -75,27 +69,28 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    const getData = async () => {
-      let lastEvaluatedKey: object | undefined = undefined;
-      let resultItems: GenericStringIndex[] = [];
-
-      do {
-        const params = buildQueryRangeSearchParams(search, lastEvaluatedKey);
-        const result = await scanRangeCommand(params);
-        resultItems = resultItems.concat(result.Items as GenericStringIndex[]);
-        lastEvaluatedKey = result.LastEvaluatedKey;
-      } while (lastEvaluatedKey !== undefined);
-
-      setSearchResult(resultItems || []);
-    };
-
-    if (search.length > 2) {
-      getData();
-    } else {
+    if (search.length < 3) {
       setSearchResult([]);
+      return;
     }
+
+    const timeoutId = setTimeout(() => {
+      fetch(`/api/get-data?search=${encodeURIComponent(search)}&includeCompetition=true&includeDiscipline=true&fields=disciplineId,place,perfAnnounced,perfAchieved,perfRetained,faultDisq,penality,firstName,lastName,comment,competitionId`)
+        .then(res => res.json())
+        .then(data => {
+          console.log('--- data 2', data);
+          setSearchResult(data);
+        })
+        .catch(err => {
+          console.error("Erreur API:", err);
+        });
+
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [search]);
 
+  // Manage suggestion list
   useEffect(() => {
     if (!searchResult.length) {
       setSuggestions([]);
@@ -120,6 +115,7 @@ const Search = () => {
     setSuggestions(buildCharacterList);
   }, [searchResult]);
 
+  // Prepare data to display
   useEffect(() => {
     const formattedDataTemp: FormattedDataType[] = [];
     selectedCharData.forEach((item) => {
@@ -137,18 +133,18 @@ const Search = () => {
       if (groupBy === "discipline") {
         if (
           !itemYeardata?.find(
-            (i: FormattedDataType) => i.id === item.categoryId,
+            (i: FormattedDataType) => i.id === item.disciplineId,
           )
         ) {
           itemYeardata?.push({
-            id: item.categoryId as number,
-            name: item.categoryName as string,
+            id: item.disciplineId as number,
+            name: item.disciplineName as string,
             type: "discipline",
             data: [],
           });
         }
         const itemDisciplineData: GenericStringIndex[] =
-          itemYeardata?.find((i: FormattedDataType) => i.id === item.categoryId)
+          itemYeardata?.find((i: FormattedDataType) => i.id === item.disciplineId)
             ?.data || [];
         itemDisciplineData?.push(item);
       } else if (groupBy === "competition") {
@@ -187,7 +183,7 @@ const Search = () => {
       years.data?.forEach((lvlTwo) => {
         const { type, data } = lvlTwo;
         sortBy(
-          type === "discipline" ? "competitionId" : "categoryId",
+          type === "discipline" ? "competitionId" : "disciplineId",
           data,
           type === "discipline" ? "desc" : "asc",
         );
@@ -200,12 +196,12 @@ const Search = () => {
   useEffect(() => {
     if (Object.keys(selectedChar).length) {
       const data = searchResult.filter((item) => {
-        const categoryName: string = item.categoryName as string;
+        const disciplineName: string = item.disciplineName as string;
         return (
           selectedChar.lastName === item.lastName &&
           selectedChar.firstName === item.firstName &&
           selectedChar.dateOfBirth === item.dateOfBirth &&
-          !categoryName.includes("Classement general")
+          !disciplineName.includes("Classement general")
         );
       });
       setSelectedCharData(data);
@@ -298,10 +294,12 @@ const Search = () => {
                           <tbody>
                             {Array.isArray(levelTwo.data) &&
                               levelTwo.data.map((item, k) => {
+                                // console.log('item', item);
                                 // TR
                                 return (
                                   <tr key={k}>
                                     {tableAttributes.map((attr) => {
+                                      // console.log('attr', attr);
                                       const value = item[attr.name];
 
                                       return attr.displaySearch?.[groupBy] ? (
