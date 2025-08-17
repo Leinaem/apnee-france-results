@@ -108,7 +108,7 @@ const ResultsClient = ({ competitionList, disciplineList, competitionId, results
           <h3>{getCompetitionName()}</h3>
         </>
       )}
-    <div className="page page-results" style={{display: "inline-block"}}>
+    <div className="page page-results">
       {Object.entries(results).map((section, i) => {
         const categoryId = Number(section[0]);
         const currentDiscipline = disciplineList.find(

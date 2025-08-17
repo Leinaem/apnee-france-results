@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## v1.0.0 - UNRELEASED
+## v1.0.1 - 2025-08-18
+
+### Fixed
+
+- Fix 'saeson' on search page.
+
+## v1.0.0 - 2025-08-16
 
 ### Changed
 
