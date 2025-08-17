@@ -68,6 +68,7 @@ const Search = () => {
     getTableAttributes();
   }, []);
 
+  // Call API when search changed
   useEffect(() => {
     if (search.length < 3) {
       setSearchResult([]);
@@ -75,7 +76,7 @@ const Search = () => {
     }
 
     const timeoutId = setTimeout(() => {
-      fetch(`/api/get-data?search=${encodeURIComponent(search)}&includeCompetition=true&includeDiscipline=true&fields=disciplineId,place,perfAnnounced,perfAchieved,perfRetained,faultDisq,penality,firstName,lastName,comment,competitionId`)
+      fetch(`/api/get-data?search=${encodeURIComponent(search)}&includeCompetition=true&includeDiscipline=true&fields=disciplineId,place,perfAnnounced,perfAchieved,perfRetained,faultDisq,penality,firstName,lastName,comment,competitionId,season`)
         .then(res => res.json())
         .then(data => {
           console.log('--- data 2', data);

@@ -6,6 +6,10 @@
 @forward './search';
 
 .page {
+
+  max-width: 1000px;
+  margin: auto;
+
   h2, h3 {
     text-align: center;
     color: var(--color-secondary-blue);
