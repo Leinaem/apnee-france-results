@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.1 - 2025-09-14
+
+### Fixed
+
+- Fixed ESLint errors.
+
 ## v1.1.0 - 2025-09-14
 
 ### Added

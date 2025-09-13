@@ -44,14 +44,12 @@ export async function GET(req: Request) {
     // Récupération des params
     const competitionIdParam = searchParams.get("competitionId");
     const disciplineIdParam = searchParams.get("disciplineId");
-    // const firstNameParam = searchParams.get("firstName");
     const searchParam = searchParams.get("search");
     const fieldsParam = searchParams.get("fields");
     const includeCompetition = searchParams.get("includeCompetition") === "true";
     const includeDiscipline = searchParams.get("includeDiscipline") === "true";
 
     // Construction du filtre where
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: Record<string, any> = {};
     if (competitionIdParam) {
       const compId = Number(competitionIdParam);
@@ -65,11 +63,8 @@ export async function GET(req: Request) {
         where.disciplineId = discId;
       }
     }
-    // if (firstNameParam) {
-    //   where.firstName = firstNameParam;
-    // }
 
-        // Recherche par nom ou prénom
+    // Recherche par nom ou prénom
     if (searchParam && searchParam.trim() !== "") {
       where.OR = [
         { firstName: { contains: searchParam, mode: "insensitive" } },
