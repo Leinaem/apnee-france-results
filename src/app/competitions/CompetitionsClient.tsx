@@ -12,6 +12,7 @@ import databaseAttributes from "../json/databaseAttributes.json";
 
 // Components
 import ConditionalWrapper from "../components/partials/ConditionalWrapper";
+import YearTabs from "../components/YearTabs";
 
 interface CompetitionsClientProps {
   competitionList: GenericStringIndex[];
@@ -19,6 +20,7 @@ interface CompetitionsClientProps {
 
 const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
   const [tableAttributes, setTableAttributes] = useState<AttributesType[]>([]);
+  const [activeTab, setActiveTab] = useState(competitionList[0].year);
 
   useEffect(() => {
     setTableAttributes(databaseAttributes["competitions"]);
@@ -26,11 +28,15 @@ const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
 
   return (
     <div className="page page-competitions">
-      <h2 className="page page-title">Liste des compétitions</h2>
-      <div className="table-container">
-        {Boolean(tableAttributes?.length) &&
-          Boolean(competitionList?.length) && (
-            <table>
+    <h2 className="page page-title">Liste des compétitions</h2>
+      {/* Onglets */}
+      <YearTabs activeTab={activeTab as string} setActiveTab={setActiveTab} competitionList={competitionList} />
+      {/* Contenu */}
+        <div className="table-container">
+        {
+          Boolean(tableAttributes?.length) &&
+          competitionList.map((season) => season.year === activeTab && (
+            <table key={season.year as string}>
               <thead>
                 <tr>
                   {tableAttributes.map((attr) => {
@@ -42,9 +48,9 @@ const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
                 </tr>
               </thead>
               <tbody>
-                {competitionList.map((comp: GenericStringIndex, i) => {
+                {Array.isArray(season.data) && season.data.map((comp: GenericStringIndex) => {
                   return (
-                    <tr key={i}>
+                    <tr key={comp.id as string}>
                       {tableAttributes.map((attr) => {
                         if (!attr.displayCompetitionsTable) {
                           return null;
@@ -69,7 +75,8 @@ const CompetitionsClient = ({ competitionList }: CompetitionsClientProps) => {
                 })}
               </tbody>
             </table>
-          )}
+          ))
+        }
       </div>
     </div>
   );

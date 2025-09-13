@@ -79,7 +79,6 @@ const Search = () => {
       fetch(`/api/get-data?search=${encodeURIComponent(search)}&includeCompetition=true&includeDiscipline=true&fields=disciplineId,place,perfAnnounced,perfAchieved,perfRetained,faultDisq,penality,firstName,lastName,comment,competitionId,season`)
         .then(res => res.json())
         .then(data => {
-          console.log('--- data 2', data);
           setSearchResult(data);
         })
         .catch(err => {
