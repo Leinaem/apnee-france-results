@@ -5,6 +5,7 @@
 ### Fixed
 
 - Fixed ESLint errors.
+- Fixed ranking page for years management (temp).
 
 ## v1.1.0 - 2025-09-14
 

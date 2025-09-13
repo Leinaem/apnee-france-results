@@ -15,7 +15,7 @@ const RankingsPage = async () => {
   return (
     <div className="page page-rankings">
       <h2 className="page page-title">Classements</h2>
-      <RankingsClient competitionList={competitionList} disciplineList={disciplineList} />
+      <RankingsClient competitionList={competitionList[0].data as GenericStringIndexWithDate[]} disciplineList={disciplineList} />
     </div>
   );
 };
