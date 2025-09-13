@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.2 - 2025-09-14
+
+### Fixed
+
+- Fixed Next.js Layout errors.
+
 ## v1.1.1 - 2025-09-14
 
 ### Fixed

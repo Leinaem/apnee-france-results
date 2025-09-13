@@ -4,8 +4,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const ResultsLayout = async ({ children }: Props) => {
-
+export default function Layout({ children }: Props) {
   return (
     <div className="page page-results">
       <h2 className="page page-title">Résultats</h2>
@@ -15,5 +14,3 @@ export const ResultsLayout = async ({ children }: Props) => {
     </div>
   );
 }
-
-export default ResultsLayout;
