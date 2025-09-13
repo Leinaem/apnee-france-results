@@ -1,33 +1,15 @@
 import { prisma } from "@lib/database/prisma";
+
+// Types
 import type { Prisma } from "@prisma/client";
+import { GenericStringIndexWithDate, GenericStringIndex } from "@/app/type/generic";
+
+// Utils
 import { sortBy } from "@/utils/sort";
-import { GenericStringIndexWithDate } from "@/app/type/generic";
-
-export const buildQueryRangeSearchParams = (
-  search: string,
-  lastEvaluatedKey: object | undefined
-) => {
-
-  const params = {
-    TableName: "results",
-    FilterExpression: "contains(#ln, :lastNameVal) OR contains(#fn, :firstNameVal) OR contains(#fn, :firstNameValMin)",
-    ExpressionAttributeNames: {
-      "#ln": "lastName",
-      "#fn": "firstName"
-    },
-    ExpressionAttributeValues: {
-      ":lastNameVal": search.toUpperCase(),    // car lastName est stocké en MAJ
-      ":firstNameVal": search.charAt(0).toUpperCase() + search.slice(1).toLowerCase(), // car firstName est stocké en minuscule avec La 1ère lattre en majuscule
-      ":firstNameValMin": search, // car tout en minuscule après la 1ère lettre
-    },
-    ...(lastEvaluatedKey && {ExclusiveStartKey: lastEvaluatedKey}),
-  }
-
-  return params;
-}
+import { formatDateISOToString } from "@/utils/utils";
 
 type CompetitionField = keyof Prisma.CompetitionSelect;
-export const getCompetitionList = async (fields?: CompetitionField[]): Promise<GenericStringIndexWithDate[]> => {
+export const getCompetitionList = async (fields?: CompetitionField[]): Promise<GenericStringIndex[]> => {
 
   const select = fields?.length
     ? fields.reduce((acc, field) => {
@@ -39,7 +21,31 @@ export const getCompetitionList = async (fields?: CompetitionField[]): Promise<G
   const competitions = await prisma.competition.findMany({ select });
   if (competitions?.length) {
     sortBy("id", competitions);
-    return competitions; 
+
+    const formattedData: GenericStringIndex[] = [];
+    competitions.forEach((item) => {
+      const formattedItem = {
+      ...item,
+      startedAt: item.startedAt
+        ? formatDateISOToString(item.startedAt as Date)
+        : "",
+      endedAt: item.endedAt
+        ? formatDateISOToString(item.endedAt as Date)
+        : "",
+      }
+
+      if (!formattedData.find((i) => i.year === item.season)) {
+        formattedData.push({
+          year: item.season as string,
+          data: [],
+        });
+      }
+
+      const formattedDataYearTemp: GenericStringIndex[] = formattedData.find((i) => i.year === item.season)?.data as [] || [];
+      formattedDataYearTemp.push(formattedItem as GenericStringIndex);
+    });
+
+    return formattedData; 
   }
 
   return [];

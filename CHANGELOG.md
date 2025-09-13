@@ -1,10 +1,16 @@
 # CHANGELOG
 
+## v1.1.0 - 2025-09-14
+
+### Added
+
+- Added `YearTabs` and `TabItem` components, added year tabs on competition page.
+
 ## v1.0.1 - 2025-08-18
 
 ### Fixed
 
-- Fix 'saeson' on search page.
+- Fix 'season' on search page.
 
 ## v1.0.0 - 2025-08-16
 

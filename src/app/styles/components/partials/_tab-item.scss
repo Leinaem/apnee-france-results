@@ -1,0 +1,30 @@
+@use './../../abstracts' as *;
+
+.tab-item {
+  padding: pxToRem(8) pxToRem(16);
+  border: none;
+  background: var(--background);
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+  border-radius: pxToRem(12) pxToRem(12) 0 0 ;
+
+  &:hover:not(.tab-item-active) {
+    background: linear-gradient(180deg, 
+      var(--color-main-blue-medium) 10%,
+      var(--color-secondary-blue-medium) 60%,
+      var(--background) 100%,
+      );
+  }
+
+  &-active {
+    background: linear-gradient(180deg, 
+      var(--color-main-blue) 10%,
+      var(--color-secondary-blue) 60%,
+      var(--background) 100%,
+      );
+    color: white;
+    border: pxToRem(1) solid var(--color-border);
+    border-bottom: pxToRem(1) solid var(--background);
+  }
+}

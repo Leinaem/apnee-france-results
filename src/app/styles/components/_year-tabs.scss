@@ -1,0 +1,7 @@
+@use './../abstracts' as *;
+
+.tabs-container {
+    border-bottom: pxToRem(1) solid var(--color-border);
+    margin-bottom: pxToRem(8);
+    padding: 0 pxToRem(16);
+}
