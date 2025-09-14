@@ -1,5 +1,3 @@
-
-
 // Components
 import Result from './ResultsClient';
 
@@ -10,18 +8,14 @@ import { getCompetitionList, getDisciplineList, getResultsByCompetitionId } from
 import { GenericStringIndex } from "@/app/type/generic";
 import { TableListResultsType } from "@/app/type/database";
 
-// Components
-import CompetitionListSelect from "../../components/results/CompetitionListSelect";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ResultsPage = async ({ params }: any) => {
   const competitionId = parseInt(params.competitionId, 10);
   const [competitionList, disciplineList, initialRresults] = await Promise.all([
-    getCompetitionList(["id", "name", "city"]),
+    getCompetitionList(["id", "name", "city", "season"]),
     getDisciplineList(),
     getResultsByCompetitionId(competitionId),
   ]);
-
   
   const results = {} as TableListResultsType;
   if (initialRresults.length) {
@@ -38,15 +32,25 @@ const ResultsPage = async ({ params }: any) => {
       );
     });
   }
+
+    function findById(id: number) {
+    for (const yearBlock of competitionList) {
+      const yearBlockData = yearBlock.data as GenericStringIndex[];
+      const found = yearBlockData.find((item) => item.id === id);
+      if (found) return found;
+    }
+    return undefined;
+  }
+
+  const competitionData = findById(competitionId);
   
   return (
     <div>
-      <CompetitionListSelect options={competitionList as GenericStringIndex[]} />
       <Result
         competitionList={competitionList as GenericStringIndex[]}
         disciplineList={disciplineList as GenericStringIndex[]}
-        competitionId={competitionId}
-        results={results}
+        competitionResults={results}
+        competitionData={competitionData as GenericStringIndex}
       />
     </div>
   );
