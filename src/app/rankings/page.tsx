@@ -8,7 +8,7 @@ import { GenericStringIndexWithDate } from "@/app/type/generic";
 
 const RankingsPage = async () => {
   const [competitionList, disciplineList]: [GenericStringIndexWithDate[], GenericStringIndexWithDate[]] = await Promise.all([
-    getCompetitionList(["id", "name", "city", "type"]),
+    getCompetitionList(["id", "name", "city", "type", "season"]),
     getDisciplineList(),
   ]);
 
